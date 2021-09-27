@@ -13,6 +13,10 @@ Módulo backend do projeto ALMOX
 
 {tipo-atividade}/{nome-atividade}/{descricao}
 
+* feature
+* fix
+* hotfix
+
 ex: **feature/ALMOX-1/modelagem-entidade-grupo**
 
 
