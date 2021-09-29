@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -14,6 +15,7 @@ import java.util.stream.Collectors;
 @Setter
 @NoArgsConstructor
 public class UsuarioDTO extends AuditavelDTO<Usuario, UsuarioDTO> {
+    public static final UsuarioDTO INSTANCIA = new UsuarioDTO();
 
     private Long id;
     private String nome;
@@ -32,7 +34,7 @@ public class UsuarioDTO extends AuditavelDTO<Usuario, UsuarioDTO> {
     }
 
     @Override
-    public List<UsuarioDTO> entidadeListParaDTOList(List<Usuario> usuarioList) {
+    public List<UsuarioDTO> entidadeListParaDTOList(Collection<Usuario> usuarioList) {
         return usuarioList.stream()
                 .map(UsuarioDTO::new)
                 .collect(Collectors.toList());
