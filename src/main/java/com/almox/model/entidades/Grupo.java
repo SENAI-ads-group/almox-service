@@ -14,16 +14,16 @@ import javax.validation.constraints.NotBlank;
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(name ="gp_produto")
-public class GrupoDeProduto extends EntidadePadrao{
+@Table(name ="grp_grupo")
+public class Grupo extends Auditavel{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "gp_id")
+    @Column(name = "grp_id")
     private Long id;
 
-    @NotBlank(message = "Informe uma descrição para o Grupo de Produtos!")
-    @Min(message = "Informe ao menos 4 caracteres!", value = 4)
-    @Column(name = "gp_descricao", nullable = false)
+    @NotBlank(message = "{grupo.descricao.notblank}")
+    @Min(message = "grupo.descricao.min", value = 4)
+    @Column(name = "grp_descricao", nullable = false)
     private String descricao;
 }
