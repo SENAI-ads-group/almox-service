@@ -3,6 +3,7 @@ package com.almox.model.dto;
 import com.almox.model.entidades.Grupo;
 import lombok.*;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -33,7 +34,7 @@ public class GrupoDTO extends AuditavelDTO <Grupo, GrupoDTO>{
     }
 
     @Override
-    public List<GrupoDTO> entidadeListParaDTOList(List<Grupo>grupoList) {
+    public List<GrupoDTO> entidadeListParaDTOList(Collection<Grupo> grupoList) {
         return grupoList.stream()
                 .map(GrupoDTO::new)
                 .collect(Collectors.toList());
