@@ -17,4 +17,6 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
     List<Usuario> findAllByTipoUsuario(TipoUsuario tipoUsuario);
 
     List<Usuario> findAllByTipoUsuarioIn(Set<TipoUsuario> tiposAConsiderar);
+
+    Usuario findByCriadoPor(Usuario usuario);
 }

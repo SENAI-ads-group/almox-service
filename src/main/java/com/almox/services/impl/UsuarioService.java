@@ -6,35 +6,45 @@ import com.almox.model.entidades.Usuario;
 import com.almox.repositorios.UsuarioRepository;
 import com.almox.services.IUsuarioService;
 import com.almox.util.CondicaoUtil;
+import com.almox.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @Service
 public class UsuarioService implements IUsuarioService {
 
+    private final UsuarioRepository usuarioRepository;
+
     @Autowired
-    private UsuarioRepository usuarioRepository;
+    public UsuarioService(UsuarioRepository usuarioRepository) {
+        this.usuarioRepository = usuarioRepository;
+    }
 
     public List<Usuario> buscarTodos(FiltroUsuarioDTO filtro) {
+        final String nome = StringUtil.prepararStringParaFiltro(filtro.getNome());
+        final String email = StringUtil.prepararStringParaFiltro(filtro.getEmail());
         if (filtro.getTipoUsuario() == null)
-            return usuarioRepository.findAllByNomeContainsAndEmailContains(filtro.getNome(), filtro.getEmail());
+            return usuarioRepository.findAllByNomeContainsAndEmailContains(nome, email);
         else
-            return usuarioRepository.findAllByTipoUsuarioAndNomeContainsAndEmailContains(filtro.getTipoUsuario(), filtro.getNome(), filtro.getEmail());
+            return usuarioRepository.findAllByTipoUsuarioAndNomeContainsAndEmailContains(filtro.getTipoUsuario(), nome, email);
     }
 
     public Usuario buscarPorId(Long id) {
         return CondicaoUtil.verificarEntidade(usuarioRepository.findById(id));
     }
 
-    public Usuario criar(Usuario usuario) {
+    public Usuario criar(@Valid Usuario usuario) {
         return usuarioRepository.save(usuario);
     }
 
-    public Usuario editar(Long id, UsuarioDTO usuarioDTO) {
+    @Transactional
+    public Usuario atualizar(Long id, Usuario entidade) {
         var usuarioEncontrado = buscarPorId(id);
-        atualizarDadosUsuario(usuarioEncontrado, usuarioDTO);
+        atualizarDadosUsuario(usuarioEncontrado, entidade);
         return usuarioRepository.save(usuarioEncontrado);
     }
 
@@ -43,8 +53,8 @@ public class UsuarioService implements IUsuarioService {
         usuarioRepository.delete(usuarioEncontrado);
     }
 
-    private void atualizarDadosUsuario(Usuario usuario, UsuarioDTO usuarioDTO) {
-        usuario.setNome(usuarioDTO.getNome());
-        usuario.setEmail(usuarioDTO.getEmail());
+    private void atualizarDadosUsuario(Usuario usuarioDestino, Usuario usuarioOrigem) {
+        usuarioDestino.setNome(usuarioOrigem.getNome());
+        usuarioDestino.setEmail(usuarioOrigem.getEmail());
     }
 }

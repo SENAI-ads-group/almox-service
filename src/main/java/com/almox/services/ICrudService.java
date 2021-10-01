@@ -7,7 +7,7 @@ import org.springframework.http.HttpStatus;
 import java.util.List;
 
 public interface ICrudService<T, F> {
-    default T buscarPorId(long id) {
+    default T buscarPorId(Long id) {
         throw new ApplicationRuntimeException(HttpStatus.NOT_IMPLEMENTED);
     }
 
