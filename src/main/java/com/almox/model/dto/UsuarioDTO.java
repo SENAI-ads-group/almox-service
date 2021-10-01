@@ -47,6 +47,6 @@ public class UsuarioDTO extends AuditavelDTO<Usuario, UsuarioDTO> {
 
     @Override
     public Usuario dtoParaEntidade(UsuarioDTO usuarioDTO) {
-        return new Usuario(id, nome, email, tipoUsuario, senha);
+        return new Usuario(usuarioDTO.getId(), usuarioDTO.getNome(), usuarioDTO.getEmail(), usuarioDTO.getTipoUsuario(), usuarioDTO.getSenha());
     }
 }

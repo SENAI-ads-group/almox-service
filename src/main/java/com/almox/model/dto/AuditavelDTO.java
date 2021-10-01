@@ -13,20 +13,20 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public abstract class AuditavelDTO<E extends Auditavel, DTO> extends EntidadeDTO<E, DTO> {
     private LocalDateTime dataCriacao;
-    private LocalDateTime dataAtualizacao;
+    private LocalDateTime dataAlteracao;
     private LocalDateTime dataExclusao;
     private Boolean excluido;
     private UsuarioAutor criadoPor;
-    private UsuarioAutor atualizadoPor;
+    private UsuarioAutor alteradoPor;
     private UsuarioAutor excluidoPor;
 
     protected AuditavelDTO(E entidade) {
         dataCriacao = entidade.getDataCriacao();
-        dataAtualizacao = entidade.getDataAlteracao();
+        dataAlteracao = entidade.getDataAlteracao();
         dataExclusao = entidade.getDataExclusao();
         excluido = entidade.isExcluido();
         criadoPor = entidade.getCriadoPor() == null ? null : new UsuarioAutor(entidade.getCriadoPor());
-        atualizadoPor = entidade.getAlteradoPor() == null ? null : new UsuarioAutor(entidade.getAlteradoPor());
+        alteradoPor = entidade.getAlteradoPor() == null ? null : new UsuarioAutor(entidade.getAlteradoPor());
         excluidoPor = entidade.getExcluidoPor() == null ? null : new UsuarioAutor(entidade.getExcluidoPor());
     }
 

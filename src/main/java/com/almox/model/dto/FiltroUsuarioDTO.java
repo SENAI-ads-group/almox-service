@@ -9,7 +9,7 @@ import java.io.Serializable;
 @Getter
 @Setter
 public class FiltroUsuarioDTO implements Serializable {
-    private String nome = "";
-    private String email = "";
+    private String nome;
+    private String email;
     private TipoUsuario tipoUsuario;
 }
