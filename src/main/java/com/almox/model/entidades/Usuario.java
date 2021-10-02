@@ -20,11 +20,11 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-@EqualsAndHashCode(callSuper = true) //LOMBOOK
-@Data //LOMBOOK
-@NoArgsConstructor //LOMBOOK
-@AllArgsConstructor //LOMBOOK
-@Entity //JPA
+@EqualsAndHashCode(callSuper = true)
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Entity
 @Table(name = "usr_usuario")
 public class Usuario extends Auditavel {
 

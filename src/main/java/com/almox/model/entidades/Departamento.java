@@ -15,7 +15,6 @@ import java.util.Set;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 @Entity
 @Table(name ="dpto_departamento")
 public class Departamento extends Auditavel {
