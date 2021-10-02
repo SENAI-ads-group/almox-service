@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 @Data
 @NoArgsConstructor
@@ -23,7 +24,7 @@ public class Grupo extends Auditavel{
     private Long id;
 
     @NotBlank(message = "{grupo.descricao.notblank}")
-    @Min(message = "grupo.descricao.min", value = 4)
+    @Size(message = "{grupo.descricao.size}",min = 4,max = 20)
     @Column(name = "grp_descricao", nullable = false)
     private String descricao;
 }
