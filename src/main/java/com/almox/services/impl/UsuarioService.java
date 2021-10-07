@@ -1,18 +1,19 @@
 package com.almox.services.impl;
 
-import antlr.StringUtils;
+import com.almox.exceptions.ViolacaoIntegridadeDadosException;
 import com.almox.model.dto.FiltroUsuarioDTO;
-import com.almox.model.dto.UsuarioDTO;
 import com.almox.model.entidades.Usuario;
 import com.almox.repositorios.UsuarioRepository;
 import com.almox.services.IUsuarioService;
+import com.almox.util.ColecaoUtil;
 import com.almox.util.CondicaoUtil;
 import com.almox.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
+import javax.transaction.Transactional;
 import javax.validation.Valid;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -28,10 +29,10 @@ public class UsuarioService implements IUsuarioService {
     public List<Usuario> buscarTodos(FiltroUsuarioDTO filtro) {
         final String nome = StringUtil.prepararStringParaFiltro(filtro.getNome());
         final String email = StringUtil.prepararStringParaFiltro(filtro.getEmail());
-        if (filtro.getTipoUsuario() == null)
-            return usuarioRepository.findAllByNomeContainsAndEmailContains(nome, email);
-        else
-            return usuarioRepository.findAllByTipoUsuarioAndNomeContainsAndEmailContains(filtro.getTipoUsuario(), nome, email);
+        var usuarioEncontrados = filtro.getTipoUsuario() == null
+                ? usuarioRepository.findAllByNomeContainsAndEmailContains(nome, email)
+                : usuarioRepository.findAllByTipoUsuarioAndNomeContainsAndEmailContains(filtro.getTipoUsuario(), nome, email);
+        return ColecaoUtil.filtrarEntidadesPorExclusao(usuarioEncontrados, filtro.getConsideracaoAtivos());
     }
 
     public Usuario buscarPorId(Long id) {
@@ -39,6 +40,9 @@ public class UsuarioService implements IUsuarioService {
     }
 
     public Usuario criar(@Valid Usuario usuario) {
+        if (usuarioRepository.findByEmail(usuario.getEmail()) != null) {
+            throw new ViolacaoIntegridadeDadosException("Não foi possível criar o usuário, pois já existe um usuário com o email informado.");
+        }
         return usuarioRepository.save(usuario);
     }
 
@@ -49,9 +53,14 @@ public class UsuarioService implements IUsuarioService {
         return usuarioRepository.save(usuarioEncontrado);
     }
 
-    public void excluir(Long id) {
+    @Override
+    public void excluir(long id) {
         var usuarioEncontrado = buscarPorId(id);
-        usuarioRepository.delete(usuarioEncontrado);
+        usuarioEncontrado.setDataExclusao(LocalDateTime.now());
+        var usuarioExcluidor = new Usuario();
+        usuarioExcluidor.setId(1L);
+        usuarioEncontrado.setExcluidoPor(usuarioExcluidor);
+        usuarioRepository.save(usuarioEncontrado);
     }
 
     private void atualizarDadosUsuario(Usuario usuarioDestino, Usuario usuarioOrigem) {

@@ -2,6 +2,7 @@ package com.almox.model.dto;
 
 import com.almox.model.entidades.Fabricante;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -26,7 +27,7 @@ public class FabricanteDTO extends PessoaJuridicaDTO<Fabricante, FabricanteDTO> 
     }
 
     @Override
-    public List<FabricanteDTO> entidadeListParaDTOList(List<Fabricante> fabricanteList) {
+    public List<FabricanteDTO> entidadeListParaDTOList(Collection<Fabricante> fabricanteList) {
         return fabricanteList.stream()
                 .map(FabricanteDTO::new)
                 .collect(Collectors.toList());

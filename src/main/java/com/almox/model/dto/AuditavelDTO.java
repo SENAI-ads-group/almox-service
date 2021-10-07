@@ -20,7 +20,7 @@ public abstract class AuditavelDTO<E extends Auditavel, DTO> extends EntidadeDTO
     private UsuarioAutor alteradoPor;
     private UsuarioAutor excluidoPor;
 
-    protected AuditavelDTO(E entidade) {
+    public AuditavelDTO(E entidade) {
         dataCriacao = entidade.getDataCriacao();
         dataAlteracao = entidade.getDataAlteracao();
         dataExclusao = entidade.getDataExclusao();
@@ -32,6 +32,7 @@ public abstract class AuditavelDTO<E extends Auditavel, DTO> extends EntidadeDTO
 
     @Getter
     @Setter
+    @NoArgsConstructor
     public static class UsuarioAutor {
         private Long id;
         private String nome;

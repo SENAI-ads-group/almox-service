@@ -19,28 +19,28 @@ public class ErroPadraoDTO implements Serializable {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'", timezone = "GMT")
     private Instant timestamp;
     private Integer status;
-    private String error;
+    private String erro;
     private String path;
-    private List<String> messages;
+    private List<String> mensagens;
 
     public ErroPadraoDTO() {
         timestamp = Instant.now();
     }
 
-    public ErroPadraoDTO(Integer status, String error, String path, String... messages) {
+    public ErroPadraoDTO(Integer status, String erro, String path, String... mensagens) {
         this();
         this.status = status;
-        this.error = error;
+        this.erro = erro;
         this.path = path;
-        this.messages = List.of(messages);
+        this.mensagens = List.of(mensagens);
     }
 
-    public ErroPadraoDTO(HttpStatus httpStatus, String error, String path, String... messages) {
-        this(httpStatus.value(), error, path, messages);
+    public ErroPadraoDTO(HttpStatus httpStatus, String erro, String path, String... mensagens) {
+        this(httpStatus.value(), erro, path, mensagens);
     }
 
-    public ErroPadraoDTO(HttpStatus httpStatus, String error, String path, List<String> mensagens) {
-        this(httpStatus, error, path);
-        this.messages = mensagens;
+    public ErroPadraoDTO(HttpStatus httpStatus, String erro, String path, List<String> mensagens) {
+        this(httpStatus, erro, path);
+        this.mensagens = mensagens;
     }
 }
