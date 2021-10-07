@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -63,7 +64,7 @@ public class ContatoDTO extends EntidadeDTO<Contato, ContatoDTO> {
     }
 
     @Override
-    public List<ContatoDTO> entidadeListParaDTOList(List<Contato> contatoList) {
+    public List<ContatoDTO> entidadeListParaDTOList(Collection<Contato> contatoList) {
         return contatoList.stream()
                 .map(ContatoDTO::new)
                 .collect(Collectors.toList());

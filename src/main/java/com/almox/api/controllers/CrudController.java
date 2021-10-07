@@ -21,7 +21,7 @@ import java.util.List;
 
 public abstract class CrudController<ENTIDADE extends EntidadePadrao, FILTRO, DTO extends EntidadeDTO<ENTIDADE, DTO>> {
 
-    private static Usuario usuarioMock = new Usuario(1L, "usuário sistema", "usuario@almox.com", TipoUsuario.ADMINISTRADOR, "123"); //MOCK
+    private static Usuario usuarioMock = new Usuario(1L, "Sistema", "usuario@almox.com", TipoUsuario.ADMINISTRADOR, "123"); //MOCK
 
     public abstract ICrudService<ENTIDADE, FILTRO> getService();
 
@@ -57,6 +57,8 @@ public abstract class CrudController<ENTIDADE extends EntidadePadrao, FILTRO, DT
             var auditavel = (Auditavel) entidade;
             auditavel.setDataCriacao(LocalDateTime.now());
             auditavel.setCriadoPor(usuarioMock);
+            auditavel.setDataAlteracao(LocalDateTime.now());
+            auditavel.setAlteradoPor(usuarioMock);
         }
 
         var entidadeCriada = getService().criar(entidade);

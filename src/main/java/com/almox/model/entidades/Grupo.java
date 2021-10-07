@@ -13,7 +13,6 @@ import javax.validation.constraints.Size;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 @Entity
 @Table(name ="grp_grupo")
 public class Grupo extends Auditavel{
