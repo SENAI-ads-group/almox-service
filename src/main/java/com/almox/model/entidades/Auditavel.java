@@ -1,11 +1,12 @@
 package com.almox.model.entidades;
 
 import com.almox.converter.LocalDateTimeConverter;
+import com.almox.model.enums.StatusAuditavel;
+import com.almox.util.DataUtil;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
@@ -16,14 +17,14 @@ import javax.persistence.Convert;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
+import javax.persistence.Transient;
 import java.time.LocalDateTime;
 
-@MappedSuperclass
 @Getter
 @Setter
-@ToString
-@RequiredArgsConstructor
+@NoArgsConstructor
 @AllArgsConstructor
+@MappedSuperclass
 public abstract class Auditavel extends EntidadePadrao {
 
     private static final long serialVersionUID = -6830898710248097431L;
@@ -59,5 +60,16 @@ public abstract class Auditavel extends EntidadePadrao {
 
     public boolean isExcluido() {
         return excluidoPor != null;
+    }
+
+    @Transient
+    public StatusAuditavel getStatusAuditoria() {
+        if (excluidoPor != null)
+            return StatusAuditavel.EXCLUIDO;
+        if (DataUtil.ocorreuHoje(dataCriacao) && dataCriacao.isEqual(dataAlteracao))
+            return StatusAuditavel.NOVO;
+        else if (DataUtil.ocorreuHoje(dataAlteracao))
+            return StatusAuditavel.ATUALIZADO_RECENTMENTE;
+        return StatusAuditavel.ATIVO;
     }
 }

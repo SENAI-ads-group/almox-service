@@ -8,23 +8,23 @@ import lombok.Getter;
 @Getter
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum TipoTelefone implements IEnum {
-    FIXO ("Fixo"),
+    FIXO("Fixo"),
     MOVEL("Móvel"),
     COMERCIAL("Comercial");
 
     private String descricao;
 
-     TipoTelefone (String descricao){
+    TipoTelefone(String descricao) {
         this.descricao = descricao;
-    }
-
-    @Override
-    public String getType() {
-        return name();
     }
 
     @JsonCreator
     public static TipoTelefone deserialize(@JsonProperty("type") String type) {
         return IEnum.fromType(values(), type);
+    }
+
+    @Override
+    public String getType() {
+        return name();
     }
 }

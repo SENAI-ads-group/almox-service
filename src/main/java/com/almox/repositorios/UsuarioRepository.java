@@ -9,10 +9,7 @@ import java.util.List;
 import java.util.Set;
 
 @Repository
-public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
-    List<Usuario> findAllByNomeContainsAndEmailContains(String nome, String email);
-
-    List<Usuario> findAllByTipoUsuarioAndNomeContainsAndEmailContains(TipoUsuario tipoUsuario, String nome, String email);
+public interface UsuarioRepository extends JpaRepository<Usuario, Long>, UsuarioRepositoryCustom {
 
     List<Usuario> findAllByTipoUsuario(TipoUsuario tipoUsuario);
 

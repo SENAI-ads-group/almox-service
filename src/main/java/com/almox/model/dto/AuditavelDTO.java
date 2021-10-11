@@ -2,6 +2,7 @@ package com.almox.model.dto;
 
 import com.almox.model.entidades.Auditavel;
 import com.almox.model.entidades.Usuario;
+import com.almox.model.enums.StatusAuditavel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -19,6 +20,7 @@ public abstract class AuditavelDTO<E extends Auditavel, DTO> extends EntidadeDTO
     private UsuarioAutor criadoPor;
     private UsuarioAutor alteradoPor;
     private UsuarioAutor excluidoPor;
+    private StatusAuditavel statusAuditoria;
 
     public AuditavelDTO(E entidade) {
         dataCriacao = entidade.getDataCriacao();
@@ -28,6 +30,7 @@ public abstract class AuditavelDTO<E extends Auditavel, DTO> extends EntidadeDTO
         criadoPor = entidade.getCriadoPor() == null ? null : new UsuarioAutor(entidade.getCriadoPor());
         alteradoPor = entidade.getAlteradoPor() == null ? null : new UsuarioAutor(entidade.getAlteradoPor());
         excluidoPor = entidade.getExcluidoPor() == null ? null : new UsuarioAutor(entidade.getExcluidoPor());
+        statusAuditoria = entidade.getStatusAuditoria();
     }
 
     @Getter

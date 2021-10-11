@@ -2,20 +2,25 @@ package com.almox.model.entidades;
 
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.JoinColumn;
+import javax.persistence.MappedSuperclass;
+import javax.persistence.OneToOne;
 import javax.validation.constraints.NotBlank;
 
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @MappedSuperclass
-public abstract class PessoaJuridica extends Auditavel{
+public abstract class PessoaJuridica extends Auditavel {
 
     @NotBlank(message = "{pessoa.razaoSocial.notblank}")
-    @Column(name = "pesj_razaoSocial",  nullable = false, unique = true )
+    @Column(name = "pesj_razaoSocial", nullable = false, unique = true)
     private String razaoSocial;
 
     @NotBlank(message = "{pessoa.cnpj.notblank}")

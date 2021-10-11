@@ -5,9 +5,7 @@ import com.almox.model.dto.FiltroUsuarioDTO;
 import com.almox.model.entidades.Usuario;
 import com.almox.repositorios.UsuarioRepository;
 import com.almox.services.IUsuarioService;
-import com.almox.util.ColecaoUtil;
 import com.almox.util.CondicaoUtil;
-import com.almox.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,12 +25,7 @@ public class UsuarioService implements IUsuarioService {
     }
 
     public List<Usuario> buscarTodos(FiltroUsuarioDTO filtro) {
-        final String nome = StringUtil.prepararStringParaFiltro(filtro.getNome());
-        final String email = StringUtil.prepararStringParaFiltro(filtro.getEmail());
-        var usuarioEncontrados = filtro.getTipoUsuario() == null
-                ? usuarioRepository.findAllByNomeContainsAndEmailContains(nome, email)
-                : usuarioRepository.findAllByTipoUsuarioAndNomeContainsAndEmailContains(filtro.getTipoUsuario(), nome, email);
-        return ColecaoUtil.filtrarEntidadesPorExclusao(usuarioEncontrados, filtro.getConsideracaoAtivos());
+        return usuarioRepository.findAll(filtro);
     }
 
     public Usuario buscarPorId(Long id) {
@@ -64,7 +57,10 @@ public class UsuarioService implements IUsuarioService {
     }
 
     private void atualizarDadosUsuario(Usuario usuarioDestino, Usuario usuarioOrigem) {
+        usuarioDestino.setAlteradoPor(usuarioOrigem.getAlteradoPor());
+        usuarioDestino.setDataAlteracao(usuarioOrigem.getDataAlteracao());
         usuarioDestino.setNome(usuarioOrigem.getNome());
         usuarioDestino.setEmail(usuarioOrigem.getEmail());
+        usuarioDestino.setTipoUsuario(usuarioOrigem.getTipoUsuario());
     }
 }

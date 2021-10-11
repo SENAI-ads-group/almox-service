@@ -1,7 +1,7 @@
 package com.almox.util;
 
 import com.almox.model.entidades.Auditavel;
-import com.almox.model.enums.FiltroConsideracaoAtivos;
+import com.almox.model.enums.FiltroStatusAuditavel;
 
 import java.util.List;
 import java.util.function.Predicate;
@@ -9,12 +9,12 @@ import java.util.stream.Collectors;
 
 public final class ColecaoUtil {
 
-    public static <E extends Auditavel> List<E> filtrarEntidadesPorExclusao(List<E> entidadeList, FiltroConsideracaoAtivos filtroConsideracaoAtivos) {
-        if (filtroConsideracaoAtivos == null) {
+    public static <E extends Auditavel> List<E> aplicarFiltroStatusAuditavel(List<E> entidadeList, FiltroStatusAuditavel filtroStatusAuditavel) {
+        if (filtroStatusAuditavel == null) {
             return entidadeList;
         }
         Predicate<Auditavel> predicateFiltro;
-        switch (filtroConsideracaoAtivos) {
+        switch (filtroStatusAuditavel) {
             case APENAS_ATIVOS:
                 predicateFiltro = auditavel -> !auditavel.isExcluido();
                 break;

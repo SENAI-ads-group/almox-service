@@ -1,19 +1,23 @@
 package com.almox.model.entidades;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Builder
 @Table(name = "fab_fabricante")
-
 public class Fabricante extends PessoaJuridica {
 
     @Id
@@ -22,7 +26,7 @@ public class Fabricante extends PessoaJuridica {
     private Long id;
 
     public Fabricante(Long id, String razaoSocial, String cnpj, String nomeFantasia, Contato contato) {
-        super(razaoSocial,cnpj,nomeFantasia,contato);
+        super(razaoSocial, cnpj, nomeFantasia, contato);
         this.id = id;
     }
 

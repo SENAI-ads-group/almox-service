@@ -7,18 +7,20 @@ import lombok.Getter;
 
 @Getter
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
-public enum TipoEndereco implements IEnum {
-    RESIDENCIAL("Residencial"),
-    COMERCIAL("Comercial");
+public enum StatusAuditavel implements IEnum {
+    NOVO("Novo"),
+    ATIVO("Ativo"),
+    EXCLUIDO("Excluído"),
+    ATUALIZADO_RECENTMENTE("Recém Atualizado");
 
-    private String descricao;
+    private final String descricao;
 
-    TipoEndereco(String descricao) {
+    StatusAuditavel(String descricao) {
         this.descricao = descricao;
     }
 
     @JsonCreator
-    public static TipoEndereco deserialize(@JsonProperty("type") String type) {
+    public static StatusAuditavel deserialize(@JsonProperty("type") String type) {
         return IEnum.fromType(values(), type);
     }
 

@@ -3,8 +3,9 @@ package com.almox.model.entidades;
 import com.almox.model.enums.TipoEndereco;
 import com.almox.model.enums.TipoTelefone;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -17,7 +18,8 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
@@ -51,7 +53,6 @@ public class Contato extends EntidadePadrao {
     @Enumerated(EnumType.STRING)
     @Column(name = "cont_tel2_tipo", nullable = false)
     private TipoTelefone tipoTelefone2;
-
 
     @NotBlank(message = "{contato.endereco.logradouro.notblank")
     @Column(name = "cont_end_logradouro", nullable = false, unique = true)

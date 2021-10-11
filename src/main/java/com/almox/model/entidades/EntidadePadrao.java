@@ -13,7 +13,7 @@ public abstract class EntidadePadrao implements Serializable {
 
     @Override
     public int hashCode() {
-        return PRIME + ((getId() == null) ? 0 : getId().hashCode());
+            return PRIME + ((getId() == null) ? 0 : getId().hashCode());
     }
 
     @Override
