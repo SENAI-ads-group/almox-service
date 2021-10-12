@@ -10,6 +10,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotNull;
@@ -20,32 +22,35 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "cep_configuracao_estoque_produto")
-public class ConfiguracaoEstoqueProduto extends Auditavel {
+@Table(name = "confep_configuracao_estoque_produto")
+public class ConfiguracaoEstoqueProduto extends EntidadePadrao {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "cep_id")
+    @Column(name = "confep_id")
     private Long id;
 
     @DecimalMin(value = "0.0", inclusive = false, message = "{ConfiguracaoEstoqueProduto.estoqueMinimo.DecimalMin}")
-    @NotNull(message = "{ConfiguracaoEstoqueProduto.estoquemin.notnull}")
-    @Column(name = "cep_estoque_min", nullable = false)
+    @NotNull(message = "{ConfiguracaoEstoqueProduto.estoqueMinimo.NotNull}")
+    @Column(name = "confep_estoque_min", nullable = false)
     private BigDecimal estoqueMinimo;
 
-    @Column(name = "cep_estoque_atual", nullable = false)
+    @Column(name = "confep_estoque_atual", nullable = false)
     private BigDecimal estoqueAtual;
 
     @DecimalMin(value = "0.0", inclusive = false, message = "{ConfiguracaoEstoqueProduto.estoqueMaximo.DecimalMin}")
     @NotNull(message = "{ConfiguracaoEstoqueProduto.estoqueMaximo.NotNull}")
-    @Column(name = "cep_estoque_max", nullable = false)
+    @Column(name = "confep_estoque_max", nullable = false)
     private BigDecimal estoqueMaximo;
 
-    @NotNull(message = "{ConfiguracaoEstoqueProduto.controlaEstoqueMinimo.NotNull}")
-    @Column(name = "cep_controla_estoque_min", nullable = false)
+    @Column(name = "confep_controla_estoque_min", nullable = false)
     private Boolean controlaEstoqueMinimo;
 
-    @NotNull(message = "{ConfiguracaoEstoqueProduto.controlaEstoqueMaximo.NotNull}")
-    @Column(name = "cep_controla_estoque_max", nullable = false)
+    @Column(name = "confep_controla_estoque_max", nullable = false)
     private Boolean controlaEstoqueMaximo;
+
+//    @NotNull(message = "{ConfiguracaoEstoqueProduto.produto.NotNull}")
+//    @OneToOne
+//    @JoinColumn(name = "id_prod")
+//    private Produto produto;
 }
