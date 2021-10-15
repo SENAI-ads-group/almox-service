@@ -1,9 +1,6 @@
 package com.almox.model.dto;
 
-import com.almox.model.entidades.Departamento;
-import com.almox.model.entidades.Fabricante;
-import com.almox.model.entidades.Grupo;
-import com.almox.model.entidades.Produto;
+import com.almox.model.entidades.*;
 import com.almox.model.enums.UnidadeMedida;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -30,7 +27,7 @@ public class ProdutoDTO extends AuditavelDTO<Produto, ProdutoDTO>{
     private Boolean possuiLoteValidade;
     //private Set<Fornecedor> fornecedores = new HashSet<>();
     private UnidadeMedida unidadeMedida;
-    private List<String> palavrasChaves;
+    private PalavraChave palavrasChaves;
     private Fabricante fabricante;
     private String detalhe;
     private Set<Departamento> departamentos = new HashSet<>();
@@ -44,7 +41,7 @@ public ProdutoDTO(Produto pdt){
     codigoBarras = pdt.getCodigoBarras();
     possuiLoteValidade = pdt.getPossuiLoteValidade();
     unidadeMedida = pdt.getUnidadeMedida();
-    palavrasChaves = pdt.getPalavrasChaves();
+    palavrasChaves = pdt.getPalavraChave();
     fabricante = pdt.getFabricante();
     detalhe = pdt.getDetalhe();
     departamentos = pdt.getDepartamentos();
@@ -59,8 +56,8 @@ public ProdutoDTO(Produto pdt){
     @Override
     public Produto dtoParaEntidade(ProdutoDTO produtoDTO) {
         return new Produto(produtoDTO.getId(), produtoDTO.getDescricao(), produtoDTO.getCustoMedio(), produtoDTO.getCodigoBarras(), produtoDTO.getPossuiLoteValidade(),
-                produtoDTO.getUnidadeMedida(),produtoDTO.getPalavrasChaves(),produtoDTO.getFabricante(),
-                produtoDTO.getDetalhe(),produtoDTO.getDepartamentos(),produtoDTO.getGrupo());
+                produtoDTO.getUnidadeMedida(),produtoDTO.getFabricante(),produtoDTO.getDetalhe(),produtoDTO.getPalavrasChaves(),
+                produtoDTO.getDepartamentos(),produtoDTO.getGrupo());
     }
 
     @Override

@@ -1,4 +1,4 @@
-package com.almox.repositorios.util;
+package com.almox.repositorios;
 
 import com.almox.model.entidades.Produto;
 import com.almox.model.entidades.Usuario;
@@ -13,7 +13,5 @@ public interface ProdutoRepository extends JpaRepository<Produto, Long> {
     List<Produto> findAllByCodigoBarras(String codigoBarras);
 
     List<Produto> findAllByDescricao(String descricao);
-
-    List<Produto> findAllByCAndAlteradoPor(Usuario usuario);
 
 }

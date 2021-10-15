@@ -8,7 +8,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.math.BigDecimal;
 import java.util.HashSet;
@@ -21,7 +23,9 @@ import java.util.Set;
 @AllArgsConstructor
 @Entity
 @Table(name = "prod_produto")
+
 public class Produto extends Auditavel {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "prod_id")
@@ -32,48 +36,53 @@ public class Produto extends Auditavel {
     @Column(name = "prod_descricao", nullable = false, unique = true)
     private String descricao;
 
-    @NotBlank(message = "produto.customedio.notblank")
+    @DecimalMin(value = "0.0", inclusive = false, message = "{produto.customedio.DecimalMin}")
+    @NotNull(message = "produto.customedio.notnull")
     @Column(name = "prod_custoMedio", nullable = false)
     private BigDecimal custoMedio;
 
     @NotBlank(message = "produto.codigoBarras.notblank")
-    @Column(name = "prod_codBarras")
+    @Column(name = "prod_codBarras",nullable = false, unique = true)
     private String codigoBarras;
 
-    @NotBlank(message = "produto.possuiLoteValidade.notblank")
-    @Column(name = "prod_loteValidade")
+    @NotNull(message = "produto.possuiLoteValidade.notnull")
+    @Column(name = "prod_loteValidade",nullable = false)
     private Boolean possuiLoteValidade;
 
     /*
     @OneToMany(fetch = FetchType.lAZY)
     private Set<Fornecedor> fornecedorres = new HashSet<>();*/
 
+
     @NotBlank(message = "produto.unidadeMedida.notblank")
-    @Column(name = "prod_unidadeMedida")
+    @Column(name = "prod_unidadeMedida", nullable = false)
+    @Enumerated
     private UnidadeMedida unidadeMedida;
 
-    @NotBlank(message = "produto.palavraChave.notblank")
-    @Column(name = "prod_palavraChave")
-    private List<String> palavrasChaves;
-
-    @NotBlank(message = "produto.fabricante.notblank")
-    @Column(name = "prod_fabricante")
+    @NotNull(message = "produto.fabricante.notblank")
+    @ManyToOne
+    @JoinColumn(name = "fab_id")
     private Fabricante fabricante;
 
+    @NotBlank(message = "produto.detalhe.notblank")
     @Column(name = "prod_detalhe")
     private String detalhe;
+
+    @OneToOne
+    @JoinColumn(name = "prod_plv_id", referencedColumnName = "plv_id")
+    private PalavraChave palavraChave;
 
     @ManyToMany(fetch = FetchType.LAZY)
     private Set<Departamento> departamentos = new HashSet<>();
 
-    @OneToMany
-    @NotBlank(message = "produto.grupo.notblank")
-    @Column(name = "prod_grupo")
+    @ManyToOne
+    @JoinColumn(name = "grp_id")
+    @NotNull(message = "produto.grupo.notnull")
     private Grupo grupo;
 
-    /*
-    @NotBlank(message = "produto.configuracaoEstoque.notblank")
-    @Column(name = "prod_configEstoque")
-    private ConfiguracaoEstoque configuracaoEstoque;
-     */
+
+    //@NotBlank(message = "produto.configuracaoEstoque.notblank")
+    //@Column(name = "prod_configEstoque")
+    //private ConfiguracaoEstoqueProduto configuracaoEstoque;
+
 }
