@@ -14,7 +14,8 @@ import java.util.stream.Collectors;
 @Getter
 @Setter
 @NoArgsConstructor
-public class DepartamentoDTO extends AuditavelDTO<Departamento, DepartamentoDTO> {
+public class
+DepartamentoDTO extends AuditavelDTO<Departamento, DepartamentoDTO> {
 
     private Long id;
     private String nome;
