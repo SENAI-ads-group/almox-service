@@ -49,8 +49,8 @@ public class ConfiguracaoEstoqueProduto extends EntidadePadrao {
     @Column(name = "confep_controla_estoque_max", nullable = false)
     private Boolean controlaEstoqueMaximo;
 
-//    @NotNull(message = "{ConfiguracaoEstoqueProduto.produto.NotNull}")
-//    @OneToOne
-//    @JoinColumn(name = "id_prod")
-//    private Produto produto;
+    //@NotNull(message = "{ConfiguracaoEstoqueProduto.produto.NotNull}")
+    //@OneToOne
+    //@JoinColumn(name = "id_prod")
+    //private Produto produto;
 }

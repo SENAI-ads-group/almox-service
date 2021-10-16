@@ -1,6 +1,7 @@
 package com.almox.model.dto;
 
 import com.almox.model.entidades.ConfiguracaoEstoqueProduto;
+import com.almox.model.entidades.Produto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -21,6 +22,7 @@ public class ConfiguracaoEstoqueProdutoDTO extends EntidadeDTO<ConfiguracaoEstoq
     private BigDecimal estoqueMaximo;
     private boolean controlaEstoqueMinimo;
     private boolean controlaEstoqueMaximo;
+    private Produto produto;
 
     public ConfiguracaoEstoqueProdutoDTO(ConfiguracaoEstoqueProduto entidade) {
         id = entidade.getId();
@@ -29,6 +31,7 @@ public class ConfiguracaoEstoqueProdutoDTO extends EntidadeDTO<ConfiguracaoEstoq
         estoqueMaximo = entidade.getEstoqueMaximo();
         controlaEstoqueMinimo = entidade.getControlaEstoqueMinimo();
         controlaEstoqueMaximo = entidade.getControlaEstoqueMaximo();
+
     }
 
     @Override
