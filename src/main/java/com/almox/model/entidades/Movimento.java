@@ -28,7 +28,6 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "mov_movimento")
-
 public class Movimento extends Auditavel {
 
     @Id
