@@ -36,11 +36,4 @@ public class UsuarioRepositoryImpl implements UsuarioRepositoryCustom {
         return query.getResultList();
     }
 
-  /*  public Usuario findUsuarioByNome(FiltroUsuarioDTO filtro){
-        String sql = "select Usuario usr from Usuario usr where usr.nome =:eduardo";
-        TypedQuery<Usuario> nomesql = entityManager.createQuery(sql,Usuario.class);
-        nomesql.setParameter("eduardo",filtro.getNome());
-        nomesql.getSingleResult();
-    }*/
-
 }

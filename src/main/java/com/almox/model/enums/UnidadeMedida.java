@@ -2,8 +2,10 @@ package com.almox.model.enums;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Getter;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
+import lombok.Getter;
+@JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum UnidadeMedida implements IEnum{
     KG("Quilograma"),
     LT("Litro"),
