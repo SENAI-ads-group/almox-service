@@ -25,7 +25,7 @@ public class ItemMovimento extends Auditavel{
     @Column(name = "itm_id")
     private Long id;
 
-    @NotNull(message ="itemMovimento.produto.notnull")
+    @NotNull(message ="{itemMovimento.produto.notnull}")
     @ManyToOne
     @JoinColumn(name = "prod_id", nullable = false)
     private Produto produto;
@@ -40,7 +40,7 @@ public class ItemMovimento extends Auditavel{
     @Column(name = "itm_valorItem", nullable = false)
     private BigDecimal valorItem;
 
-    @NotNull(message ="itemMovimento.movimento.notnull")
+    @NotNull(message ="{itemMovimento.movimento.notnull}")
     @ManyToOne
     @JoinColumn(name = "mov_id", nullable = false)
     private Movimento movimento;
