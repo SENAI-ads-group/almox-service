@@ -36,7 +36,7 @@ public class Contato extends EntidadePadrao {
     @Column(name = "cont_eml_email", nullable = false, unique = true)
     private String email;
 
-    @NotBlank(message = "{contato.telefone.telefone.notblank")
+    @NotBlank(message = "{contato.telefone.telefone.notblank}")
     @Column(name = "cont_tel1_telefone", nullable = false, unique = true)
     private String telefone1;
 
@@ -45,7 +45,7 @@ public class Contato extends EntidadePadrao {
     @Column(name = "cont_tel1_tipo", nullable = false)
     private TipoTelefone tipoTelefone1;
 
-    @NotBlank(message = "{contato.telefone.telefone.notblank")
+    @NotBlank(message = "{contato.telefone.telefone.notblank}")
     @Column(name = "cont_tel2_telefone", nullable = false, unique = true)
     private String telefone2;
 
@@ -54,7 +54,7 @@ public class Contato extends EntidadePadrao {
     @Column(name = "cont_tel2_tipo", nullable = false)
     private TipoTelefone tipoTelefone2;
 
-    @NotBlank(message = "{contato.endereco.logradouro.notblank")
+    @NotBlank(message = "{contato.endereco.logradouro.notblank}")
     @Column(name = "cont_end_logradouro", nullable = false, unique = true)
     private String logradouro;
 
@@ -64,19 +64,19 @@ public class Contato extends EntidadePadrao {
     @Column(name = "cont_end_numero")
     private String numero;
 
-    @NotBlank(message = "{contato.endereco.cep.notblank")
+    @NotBlank(message = "{contato.endereco.cep.notblank}")
     @Column(name = "cont_end_cep", nullable = false)
     private String cep;
 
-    @NotBlank(message = "{contato.endereco.cidade.notblank")
+    @NotBlank(message = "{contato.endereco.cidade.notblank}")
     @Column(name = "cont_end_cidade", nullable = false)
     private String cidade;
 
-    @NotBlank(message = "{contato.endereco.estado.notblank")
+    @NotBlank(message = "{contato.endereco.estado.notblank}")
     @Column(name = "cont_end_estado", nullable = false)
     private String estado;
 
-    @NotBlank(message = "{contato.endereco.bairro.notblank")
+    @NotBlank(message = "{contato.endereco.bairro.notblank}")
     @Column(name = "cont_end_bairro", nullable = false)
     private String bairro;
 
