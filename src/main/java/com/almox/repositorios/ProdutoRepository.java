@@ -8,10 +8,9 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface ProdutoRepository extends JpaRepository<Produto, Long> {
+public interface ProdutoRepository extends JpaRepository<Produto, Long>, ProdutoRepositoryCustom {
 
     List<Produto> findAllByCodigoBarras(String codigoBarras);
 
     List<Produto> findAllByDescricao(String descricao);
-
 }

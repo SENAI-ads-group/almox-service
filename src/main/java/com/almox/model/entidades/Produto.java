@@ -68,9 +68,8 @@ public class Produto extends Auditavel {
     @Column(name = "prod_detalhe")
     private String detalhe;
 
-    @OneToOne
-    @JoinColumn(name = "prod_plv_id", referencedColumnName = "plv_id")
-    private PalavraChave palavraChave;
+    @ManyToMany(fetch = FetchType.EAGER)
+    private Set<PalavraChave> palavrasChave;
 
     @ManyToMany(fetch = FetchType.LAZY)
     private Set<Departamento> departamentos = new HashSet<>();
@@ -80,9 +79,9 @@ public class Produto extends Auditavel {
     @NotNull(message = "produto.grupo.notnull")
     private Grupo grupo;
 
-
-    //@NotBlank(message = "produto.configuracaoEstoque.notblank")
-    //@Column(name = "prod_configEstoque")
-    //private ConfiguracaoEstoqueProduto configuracaoEstoque;
+    @OneToOne
+    @NotBlank(message = "produto.configuracaoEstoque.notblank")
+    @JoinColumn (name = "confep_id")
+    private ConfiguracaoEstoqueProduto configuracaoEstoque;
 
 }

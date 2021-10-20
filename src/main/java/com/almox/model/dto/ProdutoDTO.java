@@ -27,11 +27,12 @@ public class ProdutoDTO extends AuditavelDTO<Produto, ProdutoDTO>{
     private Boolean possuiLoteValidade;
     //private Set<Fornecedor> fornecedores = new HashSet<>();
     private UnidadeMedida unidadeMedida;
-    private PalavraChave palavrasChaves;
+    private Set<PalavraChave> palavrasChaves;
     private Fabricante fabricante;
     private String detalhe;
     private Set<Departamento> departamentos = new HashSet<>();
     private Grupo grupo;
+    private ConfiguracaoEstoqueProduto configuracaoEstoque;
 
 public ProdutoDTO(Produto pdt){
     super(pdt);
@@ -41,11 +42,12 @@ public ProdutoDTO(Produto pdt){
     codigoBarras = pdt.getCodigoBarras();
     possuiLoteValidade = pdt.getPossuiLoteValidade();
     unidadeMedida = pdt.getUnidadeMedida();
-    palavrasChaves = pdt.getPalavraChave();
+    palavrasChaves = pdt.getPalavrasChave();
     fabricante = pdt.getFabricante();
     detalhe = pdt.getDetalhe();
     departamentos = pdt.getDepartamentos();
     grupo = pdt.getGrupo();
+    configuracaoEstoque = pdt.getConfiguracaoEstoque();
 }
 
     @Override
@@ -57,7 +59,7 @@ public ProdutoDTO(Produto pdt){
     public Produto dtoParaEntidade(ProdutoDTO produtoDTO) {
         return new Produto(produtoDTO.getId(), produtoDTO.getDescricao(), produtoDTO.getCustoMedio(), produtoDTO.getCodigoBarras(), produtoDTO.getPossuiLoteValidade(),
                 produtoDTO.getUnidadeMedida(),produtoDTO.getFabricante(),produtoDTO.getDetalhe(),produtoDTO.getPalavrasChaves(),
-                produtoDTO.getDepartamentos(),produtoDTO.getGrupo());
+                produtoDTO.getDepartamentos(),produtoDTO.getGrupo(), produtoDTO.getConfiguracaoEstoque());
     }
 
     @Override
