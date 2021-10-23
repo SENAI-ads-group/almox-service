@@ -11,10 +11,14 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
-import java.util.HashSet;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -34,13 +38,23 @@ public class Departamento extends Auditavel {
     private String nome;
 
     @ManyToMany(fetch = FetchType.LAZY)
-    private Set<Usuario> usuarios = new HashSet<>();
+    @JoinTable(
+            name = "usr_dpto_usuarios_departamentos",
+            joinColumns = @JoinColumn(name = "dpto_id"),
+            inverseJoinColumns = @JoinColumn(name = "usr_id")
+    )
+    private Set<Usuario> usuarios;
 
-//    @ManyToMany(fetch = FetchType.LAZY)
-//    private Set<Produto> produtos = new HashSet<>();
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "prod_dpto_produtos_departamentos",
+            joinColumns = @JoinColumn(name = "dpto_id"),
+            inverseJoinColumns = @JoinColumn(name = "prod_id")
+    )
+    private Set<Produto> produtos;
 
-//    @OneToMany(mappedBy = "departamento", fetch = FetchType.LAZY)
-//    private List<OrcamentoDepartamento>orcamentos = new ArrayList<>();
+    @OneToMany(mappedBy = "departamento", fetch = FetchType.LAZY)
+    private List<OrcamentoDepartamento> orcamentos;
 
 }
 

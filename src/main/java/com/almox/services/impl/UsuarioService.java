@@ -28,6 +28,11 @@ public class UsuarioService implements IUsuarioService {
         return usuarioRepository.findAll(filtro);
     }
 
+    @Override
+    public List<Usuario> buscarTodos() {
+        return usuarioRepository.findAll();
+    }
+
     public Usuario buscarPorId(Long id) {
         return CondicaoUtil.verificarEntidade(usuarioRepository.findById(id));
     }
