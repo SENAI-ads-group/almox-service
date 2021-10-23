@@ -1,4 +1,4 @@
-package com.almox.repositorios.util;
+package com.almox.repositories.util;
 
 import com.almox.util.BooleanUtil;
 import com.almox.util.Constantes;

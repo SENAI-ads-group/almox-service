@@ -1,4 +1,4 @@
-package com.almox.repositorios;
+package com.almox.repositories;
 
 import com.almox.model.entidades.Fabricante;
 import org.springframework.data.jpa.repository.JpaRepository;

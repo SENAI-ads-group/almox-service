@@ -1,4 +1,4 @@
-package com.almox.repositorios;
+package com.almox.repositories;
 
 import com.almox.model.entidades.Usuario;
 import com.almox.model.enums.TipoUsuario;

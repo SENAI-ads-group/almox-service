@@ -1,6 +1,6 @@
 package com.almox.model.entidades;
 
-import com.almox.converter.LocalDateTimeConverter;
+import com.almox.converters.LocalDateTimeConverter;
 import com.almox.model.enums.StatusAuditavel;
 import com.almox.util.DataUtil;
 import com.fasterxml.jackson.annotation.JsonBackReference;

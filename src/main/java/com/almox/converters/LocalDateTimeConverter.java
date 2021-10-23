@@ -1,4 +1,4 @@
-package com.almox.converter;
+package com.almox.converters;
 
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;

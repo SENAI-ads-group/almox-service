@@ -1,4 +1,4 @@
-package com.almox.repositorios;
+package com.almox.repositories;
 
 import com.almox.model.dto.FiltroUsuarioDTO;
 import com.almox.model.entidades.Usuario;
