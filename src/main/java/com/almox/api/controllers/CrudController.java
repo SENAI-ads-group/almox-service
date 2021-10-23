@@ -1,6 +1,5 @@
 package com.almox.api.controllers;
 
-import com.almox.model.dto.EntidadeDTO;
 import com.almox.model.entidades.Auditavel;
 import com.almox.model.entidades.EntidadePadrao;
 import com.almox.model.entidades.Usuario;
@@ -19,40 +18,32 @@ import javax.validation.Valid;
 import java.time.LocalDateTime;
 import java.util.List;
 
-public abstract class CrudController<ENTIDADE extends EntidadePadrao, FILTRO, DTO extends EntidadeDTO<ENTIDADE, DTO>> {
+public abstract class CrudController<ENTIDADE extends EntidadePadrao, FILTRO> {
 
-    private static Usuario usuarioMock = new Usuario(1L, "Sistema", "usuario@almox.com", TipoUsuario.ADMINISTRADOR, "123"); //MOCK
+    private static Usuario usuarioMock = new Usuario(1L, "Sistema", "usuario@almox.com", TipoUsuario.ADMINISTRADOR, "123", null); //MOCK
 
     public abstract ICrudService<ENTIDADE, FILTRO> getService();
 
-    public abstract DTO getDTO();
-
     @GetMapping("listar")
-    public ResponseEntity<List<DTO>> listar() {
-        var entidadeList = getService().buscarTodos();
-        var dtoList = getDTO().entidadeListParaDTOList(entidadeList);
-
-        return ResponseEntity.ok(dtoList);
+    public ResponseEntity<List<ENTIDADE>> listar() {
+        var resultadoListagem = getService().buscarTodos();
+        return ResponseEntity.ok(resultadoListagem);
     }
 
     @PostMapping("listar")
-    public ResponseEntity<List<DTO>> listar(@RequestBody FILTRO filtro) {
-        var entidadeList = getService().buscarTodos(filtro);
-        var dtoList = getDTO().entidadeListParaDTOList(entidadeList);
-
-        return ResponseEntity.ok(dtoList);
+    public ResponseEntity<List<ENTIDADE>> listar(@RequestBody FILTRO filtro) {
+        var resultadoListagem = getService().buscarTodos(filtro);
+        return ResponseEntity.ok(resultadoListagem);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<DTO> buscarPorId(@PathVariable Long id) {
+    public ResponseEntity<ENTIDADE> buscarPorId(@PathVariable Long id) {
         var entidadeEncontrada = getService().buscarPorId(id);
-        var entidadeDTO = getDTO().entidadeParaDTO(entidadeEncontrada);
-
-        return ResponseEntity.ok().body(entidadeDTO);
+        return ResponseEntity.ok().body(entidadeEncontrada);
     }
 
     @PostMapping
-    public ResponseEntity<DTO> criar(@Valid @RequestBody ENTIDADE entidade) {
+    public ResponseEntity<ENTIDADE> criar(@Valid @RequestBody ENTIDADE entidade) {
         if (entidade instanceof Auditavel) { //força os dados de criação do usuário
             var auditavel = (Auditavel) entidade;
             auditavel.setDataCriacao(LocalDateTime.now());
@@ -63,13 +54,11 @@ public abstract class CrudController<ENTIDADE extends EntidadePadrao, FILTRO, DT
 
         var entidadeCriada = getService().criar(entidade);
         var uriEntidadeCriada = ControllerUtil.getUriCriado(entidadeCriada);
-        var entidadeDTO = getDTO().entidadeParaDTO(entidade);
-        return ResponseEntity.created(uriEntidadeCriada).body(entidadeDTO);
+        return ResponseEntity.created(uriEntidadeCriada).body(entidadeCriada);
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<DTO> editar(@PathVariable Long id, @RequestBody DTO entidadeDTO) {
-        var entidade = getDTO().dtoParaEntidade(entidadeDTO);
+    public ResponseEntity<ENTIDADE> editar(@PathVariable Long id, @RequestBody ENTIDADE entidade) {
         if (entidade instanceof Auditavel) { //força os dados de atualização do usuário
             var auditavel = (Auditavel) entidade;
             auditavel.setAlteradoPor(usuarioMock);
@@ -77,9 +66,7 @@ public abstract class CrudController<ENTIDADE extends EntidadePadrao, FILTRO, DT
         }
 
         var entidadeAtualizada = getService().atualizar(id, entidade);
-        var entidadeDTOAtualizada = getDTO().entidadeParaDTO(entidadeAtualizada);
-
-        return ResponseEntity.ok().body(entidadeDTOAtualizada);
+        return ResponseEntity.ok().body(entidadeAtualizada);
     }
 
     @DeleteMapping("/{id}")

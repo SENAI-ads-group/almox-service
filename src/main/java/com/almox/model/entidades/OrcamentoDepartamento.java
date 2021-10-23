@@ -11,6 +11,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import java.util.List;
@@ -30,4 +31,7 @@ public class OrcamentoDepartamento extends Orcamento {
 
     @OneToMany(mappedBy = "orcamentoPertencente", fetch = FetchType.LAZY)
     private List<ItemOrcamentoDepartamento> itensPertencentes;
+
+    @ManyToOne
+    private Departamento departamento;
 }
