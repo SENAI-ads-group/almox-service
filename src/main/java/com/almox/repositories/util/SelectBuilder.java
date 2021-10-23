@@ -1,10 +1,11 @@
-package com.almox.repositorios.util;
+package com.almox.repositories.util;
 
 import com.almox.model.enums.FiltroStatusAuditavel;
 import com.almox.util.BooleanUtil;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -40,6 +41,10 @@ public class SelectBuilder {
 
     public SelectBuilder isNull(String campo) {
         return adicionarCondicao(" _ALIAS._CAMPO IS NULL", campo);
+    }
+
+    public SelectBuilder in(String campo, Collection<?> colecao) {
+        return adicionarCondicao(" _ALIAS._CAMPO IN :_CAMPO", campo, colecao);
     }
 
     public SelectBuilder filtrarStatusAuditavel(FiltroStatusAuditavel filtro) {

@@ -1,9 +1,9 @@
-package com.almox.repositorios.impl;
+package com.almox.repositories.impl;
 
 import com.almox.model.dto.FiltroDepartamentoDTO;
 import com.almox.model.entidades.Departamento;
-import com.almox.repositorios.DepartamentoRepositoryCustom;
-import com.almox.repositorios.util.SelectBuilder;
+import com.almox.repositories.DepartamentoRepositoryCustom;
+import com.almox.repositories.util.SelectBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 

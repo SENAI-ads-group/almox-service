@@ -3,7 +3,7 @@ package com.almox.services.impl;
 import com.almox.exceptions.ViolacaoIntegridadeDadosException;
 import com.almox.model.dto.FiltroUsuarioDTO;
 import com.almox.model.entidades.Usuario;
-import com.almox.repositorios.UsuarioRepository;
+import com.almox.repositories.UsuarioRepository;
 import com.almox.services.IUsuarioService;
 import com.almox.util.CondicaoUtil;
 import org.springframework.beans.factory.annotation.Autowired;
