@@ -8,5 +8,4 @@ import java.util.List;
 public interface ProdutoRepositoryCustom {
 
     public List<Produto> findAll(FiltroProdutoDTO filtro);
-
 }
