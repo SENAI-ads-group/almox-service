@@ -18,9 +18,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.DecimalMin;
@@ -49,21 +49,26 @@ public class Produto extends Auditavel {
     @Column(name = "prod_descricao", nullable = false, unique = true)
     private String descricao;
 
+    @NotBlank(message = "{Produto.codigoBarras.NotBlank}")
+    @Column(name = "prod_cod_barras", nullable = false, unique = true)
+    private String codigoBarras;
+
     @DecimalMin(value = "0.0", inclusive = false, message = "{Produto.custoMedio.DecimalMin}")
     @NotNull(message = "{Produto.custoMedio.NotNull}")
     @Column(name = "prod_custo_medio", nullable = false)
     private BigDecimal custoMedio;
 
-    @NotBlank(message = "{Produto.codigoBarras.NotBlank}")
-    @Column(name = "prod_cod_barras", nullable = false, unique = true)
-    private String codigoBarras;
-
     @NotNull(message = "{Produto.possuiLoteValidade.NotNull}")
     @Column(name = "prod_possui_lote_validade", nullable = false)
     private Boolean possuiLoteValidade;
 
-    @OneToMany(fetch = FetchType.LAZY)
-    private Set<Fornecedor> fornecedorres;
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "prod_forn_fornecedores_produtos",
+            joinColumns = @JoinColumn(name = "prod_id"),
+            inverseJoinColumns = @JoinColumn(name = "forn_id")
+    )
+    private Set<Fornecedor> fornecedores;
 
     @NotBlank(message = "{Produto.unidadeMedida.NotBlank}")
     @Column(name = "prod_unidade_medida", nullable = false)

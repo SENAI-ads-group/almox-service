@@ -17,7 +17,6 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -37,7 +36,7 @@ public class Departamento extends Auditavel {
     @Column(name = "dpto_nome", nullable = false)
     private String nome;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "usr_dpto_usuarios_departamentos",
             joinColumns = @JoinColumn(name = "dpto_id"),

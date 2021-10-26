@@ -59,6 +59,7 @@ public abstract class Auditavel extends EntidadePadrao {
 
     @ManyToOne
     @JoinColumn(name = "id_usr_exclusao")
+    @JsonBackReference("excluidoPor")
     private Usuario excluidoPor;
 
     public boolean isExcluido() {
