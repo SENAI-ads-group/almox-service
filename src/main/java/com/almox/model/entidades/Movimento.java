@@ -7,10 +7,20 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import javax.validation.constraints.Future;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -19,7 +29,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @Table(name = "mov_movimento")
 
-public class Movimento extends Auditavel{
+public class Movimento extends Auditavel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,12 +38,12 @@ public class Movimento extends Auditavel{
 
     @Future(message = "{movimento.data.futureorpresent}")
     @NotNull(message = "{movimento.data.notnull}")
-    @Column(name = "mov_data", nullable = false, unique = false)
+    @Column(name = "mov_data", nullable = false)
     private LocalDate data;
 
     @NotNull(message = "{movimento.tipoDeMovimento.notnull}")
     @Enumerated(EnumType.STRING)
-    @Column(name = "mov_tipoDeMovimento", nullable = false, unique = false)
+    @Column(name = "mov_tipoDeMovimento", nullable = false)
     private TipoDeMovimento tipoDeMovimento;
 
     @NotNull(message = "{movimento.idorigem.notnull}")
@@ -42,10 +52,10 @@ public class Movimento extends Auditavel{
 
     @NotNull(message = "{movimento.tipoOrigemMovimento.notnull}")
     @Enumerated(EnumType.STRING)
-    @Column(name = "mov_tipoOrigemMovimento", nullable = true,  unique = true)
+    @Column(name = "mov_tipoOrigemMovimento", unique = true)
     private TipoOrigemMovimento tipoOrigemMovimento;
 
-    //@OneToMany(fetch = FetchType.LAZY)
-    //private Set<ItemMovimento> itensMovimento = new HashSet<>();
+    @OneToMany(mappedBy = "movimento", fetch = FetchType.EAGER)
+    private Set<ItemMovimento> itens;
 
 }
