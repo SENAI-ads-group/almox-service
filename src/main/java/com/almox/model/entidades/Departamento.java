@@ -1,5 +1,6 @@
 package com.almox.model.entidades;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -44,6 +45,7 @@ public class Departamento extends Auditavel {
     )
     private Set<Usuario> usuarios;
 
+    @JsonIgnore
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "prod_dpto_produtos_departamentos",
@@ -52,6 +54,7 @@ public class Departamento extends Auditavel {
     )
     private Set<Produto> produtos;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "departamento", fetch = FetchType.LAZY)
     private List<OrcamentoDepartamento> orcamentos;
 

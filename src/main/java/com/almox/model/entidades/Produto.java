@@ -88,7 +88,7 @@ public class Produto extends Auditavel {
     @Convert(converter = ListaPalavraChaveConverter.class)
     private List<String> palavrasChave;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.EAGER)
     private Set<Departamento> departamentos;
 
     @ManyToOne
