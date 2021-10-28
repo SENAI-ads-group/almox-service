@@ -7,7 +7,7 @@ import lombok.Getter;
 
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum TipoOrigemMovimento implements IEnum{
-    SOLICITACAO("Solicitação"),
+    REQUISICAO("Requisição"),
     PEDIDO("Pedido");
 
     @Getter
