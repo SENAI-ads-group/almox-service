@@ -17,7 +17,7 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "itm_itemMovimento")
+@Table(name = "itm_item_movimento")
 public class ItemMovimento extends Auditavel{
 
     @Id
