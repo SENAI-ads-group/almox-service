@@ -1,5 +1,7 @@
 package com.almox.model.entidades;
 
+import com.almox.model.enums.AcaoHistoricoItemRequisicao;
+import com.almox.model.enums.StatusItemRequisicao;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
