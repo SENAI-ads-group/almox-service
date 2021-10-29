@@ -1,9 +1,11 @@
 package com.almox.model.enums;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 
+@JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum StatusRequisicao implements IEnum{
     PENDENTE("Pendente"),
     ABERTO("Aberto"),
