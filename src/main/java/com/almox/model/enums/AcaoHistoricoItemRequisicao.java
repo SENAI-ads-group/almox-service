@@ -6,25 +6,24 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
-public enum StatusOrcamento implements IEnum {
-    PLANEJADO("Planejado"),
-    ABERTO("Aberto"),
-    FECHADO("Fechado");
+public enum AcaoHistoricoItemRequisicao implements IEnum{
+    ENTREGAR("Entregar"),
+    AJUSTE("Ajuste"),
+    CANCELAR("Cancelar"),
+    CRIACAO("Criação");
 
     @Getter
     private String descricao;
 
-    StatusOrcamento(String descricao) {
-        this.descricao = descricao;
-    }
+    AcaoHistoricoItemRequisicao(String descricao) { this.descricao = descricao; }
 
     @JsonCreator
-    public static StatusOrcamento deserialize(@JsonProperty("type") String type) {
+    public static AcaoHistoricoItemRequisicao deserialize (@JsonProperty("type") String type){
         return IEnum.fromType(values(), type);
     }
 
     @Override
     public String getType() {
-        return name();
+        return null;
     }
 }
