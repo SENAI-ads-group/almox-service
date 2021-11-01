@@ -1,8 +1,9 @@
 package com.almox.model.entidades;
 
-import com.almox.converter.LocalDateTimeConverter;
+import com.almox.converters.LocalDateTimeConverter;
 import com.almox.model.enums.StatusAuditavel;
 import com.almox.util.DataUtil;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -46,16 +47,19 @@ public abstract class Auditavel extends EntidadePadrao {
 
     @ManyToOne
     @JoinColumn(name = "id_usr_criacao", updatable = false, nullable = false)
+    @JsonBackReference("criadoPor")
     @CreatedBy
     private Usuario criadoPor;
 
     @ManyToOne
     @JoinColumn(name = "id_usr_alteracao")
+    @JsonBackReference("alteradoPor")
     @LastModifiedBy
     private Usuario alteradoPor;
 
     @ManyToOne
     @JoinColumn(name = "id_usr_exclusao")
+    @JsonBackReference("excluidoPor")
     private Usuario excluidoPor;
 
     public boolean isExcluido() {

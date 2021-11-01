@@ -1,6 +1,6 @@
 package com.almox.config;
 
-import com.almox.repositorios.UsuarioRepository;
+import com.almox.repositories.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
