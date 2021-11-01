@@ -22,35 +22,35 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "confep_configuracao_estoque_produto")
+@Table(name = "conf_estq_configuracao_estoque_produto")
 public class ConfiguracaoEstoqueProduto extends EntidadePadrao {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "confep_id")
+    @Column(name = "conf_estq_id")
     private Long id;
 
     @DecimalMin(value = "0.0", inclusive = false, message = "{ConfiguracaoEstoqueProduto.estoqueMinimo.DecimalMin}")
     @NotNull(message = "{ConfiguracaoEstoqueProduto.estoqueMinimo.NotNull}")
-    @Column(name = "confep_estoque_min", nullable = false)
+    @Column(name = "conf_estq_estoque_min", nullable = false)
     private BigDecimal estoqueMinimo;
 
-    @Column(name = "confep_estoque_atual", nullable = false)
+    @Column(name = "conf_estq_estoque_atual", nullable = false)
     private BigDecimal estoqueAtual;
 
     @DecimalMin(value = "0.0", inclusive = false, message = "{ConfiguracaoEstoqueProduto.estoqueMaximo.DecimalMin}")
     @NotNull(message = "{ConfiguracaoEstoqueProduto.estoqueMaximo.NotNull}")
-    @Column(name = "confep_estoque_max", nullable = false)
+    @Column(name = "conf_estq_estoque_max", nullable = false)
     private BigDecimal estoqueMaximo;
 
-    @Column(name = "confep_controla_estoque_min", nullable = false)
+    @Column(name = "conf_estq_controla_estoque_min", nullable = false)
     private Boolean controlaEstoqueMinimo;
 
-    @Column(name = "confep_controla_estoque_max", nullable = false)
+    @Column(name = "conf_estq_controla_estoque_max", nullable = false)
     private Boolean controlaEstoqueMaximo;
 
-    //@NotNull(message = "{ConfiguracaoEstoqueProduto.produto.NotNull}")
-    //@OneToOne
-    //@JoinColumn(name = "id_prod")
-    //private Produto produto;
+    @NotNull(message = "{ConfiguracaoEstoqueProduto.produto.NotNull}")
+    @OneToOne
+    @JoinColumn(name = "prod_id")
+    private Produto produto;
 }

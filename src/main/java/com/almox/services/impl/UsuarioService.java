@@ -3,7 +3,7 @@ package com.almox.services.impl;
 import com.almox.exceptions.ViolacaoIntegridadeDadosException;
 import com.almox.model.dto.FiltroUsuarioDTO;
 import com.almox.model.entidades.Usuario;
-import com.almox.repositorios.UsuarioRepository;
+import com.almox.repositories.UsuarioRepository;
 import com.almox.services.IUsuarioService;
 import com.almox.util.CondicaoUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +26,11 @@ public class UsuarioService implements IUsuarioService {
 
     public List<Usuario> buscarTodos(FiltroUsuarioDTO filtro) {
         return usuarioRepository.findAll(filtro);
+    }
+
+    @Override
+    public List<Usuario> buscarTodos() {
+        return usuarioRepository.findAll();
     }
 
     public Usuario buscarPorId(Long id) {

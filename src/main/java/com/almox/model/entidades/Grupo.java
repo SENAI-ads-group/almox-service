@@ -11,6 +11,7 @@ import javax.persistence.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import java.util.List;
 
 @Getter
 @Setter
@@ -29,4 +30,7 @@ public class Grupo extends Auditavel{
     @Size(message = "{grupo.descricao.size}",min = 4,max = 20)
     @Column(name = "grp_descricao", nullable = false)
     private String descricao;
+
+    @OneToMany(mappedBy = "grupo", fetch = FetchType.EAGER)
+    private List<Produto> produtos;
 }
