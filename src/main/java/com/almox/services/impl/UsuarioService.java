@@ -1,9 +1,9 @@
 package com.almox.services.impl;
 
-import com.almox.exceptions.ViolacaoIntegridadeDadosException;
 import com.almox.model.dto.FiltroUsuarioDTO;
 import com.almox.model.entidades.Usuario;
 import com.almox.repositories.UsuarioRepository;
+import com.almox.security.AuthManagerService;
 import com.almox.services.IUsuarioService;
 import com.almox.util.CondicaoUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,17 +11,18 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import javax.validation.Valid;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
 public class UsuarioService implements IUsuarioService {
 
     private final UsuarioRepository usuarioRepository;
+    private final AuthManagerService authManagerService;
 
     @Autowired
-    public UsuarioService(UsuarioRepository usuarioRepository) {
+    public UsuarioService(UsuarioRepository usuarioRepository, AuthManagerService authManagerService) {
         this.usuarioRepository = usuarioRepository;
+        this.authManagerService = authManagerService;
     }
 
     public List<Usuario> buscarTodos(FiltroUsuarioDTO filtro) {
@@ -38,34 +39,23 @@ public class UsuarioService implements IUsuarioService {
     }
 
     public Usuario criar(@Valid Usuario usuario) {
-        if (usuarioRepository.findByEmail(usuario.getEmail()) != null) {
-            throw new ViolacaoIntegridadeDadosException("Não foi possível criar o usuário, pois já existe um usuário com o email informado.");
-        }
-        return usuarioRepository.save(usuario);
+//        if (usuarioRepository.findByEmail(usuario.getEmail()) != null) {
+//            throw new ViolacaoIntegridadeDadosException("Não foi possível criar o usuário, pois já existe um usuário com o email informado.");
+//        }
+        var usuarioCriadoServidorAutenticacao = authManagerService.criarUsuario(usuario);
+        return usuarioRepository.save(usuarioCriadoServidorAutenticacao);
     }
 
     @Transactional
     public Usuario atualizar(Long id, Usuario entidade) {
         var usuarioEncontrado = buscarPorId(id);
-        atualizarDadosUsuario(usuarioEncontrado, entidade);
+
         return usuarioRepository.save(usuarioEncontrado);
     }
 
     @Override
     public void excluir(long id) {
-        var usuarioEncontrado = buscarPorId(id);
-        usuarioEncontrado.setDataExclusao(LocalDateTime.now());
-        var usuarioExcluidor = new Usuario();
-        usuarioExcluidor.setId(1L);
-        usuarioEncontrado.setExcluidoPor(usuarioExcluidor);
-        usuarioRepository.save(usuarioEncontrado);
+
     }
 
-    private void atualizarDadosUsuario(Usuario usuarioDestino, Usuario usuarioOrigem) {
-        usuarioDestino.setAlteradoPor(usuarioOrigem.getAlteradoPor());
-        usuarioDestino.setDataAlteracao(usuarioOrigem.getDataAlteracao());
-        usuarioDestino.setNome(usuarioOrigem.getNome());
-        usuarioDestino.setEmail(usuarioOrigem.getEmail());
-        usuarioDestino.setTipoUsuario(usuarioOrigem.getTipoUsuario());
-    }
 }
