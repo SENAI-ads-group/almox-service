@@ -17,8 +17,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Future;
 import javax.validation.constraints.NotNull;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Set;
 
@@ -44,6 +46,14 @@ public class Movimento extends Auditavel {
     @Enumerated(EnumType.STRING)
     @Column(name = "mov_tipoDeMovimento", nullable = false)
     private TipoDeMovimento tipoDeMovimento;
+
+    @DecimalMin(value = "0.0", inclusive = false, message = "{Movimento.custoLiquido.DecimalMin}")
+    @Column(name = "mov_custo_liquido", nullable = false)
+    private BigDecimal custoLiquido;
+
+    @DecimalMin(value = "0.0", inclusive = false, message = "{Movimento.custoBruto.DecimalMin}")
+    @Column(name = "mov_custo_bruto", nullable = false)
+    private BigDecimal custoBruto;
 
     @NotNull(message = "{movimento.idorigem.notnull}")
     @Column(name = "mov_id_origem", nullable = false, unique = true)
