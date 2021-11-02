@@ -1,5 +1,6 @@
 package com.almox.model.entidades;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -32,7 +33,7 @@ public class Fabricante extends PessoaJuridica {
         super(razaoSocial, cnpj, nomeFantasia, contato);
         this.id = id;
     }
-
+    @JsonIgnore
     @OneToMany(mappedBy = "fabricante", fetch = FetchType.LAZY)
     private Set<Produto> produtosFornecidos;
 }

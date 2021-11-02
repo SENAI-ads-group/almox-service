@@ -3,6 +3,7 @@ package com.almox.services.impl;
 import com.almox.model.dto.FiltroFabricanteDTO;
 import com.almox.model.entidades.Fabricante;
 import com.almox.model.entidades.Usuario;
+import com.almox.repositories.ContatoRepository;
 import com.almox.repositories.FabricanteRepository;
 import com.almox.services.IFabricanteService;
 import com.almox.util.CondicaoUtil;
@@ -17,10 +18,12 @@ import java.util.List;
 @Service
 public class FabricanteService implements IFabricanteService {
     private final FabricanteRepository fabricanteRepository;
+    private final ContatoRepository contatoRepository;
 
     @Autowired
-    public FabricanteService(FabricanteRepository fabricanteRepository) {
+    public FabricanteService(FabricanteRepository fabricanteRepository, ContatoRepository contatoRepository) {
         this.fabricanteRepository = fabricanteRepository;
+        this.contatoRepository = contatoRepository;
     }
 
     @Override
@@ -45,6 +48,7 @@ public class FabricanteService implements IFabricanteService {
     }
 
     private Fabricante salvar(Fabricante entidade) {
+       entidade.setContato(contatoRepository.save(entidade.getContato()));
         return fabricanteRepository.save(entidade);
     }
 
