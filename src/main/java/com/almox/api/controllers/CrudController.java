@@ -20,7 +20,7 @@ import java.util.List;
 
 public abstract class CrudController<ENTIDADE extends EntidadePadrao, FILTRO> {
 
-    private static Usuario usuarioMock = new Usuario(1L, "Sistema", "usuario@almox.com", TipoUsuario.ADMINISTRADOR, "123", null); //MOCK
+    private static Usuario usuarioMock = new Usuario(); //MOCK
 
     public abstract ICrudService<ENTIDADE, FILTRO> getService();
 
