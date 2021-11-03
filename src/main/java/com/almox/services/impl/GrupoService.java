@@ -3,9 +3,9 @@ package com.almox.services.impl;
 import com.almox.exceptions.ViolacaoIntegridadeDadosException;
 import com.almox.model.dto.FiltroGrupoDTO;
 import com.almox.model.entidades.Grupo;
-import com.almox.model.entidades.Usuario;
 import com.almox.repositories.GrupoRepository;
 import com.almox.services.IGrupoService;
+import com.almox.services.IUsuarioService;
 import com.almox.util.CondicaoUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,10 +18,12 @@ import java.util.List;
 public class GrupoService implements IGrupoService {
 
     private final GrupoRepository grupoRepository;
+    private final IUsuarioService usuarioService;
 
     @Autowired
-    public GrupoService(GrupoRepository grupoRepository) {
+    public GrupoService(GrupoRepository grupoRepository, IUsuarioService usuarioService) {
         this.grupoRepository = grupoRepository;
+        this.usuarioService = usuarioService;
     }
 
     @Override
@@ -50,21 +52,19 @@ public class GrupoService implements IGrupoService {
         return salvar(grupo);
     }
 
-    @Override
-    public void excluir(long id) {
-        var grupoEncontrado = buscarPorId(id);
-        grupoEncontrado.setDataExclusao(LocalDateTime.now());
-        var usuarioExcluidor = new Usuario();
-        usuarioExcluidor.setId(1L);
-        grupoEncontrado.setExcluidoPor(usuarioExcluidor);
-        grupoRepository.save(grupoEncontrado);
-    }
-
     private Grupo salvar(Grupo grupo) {
         if (!grupoRepository.findAllByDescricao(grupo.getDescricao()).isEmpty()) {
             throw new ViolacaoIntegridadeDadosException("Não foi possível cadastrar o Grupo. Descrição já existente. ");
         }
         return grupoRepository.save(grupo);
     }
-    
+
+    @Override
+    public void excluir(long id) {
+        var entidadeEncontrada = buscarPorId(id);
+        entidadeEncontrada.setDataExclusao(LocalDateTime.now());
+        entidadeEncontrada.setExcluidoPor(usuarioService.getUsuarioLogado());
+        grupoRepository.save(entidadeEncontrada);
+    }
+
 }

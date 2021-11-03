@@ -2,10 +2,10 @@ package com.almox.services.impl;
 
 import com.almox.model.dto.FiltroDepartamentoDTO;
 import com.almox.model.entidades.Departamento;
-import com.almox.model.entidades.Usuario;
 import com.almox.repositories.DepartamentoRepository;
 import com.almox.repositories.OrcamentoDepartamentoRepository;
 import com.almox.services.IDepartamentoService;
+import com.almox.services.IUsuarioService;
 import com.almox.util.CondicaoUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,11 +20,13 @@ public class DepartamentoService implements IDepartamentoService {
 
     private final DepartamentoRepository departamentoRepository;
     private final OrcamentoDepartamentoRepository orcamentoDepartamentoRepository;
+    private final IUsuarioService usuarioService;
 
     @Autowired
-    public DepartamentoService(DepartamentoRepository departamentoRepository, OrcamentoDepartamentoRepository orcamentoDepartamentoRepository) {
+    public DepartamentoService(DepartamentoRepository departamentoRepository, OrcamentoDepartamentoRepository orcamentoDepartamentoRepository, IUsuarioService usuarioService) {
         this.departamentoRepository = departamentoRepository;
         this.orcamentoDepartamentoRepository = orcamentoDepartamentoRepository;
+        this.usuarioService = usuarioService;
     }
 
     public List<Departamento> buscarTodos(FiltroDepartamentoDTO filtro) {
@@ -56,12 +58,10 @@ public class DepartamentoService implements IDepartamentoService {
 
     @Override
     public void excluir(long id) {
-        var departamentoEcontrado = buscarPorId(id);
-        departamentoEcontrado.setDataExclusao(LocalDateTime.now());
-        var usuarioExcluidor = new Usuario();
-        usuarioExcluidor.setId(1L);
-        departamentoEcontrado.setExcluidoPor(usuarioExcluidor);
-        departamentoRepository.save(departamentoEcontrado);
+        var entidadeEncontrada = buscarPorId(id);
+        entidadeEncontrada.setDataExclusao(LocalDateTime.now());
+        entidadeEncontrada.setExcluidoPor(usuarioService.getUsuarioLogado());
+        departamentoRepository.save(entidadeEncontrada);
     }
 
 }

@@ -1,15 +1,17 @@
 package com.almox.exceptions;
 
+import com.google.common.collect.Sets;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
 @Getter
-public class ApplicationRuntimeException extends RuntimeException {
+public class ApplicationRuntimeException extends RestException {
 
-    private final HttpStatus httpStatus;
+    public ApplicationRuntimeException(String... mensagens) {
+        this(HttpStatus.INTERNAL_SERVER_ERROR, mensagens);
+    }
 
-    public ApplicationRuntimeException(HttpStatus httpStatus) {
-        super(httpStatus.getReasonPhrase());
-        this.httpStatus = httpStatus;
+    public ApplicationRuntimeException(HttpStatus httpStatus, String... mensagens) {
+        super(httpStatus, Sets.newHashSet(mensagens));
     }
 }

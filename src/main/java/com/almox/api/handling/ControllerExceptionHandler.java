@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import javax.persistence.EntityNotFoundException;
 import javax.servlet.http.HttpServletRequest;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -26,22 +27,35 @@ public class ControllerExceptionHandler {
 
     @ExceptionHandler(ApplicationRuntimeException.class)
     public ResponseEntity<ErroPadraoDTO> applicationRuntime(ApplicationRuntimeException e, HttpServletRequest request) {
-        ErroPadraoDTO erroPadraoDTO = new ErroPadraoDTO(e.getHttpStatus(), ERRO_APPLICATION_RUNTIME_EXCEPTION, request.getRequestURI(), "Ocorreu um erro ao executar a operação", e.getMessage());
-        return ResponseEntity.status(e.getHttpStatus()).body(erroPadraoDTO);
+        return ResponseEntity.status(e.getHttpStatus()).body(e.getErroDTO());
     }
 
     @ExceptionHandler(EntidadeNaoEncontradaException.class)
     public ResponseEntity<ErroPadraoDTO> entidadeNaoEncontrada(EntidadeNaoEncontradaException e, HttpServletRequest request) {
         HttpStatus httpStatus = HttpStatus.NOT_FOUND;
-        ErroPadraoDTO erroPadraoDTO = new ErroPadraoDTO(httpStatus, ERRO_ENTIDADE_NAO_ENCONTRADA, request.getRequestURI(), e.getMessage());
-        return ResponseEntity.status(httpStatus).body(erroPadraoDTO);
+        return ResponseEntity.status(httpStatus).body(
+                ErroPadraoDTO.builder()//
+                        .exception(e.getClass().getName())//
+                        .messages(List.of(e.getMessage()))//
+                        .date(LocalDateTime.now().toString())//
+                        .status(httpStatus.value())//
+                        .error(ERRO_ENTIDADE_NAO_ENCONTRADA)//
+                        .build()
+        );
     }
 
     @ExceptionHandler(EntityNotFoundException.class)
     public ResponseEntity<ErroPadraoDTO> entidadeNaoEncontrada(EntityNotFoundException e, HttpServletRequest request) {
         HttpStatus httpStatus = HttpStatus.NOT_FOUND;
-        ErroPadraoDTO erroPadraoDTO = new ErroPadraoDTO(httpStatus, ERRO_ENTIDADE_NAO_ENCONTRADA, request.getRequestURI(), e.getMessage());
-        return ResponseEntity.status(httpStatus).body(erroPadraoDTO);
+        return ResponseEntity.status(httpStatus).body(
+                ErroPadraoDTO.builder()//
+                        .exception(e.getClass().getName())//
+                        .messages(List.of(e.getMessage()))//
+                        .date(LocalDateTime.now().toString())//
+                        .status(httpStatus.value())//
+                        .error(ERRO_ENTIDADE_NAO_ENCONTRADA)//
+                        .build()
+        );
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
@@ -51,14 +65,28 @@ public class ControllerExceptionHandler {
                 .map(ObjectError::getDefaultMessage)// Mensagem definida no messages.properties
                 .collect(Collectors.toList());
 
-        ErroPadraoDTO erroPadraoDTO = new ErroPadraoDTO(httpStatus, ERRO_ENTIDADE_METHOD_ARGUMENT_NOT_VALID, request.getRequestURI(), mensagensErro);
-        return ResponseEntity.status(httpStatus).body(erroPadraoDTO);
+        return ResponseEntity.status(httpStatus).body(
+                ErroPadraoDTO.builder()//
+                        .exception(e.getClass().getName())//
+                        .messages(mensagensErro)//
+                        .date(LocalDateTime.now().toString())//
+                        .status(httpStatus.value())//
+                        .error(ERRO_ENTIDADE_METHOD_ARGUMENT_NOT_VALID)//
+                        .build()
+        );
     }
 
     @ExceptionHandler(ViolacaoIntegridadeDadosException.class)
     public ResponseEntity<ErroPadraoDTO> applicationRuntime(ViolacaoIntegridadeDadosException e, HttpServletRequest request) {
         HttpStatus httpStatus = HttpStatus.BAD_REQUEST;
-        ErroPadraoDTO erroPadraoDTO = new ErroPadraoDTO(httpStatus, ERRO_VIOLACAO_INTEGRIDADE_DADOS, request.getRequestURI(), e.getMessage());
-        return ResponseEntity.status(httpStatus).body(erroPadraoDTO);
+        return ResponseEntity.status(httpStatus).body(
+                ErroPadraoDTO.builder()//
+                        .exception(e.getClass().getName())//
+                        .messages(List.of(e.getMessage()))//
+                        .date(LocalDateTime.now().toString())//
+                        .status(httpStatus.value())//
+                        .error(ERRO_VIOLACAO_INTEGRIDADE_DADOS)//
+                        .build()
+        );
     }
 }
