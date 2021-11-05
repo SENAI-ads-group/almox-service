@@ -40,10 +40,8 @@ public class Usuario extends EntidadePadrao {
     @Column(name = "usr_username", nullable = false)
     private String username;
 
-    @Transient
     private String nome;
 
-    @Transient
     private String email;
 
     @ManyToMany(fetch = FetchType.LAZY)

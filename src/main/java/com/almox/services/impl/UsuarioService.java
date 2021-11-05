@@ -3,10 +3,7 @@ package com.almox.services.impl;
 import com.almox.model.dto.FiltroUsuarioDTO;
 import com.almox.model.entidades.Usuario;
 import com.almox.repositories.UsuarioRepository;
-<<<<<<< HEAD
 import com.almox.security.AuthManagerService;
-=======
->>>>>>> d9c0ec6 (refatoracao das palavras chaves para lista de string)
 import com.almox.services.IUsuarioService;
 import com.almox.util.CondicaoUtil;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -11,11 +11,5 @@ import java.util.Set;
 @Repository
 public interface UsuarioRepository extends JpaRepository<Usuario, Long>, UsuarioRepositoryCustom {
 
-    List<Usuario> findAllByTipoUsuario(TipoUsuario tipoUsuario);
-
-    List<Usuario> findAllByTipoUsuarioIn(Set<TipoUsuario> tiposAConsiderar);
-
-    Usuario findByCriadoPor(Usuario usuario);
-
     Usuario findByEmail(String email);
 }
