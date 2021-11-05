@@ -4,11 +4,11 @@ import com.almox.exceptions.ApplicationRuntimeException;
 import com.almox.model.entidades.Usuario;
 import com.almox.repositories.UsuarioRepository;
 import com.almox.security.AuthManagerService;
-import com.almox.services.IUsuarioService;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.AuditorAware;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
@@ -33,7 +33,7 @@ import static com.almox.util.BooleanUtil.isNuloOuVazio;
 @Slf4j
 @Service
 @Transactional(readOnly = true)
-public class UsuarioService implements IUsuarioService {
+public class UsuarioService implements AuditorAware<Usuario> {
 
     private static final long DURACAO_REGISTRO_NO_CACHE = 1L;
 

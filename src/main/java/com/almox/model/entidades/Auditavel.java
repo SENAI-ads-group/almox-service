@@ -42,7 +42,6 @@ public abstract class Auditavel extends EntidadePadrao {
 
     @Column(name = "dt_exclusao")
     @Convert(converter = LocalDateTimeConverter.class)
-    @LastModifiedDate
     protected LocalDateTime dataExclusao;
 
     @ManyToOne

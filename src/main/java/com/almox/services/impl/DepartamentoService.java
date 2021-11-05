@@ -5,7 +5,6 @@ import com.almox.model.entidades.Departamento;
 import com.almox.repositories.DepartamentoRepository;
 import com.almox.repositories.OrcamentoDepartamentoRepository;
 import com.almox.services.IDepartamentoService;
-import com.almox.services.IUsuarioService;
 import com.almox.util.CondicaoUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,10 +19,10 @@ public class DepartamentoService implements IDepartamentoService {
 
     private final DepartamentoRepository departamentoRepository;
     private final OrcamentoDepartamentoRepository orcamentoDepartamentoRepository;
-    private final IUsuarioService usuarioService;
+    private final UsuarioService usuarioService;
 
     @Autowired
-    public DepartamentoService(DepartamentoRepository departamentoRepository, OrcamentoDepartamentoRepository orcamentoDepartamentoRepository, IUsuarioService usuarioService) {
+    public DepartamentoService(DepartamentoRepository departamentoRepository, OrcamentoDepartamentoRepository orcamentoDepartamentoRepository, UsuarioService usuarioService) {
         this.departamentoRepository = departamentoRepository;
         this.orcamentoDepartamentoRepository = orcamentoDepartamentoRepository;
         this.usuarioService = usuarioService;

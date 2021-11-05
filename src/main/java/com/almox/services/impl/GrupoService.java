@@ -5,7 +5,6 @@ import com.almox.model.dto.FiltroGrupoDTO;
 import com.almox.model.entidades.Grupo;
 import com.almox.repositories.GrupoRepository;
 import com.almox.services.IGrupoService;
-import com.almox.services.IUsuarioService;
 import com.almox.util.CondicaoUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,10 +17,10 @@ import java.util.List;
 public class GrupoService implements IGrupoService {
 
     private final GrupoRepository grupoRepository;
-    private final IUsuarioService usuarioService;
+    private final UsuarioService usuarioService;
 
     @Autowired
-    public GrupoService(GrupoRepository grupoRepository, IUsuarioService usuarioService) {
+    public GrupoService(GrupoRepository grupoRepository, UsuarioService usuarioService) {
         this.grupoRepository = grupoRepository;
         this.usuarioService = usuarioService;
     }

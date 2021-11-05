@@ -6,7 +6,6 @@ import com.almox.model.entidades.Produto;
 import com.almox.repositories.ProdutoRepository;
 import com.almox.services.IConfiguracaoEstoqueService;
 import com.almox.services.IProdutoService;
-import com.almox.services.IUsuarioService;
 import com.almox.util.CondicaoUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,10 +21,10 @@ public class ProdutoService implements IProdutoService {
 
     private final ProdutoRepository produtoRepository;
     private final IConfiguracaoEstoqueService configuracaoEstoqueService;
-    private final IUsuarioService usuarioService;
+    private final UsuarioService usuarioService;
 
     @Autowired
-    public ProdutoService(ProdutoRepository produtoRepository, IConfiguracaoEstoqueService configuracaoEstoqueService, IUsuarioService usuarioService) {
+    public ProdutoService(ProdutoRepository produtoRepository, IConfiguracaoEstoqueService configuracaoEstoqueService, UsuarioService usuarioService) {
         this.produtoRepository = produtoRepository;
         this.configuracaoEstoqueService = configuracaoEstoqueService;
         this.usuarioService = usuarioService;
