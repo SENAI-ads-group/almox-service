@@ -3,7 +3,6 @@ package com.almox.services.impl;
 import com.almox.exceptions.ViolacaoIntegridadeDadosException;
 import com.almox.model.dto.FiltroProdutoDTO;
 import com.almox.model.entidades.Produto;
-import com.almox.model.entidades.Usuario;
 import com.almox.repositories.ProdutoRepository;
 import com.almox.services.IConfiguracaoEstoqueService;
 import com.almox.services.IProdutoService;
@@ -22,11 +21,13 @@ public class ProdutoService implements IProdutoService {
 
     private final ProdutoRepository produtoRepository;
     private final IConfiguracaoEstoqueService configuracaoEstoqueService;
+    private final UsuarioService usuarioService;
 
     @Autowired
-    public ProdutoService(ProdutoRepository produtoRepository, IConfiguracaoEstoqueService configuracaoEstoqueService) {
+    public ProdutoService(ProdutoRepository produtoRepository, IConfiguracaoEstoqueService configuracaoEstoqueService, UsuarioService usuarioService) {
         this.produtoRepository = produtoRepository;
         this.configuracaoEstoqueService = configuracaoEstoqueService;
+        this.usuarioService = usuarioService;
     }
 
     @Override
@@ -65,13 +66,12 @@ public class ProdutoService implements IProdutoService {
     }
 
     @Override
+    @Transactional
     public void excluir(long id) {
-        var produtoEncontrado = buscarPorId(id);
-        produtoEncontrado.setDataExclusao(LocalDateTime.now());
-        var usuarioExcluidor = new Usuario();
-        usuarioExcluidor.setId(1L);
-        produtoEncontrado.setExcluidoPor(usuarioExcluidor);
-        produtoRepository.save(produtoEncontrado);
+        var entidadeEncontrada = buscarPorId(id);
+        entidadeEncontrada.setDataExclusao(LocalDateTime.now());
+        entidadeEncontrada.setExcluidoPor(usuarioService.getUsuarioLogado());
+        produtoRepository.save(entidadeEncontrada);
     }
 
     @Override
