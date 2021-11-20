@@ -2,11 +2,13 @@ package com.almox.services.impl;
 
 import com.almox.model.dto.FiltroDepartamentoDTO;
 import com.almox.model.entidades.Departamento;
+import com.almox.model.entidades.Usuario;
 import com.almox.repositories.DepartamentoRepository;
 import com.almox.repositories.OrcamentoDepartamentoRepository;
 import com.almox.services.IDepartamentoService;
 import com.almox.util.CondicaoUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -63,4 +65,8 @@ public class DepartamentoService implements IDepartamentoService {
         departamentoRepository.save(entidadeEncontrada);
     }
 
+    @Override
+    public List<Departamento> buscarAssociadosUsuario(Usuario usuarioLogado) {
+        return departamentoRepository.findAllByUsuariosContaining(usuarioLogado);
+    }
 }

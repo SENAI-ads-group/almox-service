@@ -1,9 +1,12 @@
 package com.almox.services.impl;
 
 import com.almox.exceptions.ApplicationRuntimeException;
+import com.almox.model.dto.FiltroUsuarioDTO;
 import com.almox.model.entidades.Usuario;
 import com.almox.repositories.UsuarioRepository;
 import com.almox.security.AuthManagerService;
+import com.almox.services.ICrudService;
+import com.almox.util.CondicaoUtil;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import lombok.extern.slf4j.Slf4j;
@@ -15,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
@@ -33,7 +37,7 @@ import static com.almox.util.BooleanUtil.isNuloOuVazio;
 @Slf4j
 @Service
 @Transactional(readOnly = true)
-public class UsuarioService implements AuditorAware<Usuario> {
+public class UsuarioService implements ICrudService<Usuario, FiltroUsuarioDTO>, AuditorAware<Usuario> {
 
     private static final long DURACAO_REGISTRO_NO_CACHE = 1L;
 
@@ -77,17 +81,30 @@ public class UsuarioService implements AuditorAware<Usuario> {
             return null;
 
         try {
-            return USR_CACHE.get(login, () -> {
-                return usuarioRepository.findByLogin(login).orElseGet(() -> {
-                    var novoUsuario = new Usuario();
-                    novoUsuario.setLogin(login);
-                    return usuarioRepository.save(novoUsuario);
-                });
-            });
+            return USR_CACHE.get(login, () -> usuarioRepository.findByLogin(login).orElseGet(() -> {
+                var novoUsuario = new Usuario();
+                novoUsuario.setLogin(login);
+                return usuarioRepository.save(novoUsuario);
+            }));
         } catch (ExecutionException e) {
             String mensagemErro = "Erro ao obter usuario logado";
             log.error(mensagemErro, e);
             throw new ApplicationRuntimeException(mensagemErro, e.getMessage());
         }
+    }
+
+    @Override
+    public List<Usuario> buscarTodos() {
+        return usuarioRepository.findAll();
+    }
+
+    @Override
+    public List<Usuario> buscarTodos(FiltroUsuarioDTO filtro) {
+        return usuarioRepository.findAll(filtro);
+    }
+
+    @Override
+    public Usuario buscarPorId(Long id) {
+        return CondicaoUtil.verificarEntidade(usuarioRepository.findById(id));
     }
 }
