@@ -49,7 +49,7 @@ public abstract class CrudController<ENTIDADE extends EntidadePadrao, FILTRO> {
     public ResponseEntity<ENTIDADE> criar(@Valid @RequestBody ENTIDADE entidade) {
         if (entidade instanceof Auditavel) { //força os dados de criação do usuário
             var auditavel = (Auditavel) entidade;
-            // auditavel.setCriadoPor(usuarioService.getCurrentAuditor().orElse(null)); //Não necessário quando o AuditorWare estiver funcionando
+            auditavel.setCriadoPor(usuarioService.getCurrentAuditor().orElse(null)); //Não necessário quando o AuditorWare estiver funcionando
             auditavel.setDataCriacao(LocalDateTime.now());
             auditavel.setDataAlteracao(LocalDateTime.now());
         }
@@ -64,7 +64,7 @@ public abstract class CrudController<ENTIDADE extends EntidadePadrao, FILTRO> {
         if (entidade instanceof Auditavel) { //força os dados de atualização do usuário
             var auditavel = (Auditavel) entidade;
             auditavel.setDataAlteracao(LocalDateTime.now());
-           // auditavel.setAlteradoPor(usuarioService.getCurrentAuditor().orElse(null)); //Não necessário quando o AuditorWare estiver funcionando
+            auditavel.setAlteradoPor(usuarioService.getCurrentAuditor().orElse(null)); //Não necessário quando o AuditorWare estiver funcionando
         }
 
         var entidadeAtualizada = getService().atualizar(id, entidade);
