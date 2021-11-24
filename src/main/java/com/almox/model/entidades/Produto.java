@@ -80,6 +80,11 @@ public class Produto extends Auditavel {
     @JoinColumn(name = "fab_id")
     private Fabricante fabricante;
 
+    @NotNull(message = "{Produto.fornecedor.NotBlank}")
+    @ManyToOne
+    @JoinColumn(name = "forn_id")
+    private Fabricante fornecedor;
+
     @NotBlank(message = "{Produto.detalhes.NotBlank}")
     @Column(name = "prod_detalhes")
     private String detalhes;
