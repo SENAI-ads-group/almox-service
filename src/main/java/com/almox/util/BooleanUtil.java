@@ -1,6 +1,8 @@
 package com.almox.util;
 
 import java.util.Collection;
+import java.util.Map;
+import java.util.function.Consumer;
 
 public final class BooleanUtil {
 
@@ -8,24 +10,49 @@ public final class BooleanUtil {
         super();
     }
 
-    public static boolean ambosNulosOuAmbosIguais(Object obj1, Object obj2) {
-        if (obj1 == null) {
-            return obj2 == null;
-        } else if (obj2 == null) {
-            return false;
+    public static <EX extends RuntimeException> void throwIf(boolean condition, EX ex) {
+        if (condition) {
+            throw ex;
         }
-        return obj1.equals(obj2);
+    }
+
+    public static <EX extends RuntimeException> void throwIf(boolean condition, EX ex, Consumer<EX> additionalActionsOnThrow) {
+        if (condition) {
+            if (additionalActionsOnThrow != null) {
+                additionalActionsOnThrow.accept(ex);
+            }
+            throw ex;
+        }
     }
 
     public static boolean algumNuloOuVazio(Object... objetos) {
-        boolean algumNuloOuVazio = false;
-        for (Object objeto : objetos) {
-            if (objeto == null) algumNuloOuVazio = true;
-            else if (objeto instanceof String) algumNuloOuVazio = ((String) objeto).strip().length() < 1;
-            else if (objeto instanceof Collection) algumNuloOuVazio = ((Collection<?>) objeto).isEmpty();
+        boolean algumNulo = false;
+        for (var objeto : objetos) {
+            algumNulo = isNuloOuVazio(objeto);
 
-            if (algumNuloOuVazio) break;
+            if (algumNulo) {
+                return true;
+            }
         }
-        return algumNuloOuVazio;
+        return false;
     }
+
+    public static boolean isNuloOuVazio(Object objeto) {
+        if (objeto == null) {
+            return true;
+        }
+        if (objeto instanceof String) {
+            return ((String) objeto).strip().length() < 1;
+        } else if (objeto instanceof Collection) {
+            return ((Collection) objeto).isEmpty();
+        } else if (objeto instanceof Map) {
+            return ((Map) objeto).isEmpty();
+        }
+        return false;
+    }
+
+    public static boolean naoNuloOuVazio(Object objeto) {
+        return !isNuloOuVazio(objeto);
+    }
+
 }

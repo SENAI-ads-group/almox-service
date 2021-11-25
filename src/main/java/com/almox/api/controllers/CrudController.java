@@ -2,11 +2,12 @@ package com.almox.api.controllers;
 
 import com.almox.model.entidades.Auditavel;
 import com.almox.model.entidades.EntidadePadrao;
-import com.almox.model.entidades.Usuario;
-import com.almox.model.enums.TipoUsuario;
 import com.almox.services.ICrudService;
+import com.almox.services.impl.UsuarioService;
 import com.almox.util.ControllerUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,9 +19,11 @@ import javax.validation.Valid;
 import java.time.LocalDateTime;
 import java.util.List;
 
+@Component
 public abstract class CrudController<ENTIDADE extends EntidadePadrao, FILTRO> {
 
-    private static Usuario usuarioMock = new Usuario(1L, "Sistema", "usuario@almox.com", TipoUsuario.ADMINISTRADOR, "123", null); //MOCK
+    @Autowired
+    private UsuarioService usuarioService;
 
     public abstract ICrudService<ENTIDADE, FILTRO> getService();
 
@@ -46,10 +49,9 @@ public abstract class CrudController<ENTIDADE extends EntidadePadrao, FILTRO> {
     public ResponseEntity<ENTIDADE> criar(@Valid @RequestBody ENTIDADE entidade) {
         if (entidade instanceof Auditavel) { //força os dados de criação do usuário
             var auditavel = (Auditavel) entidade;
+            auditavel.setCriadoPor(usuarioService.getCurrentAuditor().orElse(null)); //Não necessário quando o AuditorWare estiver funcionando
             auditavel.setDataCriacao(LocalDateTime.now());
-            auditavel.setCriadoPor(usuarioMock);
             auditavel.setDataAlteracao(LocalDateTime.now());
-            auditavel.setAlteradoPor(usuarioMock);
         }
 
         var entidadeCriada = getService().criar(entidade);
@@ -61,8 +63,8 @@ public abstract class CrudController<ENTIDADE extends EntidadePadrao, FILTRO> {
     public ResponseEntity<ENTIDADE> editar(@PathVariable Long id, @RequestBody ENTIDADE entidade) {
         if (entidade instanceof Auditavel) { //força os dados de atualização do usuário
             var auditavel = (Auditavel) entidade;
-            auditavel.setAlteradoPor(usuarioMock);
             auditavel.setDataAlteracao(LocalDateTime.now());
+            auditavel.setAlteradoPor(usuarioService.getCurrentAuditor().orElse(null)); //Não necessário quando o AuditorWare estiver funcionando
         }
 
         var entidadeAtualizada = getService().atualizar(id, entidade);

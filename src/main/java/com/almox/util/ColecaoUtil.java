@@ -3,6 +3,8 @@ package com.almox.util;
 import com.almox.model.entidades.Auditavel;
 import com.almox.model.enums.FiltroStatusAuditavel;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -27,5 +29,12 @@ public final class ColecaoUtil {
         return entidadeList.stream()
                 .filter(predicateFiltro)
                 .collect(Collectors.toList());
+    }
+
+    public static <T> Collection<T> colecaoVaziaCasoSejaNula(Collection<T> collection) {
+        if (collection == null) {
+            return new ArrayList<>();
+        }
+        return collection;
     }
 }

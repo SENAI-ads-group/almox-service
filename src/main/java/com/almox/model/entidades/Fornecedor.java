@@ -1,19 +1,13 @@
 package com.almox.model.entidades;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Set;
 
 @Getter
@@ -29,6 +23,7 @@ public class Fornecedor extends PessoaJuridica {
     @Column(name = "forn_id")
     private Long id;
 
+    @JsonIgnore
     @ManyToMany(fetch = FetchType.LAZY)
     private Set<Produto> produtosFornecidos;
 
@@ -36,5 +31,4 @@ public class Fornecedor extends PessoaJuridica {
         super(razaoSocial, cnpj, nomeFantasia, contato);
         this.id = id;
     }
-
 }
