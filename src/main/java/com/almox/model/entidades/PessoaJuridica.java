@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.validator.constraints.br.CNPJ;
 
 import javax.persistence.Column;
 import javax.persistence.JoinColumn;
@@ -23,6 +24,7 @@ public abstract class PessoaJuridica extends Auditavel {
     @Column(name = "pesj_razaoSocial", nullable = false, unique = true)
     private String razaoSocial;
 
+    @CNPJ
     @NotBlank(message = "{pessoa.cnpj.notblank}")
     @Column(name = "pesj_cnpj", nullable = false, unique = true)
     private String cnpj;

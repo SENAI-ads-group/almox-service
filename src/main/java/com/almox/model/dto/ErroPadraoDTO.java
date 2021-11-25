@@ -2,45 +2,39 @@ package com.almox.model.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import org.springframework.http.HttpStatus;
 
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 
 @Getter
 @Setter
+@ToString
 @AllArgsConstructor
 public class ErroPadraoDTO implements Serializable {
-    private static final long serialVersionUID = 1L;
+    private String exception;
+    private int status;
+    private String error;
+    private String date;
+    private String[] messages;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'", timezone = "GMT")
-    private Instant timestamp;
-    private Integer status;
-    private String erro;
-    private String path;
-    private List<String> mensagens;
-
-    public ErroPadraoDTO() {
-        timestamp = Instant.now();
-    }
-
-    public ErroPadraoDTO(Integer status, String erro, String path, String... mensagens) {
-        this();
+    @Builder
+    public ErroPadraoDTO(String exception, int status, String error, Collection<String> messages, String date) {
+        this.exception = exception;
         this.status = status;
-        this.erro = erro;
-        this.path = path;
-        this.mensagens = List.of(mensagens);
+        this.error = error;
+        this.date = date;
+        this.messages = messages.toArray(new String[0]);
     }
 
-    public ErroPadraoDTO(HttpStatus httpStatus, String erro, String path, String... mensagens) {
-        this(httpStatus.value(), erro, path, mensagens);
-    }
-
-    public ErroPadraoDTO(HttpStatus httpStatus, String erro, String path, List<String> mensagens) {
-        this(httpStatus, erro, path);
-        this.mensagens = mensagens;
+    public String[] getMessages(){
+        return messages == null ? null : Arrays.copyOf(messages, messages.length);
     }
 }
