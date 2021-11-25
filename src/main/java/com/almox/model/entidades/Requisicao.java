@@ -18,6 +18,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -49,6 +51,7 @@ public class Requisicao extends EntidadePadrao {
     @Column(name = "req_status", nullable = false)
     private StatusRequisicao status;
 
+    @NotEmpty(message = "{Requisicao.itens.NotEmpty}")
     @OneToMany(mappedBy = "requisicao", fetch = FetchType.EAGER)
     private List<ItemRequisicao> itens;
 

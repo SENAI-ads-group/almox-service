@@ -1,7 +1,7 @@
 package com.almox.services.impl;
+
 import com.almox.model.dto.FiltroFornecedorDTO;
 import com.almox.model.entidades.Fornecedor;
-import com.almox.model.entidades.Usuario;
 import com.almox.repositories.ContatoRepository;
 import com.almox.repositories.FornecedorRepository;
 import com.almox.services.IFornecedorService;
@@ -9,6 +9,7 @@ import com.almox.util.CondicaoUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import javax.validation.Valid;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -18,11 +19,13 @@ public class FornecedorService implements IFornecedorService {
 
     private final FornecedorRepository fornecedorRepository;
     private final ContatoRepository contatoRepository;
+    private final UsuarioService usuarioService;
 
     @Autowired
-    public FornecedorService(FornecedorRepository fornecedorRepository, ContatoRepository contatoRepository) {
+    public FornecedorService(FornecedorRepository fornecedorRepository, ContatoRepository contatoRepository, UsuarioService usuarioService) {
         this.fornecedorRepository = fornecedorRepository;
         this.contatoRepository = contatoRepository;
+        this.usuarioService = usuarioService;
     }
 
     @Override
@@ -60,11 +63,9 @@ public class FornecedorService implements IFornecedorService {
 
     @Override
     public void excluir(long id) {
-        var fornecedorEcontrado = buscarPorId(id);
-        fornecedorEcontrado.setDataExclusao(LocalDateTime.now());
-        var usuarioExcluidor = new Usuario();
-        usuarioExcluidor.setId(1L);
-        fornecedorEcontrado.setExcluidoPor(usuarioExcluidor);
-        fornecedorRepository.save(fornecedorEcontrado);
+        var entidadeEncontrada = buscarPorId(id);
+        entidadeEncontrada.setDataExclusao(LocalDateTime.now());
+        entidadeEncontrada.setExcluidoPor(usuarioService.getUsuarioLogado());
+        fornecedorRepository.save(entidadeEncontrada);
     }
 }

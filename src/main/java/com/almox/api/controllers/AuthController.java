@@ -2,6 +2,7 @@ package com.almox.api.controllers;
 
 import com.almox.security.Token;
 import com.almox.security.TokenProvider;
+import com.almox.services.impl.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,10 +17,12 @@ import java.util.Map;
 public class AuthController {
 
     private final TokenProvider tokenProvider;
+    private final UsuarioService usuarioService;
 
     @Autowired
-    public AuthController(TokenProvider tokenProvider) {
+    public AuthController(TokenProvider tokenProvider, UsuarioService usuarioService) {
         this.tokenProvider = tokenProvider;
+        this.usuarioService = usuarioService;
     }
 
     @PostMapping
@@ -29,6 +32,7 @@ public class AuthController {
         Token token = tokenProvider.getToken(usuario, senha);
         Map<String, Object> resposta = new HashMap<String, Object>();
         resposta.put("access_token", token.getAccessToken());
+        usuarioService.getUsuarioLogado(); // TEMP
         return resposta;
     }
 

@@ -42,6 +42,9 @@ public class GrupoService implements IGrupoService {
 
     @Override
     public Grupo criar(@Valid Grupo grupo) {
+        if (!grupoRepository.findAllByDescricao(grupo.getDescricao()).isEmpty()) {
+            throw new ViolacaoIntegridadeDadosException("Não foi possível cadastrar o Grupo. Descrição já existente.");
+        }
         return salvar(grupo);
     }
 
@@ -52,9 +55,6 @@ public class GrupoService implements IGrupoService {
     }
 
     private Grupo salvar(Grupo grupo) {
-        if (!grupoRepository.findAllByDescricao(grupo.getDescricao()).isEmpty()) {
-            throw new ViolacaoIntegridadeDadosException("Não foi possível cadastrar o Grupo. Descrição já existente. ");
-        }
         return grupoRepository.save(grupo);
     }
 
