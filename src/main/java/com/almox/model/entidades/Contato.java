@@ -26,16 +26,16 @@ public class Contato extends EntidadePadrao {
 
     @NotBlank(message = "{contato.email.notblank}")
     @javax.validation.constraints.Email(message = "{contato.email.email}")
-    @Column(name = "cont_eml_email1", nullable = false, unique = true)
+    @Column(name = "cont_eml_email1", nullable = false)
     private String email1;
 
     @NotBlank(message = "{contato.email.notblank}")
     @javax.validation.constraints.Email(message = "{contato.email.email}")
-    @Column(name = "cont_eml_emai2", nullable = false, unique = true)
+    @Column(name = "cont_eml_emai2", nullable = false)
     private String email2;
 
     @NotBlank(message = "{contato.telefone.telefone.notblank}")
-    @Column(name = "cont_tel1_telefone", nullable = false, unique = true)
+    @Column(name = "cont_tel1_telefone", nullable = false)
     private String telefone1;
 
     @NotNull(message = "{contato.telefone.tipo.notnull}")
@@ -44,7 +44,7 @@ public class Contato extends EntidadePadrao {
     private TipoTelefone tipoTelefone1;
 
     @NotBlank(message = "{contato.telefone.telefone.notblank}")
-    @Column(name = "cont_tel2_telefone", nullable = false, unique = true)
+    @Column(name = "cont_tel2_telefone", nullable = false)
     private String telefone2;
 
     @NotNull(message = "{contato.telefone.tipo.notnull}")
@@ -53,7 +53,7 @@ public class Contato extends EntidadePadrao {
     private TipoTelefone tipoTelefone2;
 
     @NotBlank(message = "{contato.endereco.logradouro.notblank}")
-    @Column(name = "cont_end_logradouro", nullable = false, unique = true)
+    @Column(name = "cont_end_logradouro", nullable = false)
     private String logradouro;
 
     @Column(name = "cont_end_complemento")

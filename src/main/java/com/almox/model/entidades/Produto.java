@@ -49,12 +49,10 @@ public class Produto extends Auditavel {
     @Column(name = "prod_descricao", nullable = false, unique = true)
     private String descricao;
 
-    @NotBlank(message = "{Produto.codigoBarras.NotBlank}")
+    @NotBlank(message = "{Produto.codigoBarras.NotNull}")
     @Column(name = "prod_cod_barras", nullable = false, unique = true)
     private String codigoBarras;
 
-    @DecimalMin(value = "0.0", inclusive = false, message = "{Produto.custoMedio.DecimalMin}")
-    @NotNull(message = "{Produto.custoMedio.NotNull}")
     @Column(name = "prod_custo_medio", nullable = false)
     private BigDecimal custoMedio;
 
@@ -70,12 +68,12 @@ public class Produto extends Auditavel {
     )
     private Set<Fornecedor> fornecedores;
 
-    @NotBlank(message = "{Produto.unidadeMedida.NotBlank}")
+    @NotNull(message = "{Produto.unidadeMedida.NotBlank}")
     @Column(name = "prod_unidade_medida", nullable = false)
     @Enumerated(EnumType.STRING)
     private UnidadeMedida unidadeMedida;
 
-    @NotNull(message = "{Produto.fabricante.NotBlank}")
+    @NotNull(message = "{Produto.fabricante.NotNull}")
     @ManyToOne
     @JoinColumn(name = "fab_id")
     private Fabricante fabricante;
@@ -102,7 +100,7 @@ public class Produto extends Auditavel {
     private Grupo grupo;
 
     @OneToOne
-    @NotBlank(message = "{Produto.configuracaoEstoque.NotBlank}")
+    @NotNull(message = "{Produto.configuracaoEstoque.NotNull}")
     @JoinColumn(name = "conf_estq_id")
     private ConfiguracaoEstoqueProduto configuracaoEstoque;
 

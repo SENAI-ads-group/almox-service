@@ -13,6 +13,10 @@ import java.util.List;
 
 @Repository
 public class FornecedorRepositoryImpl implements FornecedorRepositoryCustom {
+<<<<<<< HEAD
+=======
+
+>>>>>>> d06b990... Interligação de funcionalidades
     @PersistenceContext
     private final EntityManager entityManager;
 
