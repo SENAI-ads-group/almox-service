@@ -23,7 +23,6 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -53,12 +52,11 @@ public class Produto extends Auditavel {
     @Column(name = "prod_cod_barras", nullable = false, unique = true)
     private String codigoBarras;
 
-    @Column(name = "prod_custo_medio", nullable = false)
+    @Column(name = "prod_custo_medio")
     private BigDecimal custoMedio;
 
-    @NotNull(message = "{Produto.possuiLoteValidade.NotNull}")
     @Column(name = "prod_possui_lote_validade", nullable = false)
-    private Boolean possuiLoteValidade;
+    private Boolean possuiLoteValidade = Boolean.FALSE;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
@@ -78,12 +76,6 @@ public class Produto extends Auditavel {
     @JoinColumn(name = "fab_id")
     private Fabricante fabricante;
 
-    @NotNull(message = "{Produto.fornecedor.NotBlank}")
-    @ManyToOne
-    @JoinColumn(name = "forn_id")
-    private Fabricante fornecedor;
-
-    @NotBlank(message = "{Produto.detalhes.NotBlank}")
     @Column(name = "prod_detalhes")
     private String detalhes;
 

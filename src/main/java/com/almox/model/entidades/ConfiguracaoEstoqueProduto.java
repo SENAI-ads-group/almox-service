@@ -44,13 +44,9 @@ public class ConfiguracaoEstoqueProduto extends EntidadePadrao {
     private BigDecimal estoqueMaximo;
 
     @Column(name = "conf_estq_controla_estoque_min", nullable = false)
-    private Boolean controlaEstoqueMinimo;
+    private Boolean controlaEstoqueMinimo = Boolean.FALSE;
 
     @Column(name = "conf_estq_controla_estoque_max", nullable = false)
-    private Boolean controlaEstoqueMaximo;
+    private Boolean controlaEstoqueMaximo = Boolean.FALSE;
 
-    @NotNull(message = "{ConfiguracaoEstoqueProduto.produto.NotNull}")
-    @OneToOne
-    @JoinColumn(name = "prod_id")
-    private Produto produto;
 }

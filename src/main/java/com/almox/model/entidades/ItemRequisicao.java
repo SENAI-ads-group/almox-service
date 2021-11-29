@@ -21,7 +21,7 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @Entity
 @Table(name = "itr_item_requisicao")
-public class ItemRequisicao {
+public class ItemRequisicao extends EntidadePadrao {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

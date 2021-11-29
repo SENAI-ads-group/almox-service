@@ -71,7 +71,7 @@ public abstract class Auditavel extends EntidadePadrao {
             return StatusAuditavel.EXCLUIDO;
         if (DataUtil.ocorreuHoje(dataCriacao) && dataCriacao.isEqual(dataAlteracao))
             return StatusAuditavel.NOVO;
-        else if (DataUtil.ocorreuHoje(dataAlteracao))
+        else if (DataUtil.ocorreuHoje(dataAlteracao) && dataAlteracao.isAfter(dataCriacao))
             return StatusAuditavel.ATUALIZADO_RECENTMENTE;
         return StatusAuditavel.ATIVO;
     }

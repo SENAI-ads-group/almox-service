@@ -2,7 +2,7 @@ package com.almox.api.controllers;
 
 import com.almox.security.Token;
 import com.almox.security.TokenProvider;
-import com.almox.services.impl.UsuarioService;
+import com.almox.services.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

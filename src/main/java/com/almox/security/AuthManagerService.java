@@ -27,16 +27,25 @@ public class AuthManagerService {
                 .body(BodyInserters.fromValue(usuario))
                 .retrieve()
                 .onStatus(HttpStatus::is4xxClientError, res -> {
-                    try {
-                        String jsonStr = new ObjectMapper().writeValueAsString(usuario);
-                        Mono<ErroPadraoDTO> monoErro = res.bodyToMono(ErroPadraoDTO.class);
-                        monoErro.subscribe(err -> {
-                            System.err.println("ERROR RESPONSE MESSAGE");
-                        });
-                        throw new ApplicationRuntimeException(HttpStatus.BAD_REQUEST);
-                    } catch (JsonProcessingException e) {
-                        throw new ApplicationRuntimeException(HttpStatus.INTERNAL_SERVER_ERROR);
-                    }
+                    Mono<ErroPadraoDTO> monoErro = res.bodyToMono(ErroPadraoDTO.class);
+                    monoErro.subscribe(err -> {
+                        System.err.println("ERROR RESPONSE MESSAGE");
+                    });
+                    throw new ApplicationRuntimeException(HttpStatus.FAILED_DEPENDENCY);
                 }).bodyToMono(Usuario.class).block();
+    }
+
+    public Usuario consultarUsuario(String login) {
+        return webClientAuthServer.get()
+                .uri("/usuarios/login/" + login)
+                .retrieve()
+                .onStatus(HttpStatus::is4xxClientError, res -> {
+                    Mono<ErroPadraoDTO> monoErro = res.bodyToMono(ErroPadraoDTO.class);
+                    monoErro.subscribe(err -> {
+                        System.err.println("ERROR RESPONSE MESSAGE");
+                    });
+                    throw new ApplicationRuntimeException(HttpStatus.FAILED_DEPENDENCY);
+                })
+                .bodyToMono(Usuario.class).block();
     }
 }
