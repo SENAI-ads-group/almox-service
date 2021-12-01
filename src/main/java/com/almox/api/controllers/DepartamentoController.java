@@ -8,9 +8,11 @@ import com.almox.services.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.websocket.server.PathParam;
 import java.security.Principal;
 import java.util.List;
 
@@ -34,8 +36,6 @@ public class DepartamentoController extends CrudController<Departamento, FiltroD
 
     @GetMapping("/associados-usuario-logado")
     public ResponseEntity<List<Departamento>> buscarAssociadosUsuarioLogado(Principal principal) {
-        var usuarioLogado = usuarioService.getUsuarioLogado();
-        var lista = service.buscarAssociadosUsuario(usuarioLogado);
-        return ResponseEntity.ok(service.buscarAssociadosUsuario(usuarioLogado));
+        return ResponseEntity.ok(service.buscarAssociadosUsuarioLogado());
     }
 }

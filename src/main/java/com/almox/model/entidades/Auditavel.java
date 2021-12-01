@@ -1,6 +1,8 @@
 package com.almox.model.entidades;
 
 import com.almox.converters.LocalDateTimeConverter;
+import com.almox.converters.UsuarioDTOConverter;
+import com.almox.model.dto.UsuarioDTO;
 import com.almox.model.enums.StatusAuditavel;
 import com.almox.util.DataUtil;
 import com.fasterxml.jackson.annotation.JsonBackReference;
@@ -15,8 +17,6 @@ import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.Column;
 import javax.persistence.Convert;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.Transient;
 import java.time.LocalDateTime;
@@ -44,22 +44,22 @@ public abstract class Auditavel extends EntidadePadrao {
     @Convert(converter = LocalDateTimeConverter.class)
     protected LocalDateTime dataExclusao;
 
-    @ManyToOne
-    @JoinColumn(name = "id_usr_criacao", updatable = false, nullable = false)
+    @Column(name = "id_usr_criacao")
+    @Convert(converter = UsuarioDTOConverter.class)
     @JsonBackReference("criadoPor")
     @CreatedBy
-    private Usuario criadoPor;
+    private UsuarioDTO criadoPor;
 
-    @ManyToOne
-    @JoinColumn(name = "id_usr_alteracao")
+    @Column(name = "id_usr_alteracao")
+    @Convert(converter = UsuarioDTOConverter.class)
     @JsonBackReference("alteradoPor")
     @LastModifiedBy
-    private Usuario alteradoPor;
+    private UsuarioDTO alteradoPor;
 
-    @ManyToOne
-    @JoinColumn(name = "id_usr_exclusao")
+    @Column(name = "id_usr_exclusao")
+    @Convert(converter = UsuarioDTOConverter.class)
     @JsonBackReference("excluidoPor")
-    private Usuario excluidoPor;
+    private UsuarioDTO excluidoPor;
 
     public boolean isExcluido() {
         return excluidoPor != null;

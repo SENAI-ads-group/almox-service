@@ -1,8 +1,6 @@
 package com.almox.api.controllers;
 
-import com.almox.model.dto.FiltroUsuarioDTO;
-import com.almox.model.entidades.Usuario;
-import com.almox.services.ICrudService;
+import com.almox.model.dto.UsuarioDTO;
 import com.almox.services.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -10,9 +8,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 @RequestMapping(value = "/usuarios")
-public class UsuarioController extends CrudController<Usuario, FiltroUsuarioDTO> {
+public class UsuarioController {
 
     private final UsuarioService service;
 
@@ -21,13 +21,13 @@ public class UsuarioController extends CrudController<Usuario, FiltroUsuarioDTO>
         this.service = service;
     }
 
-    @Override
-    public ICrudService<Usuario, FiltroUsuarioDTO> getService() {
-        return service;
+    @GetMapping("/logado")
+    public ResponseEntity<UsuarioDTO> usuarioLogado() {
+        return ResponseEntity.ok(service.getUsuarioLogado());
     }
 
-    @GetMapping("/logado")
-    public ResponseEntity<Usuario> usuarioLogado() {
-        return ResponseEntity.ok(service.getUsuarioLogado());
+    @GetMapping("/listar")
+    public ResponseEntity<List<UsuarioDTO>> listar() {
+        return ResponseEntity.ok(service.buscarTodos());
     }
 }

@@ -1,8 +1,8 @@
 package com.almox.services;
 
 import com.almox.model.dto.FiltroDepartamentoDTO;
+import com.almox.model.dto.UsuarioDTO;
 import com.almox.model.entidades.Departamento;
-import com.almox.model.entidades.Usuario;
 import com.almox.repositories.departamento.DepartamentoRepository;
 import com.almox.repositories.departamento.OrcamentoDepartamentoRepository;
 import com.almox.util.CondicaoUtil;
@@ -13,17 +13,21 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class DepartamentoService extends CrudService<Departamento, FiltroDepartamentoDTO> {
 
     @Getter
     private final DepartamentoRepository repository;
+    private final UsuarioService usuarioService;
     private final OrcamentoDepartamentoRepository orcamentoDepartamentoRepository;
 
     @Autowired
-    public DepartamentoService(DepartamentoRepository repository, OrcamentoDepartamentoRepository orcamentoDepartamentoRepository) {
+    public DepartamentoService(DepartamentoRepository repository, UsuarioService usuarioService, OrcamentoDepartamentoRepository orcamentoDepartamentoRepository) {
         this.repository = repository;
+        this.usuarioService = usuarioService;
         this.orcamentoDepartamentoRepository = orcamentoDepartamentoRepository;
     }
 
@@ -54,7 +58,20 @@ public class DepartamentoService extends CrudService<Departamento, FiltroDeparta
         return repository.save(entidade);
     }
 
-    public List<Departamento> buscarAssociadosUsuario(Usuario usuarioLogado) {
-        return repository.findAllByUsuariosContaining(usuarioLogado);
+    public List<Departamento> buscarAssociadosUsuarioLogado() {
+        return buscarAssociadosUsuario(usuarioService.getUsuarioLogado().getId());
+    }
+
+    public List<Departamento> buscarAssociadosUsuario(String idUsuario) {
+
+        UsuarioDTO usuarioDTO = usuarioService.buscarPorId(idUsuario);
+        return _buscarTodos()
+                .stream()
+                .filter(dpt -> {
+                    return dpt.getUsuarios()
+                            .stream()
+                            .map(UsuarioDTO::getId).anyMatch(id -> id.equals(idUsuario));
+                })
+                .collect(Collectors.toUnmodifiableList());
     }
 }

@@ -42,13 +42,11 @@ public class Requisicao extends EntidadePadrao {
     @Column(name = "req_dt_entrega")
     private LocalDateTime dataEntrega;
 
-    @ManyToOne
-    @JoinColumn(name = "usr_id_requisitante", nullable = false)
-    private Usuario requisitante;
+    @Column(name = "id_usr_requisitante", nullable = false)
+    private String requisitante;
 
-    @ManyToOne
-    @JoinColumn(name = "usr_id_almoxarife", nullable = false)
-    private Usuario almoxarife;
+    @Column(name = "id_usr_almoxarife", nullable = false)
+    private String almoxarife;
 
     @NotNull
     @ManyToOne

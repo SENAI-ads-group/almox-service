@@ -1,5 +1,6 @@
 package com.almox.model.entidades;
 
+import com.almox.model.dto.UsuarioDTO;
 import com.almox.model.enums.AcaoHistoricoItemRequisicao;
 import com.almox.model.enums.StatusItemRequisicao;
 import lombok.AllArgsConstructor;
@@ -40,9 +41,8 @@ public class HistoricoItemRequisicao extends EntidadePadrao {
     @Column(name = "hir_acao", nullable = false)
     private AcaoHistoricoItemRequisicao acao;
 
-    @ManyToOne
-    @JoinColumn(name = "id_usr_criacao", updatable = false, nullable = false)
-    private Usuario criador;
+    @Column(name = "id_usr_criacao", updatable = false, nullable = false)
+    private String criador;
 
     @ManyToOne
     @JoinColumn(name = "itr_id", updatable = false, nullable = false)

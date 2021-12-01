@@ -2,15 +2,16 @@ package com.almox.security;
 
 import com.almox.exceptions.ApplicationRuntimeException;
 import com.almox.model.dto.ErroPadraoDTO;
-import com.almox.model.entidades.Usuario;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.almox.model.dto.UsuarioDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.reactive.function.BodyInserters;
+import org.springframework.web.reactive.function.client.ClientResponse;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
+
+import java.util.List;
 
 @Service
 public class AuthManagerService {
@@ -22,30 +23,38 @@ public class AuthManagerService {
         this.webClientAuthServer = webClientAuthServer;
     }
 
-    public Usuario criarUsuario(Usuario usuario) {
-        return webClientAuthServer.post()
-                .body(BodyInserters.fromValue(usuario))
+    public UsuarioDTO buscarPorId(String id) {
+        return webClientAuthServer.get()
+                .uri("/" + id)
                 .retrieve()
-                .onStatus(HttpStatus::is4xxClientError, res -> {
-                    Mono<ErroPadraoDTO> monoErro = res.bodyToMono(ErroPadraoDTO.class);
-                    monoErro.subscribe(err -> {
-                        System.err.println("ERROR RESPONSE MESSAGE");
-                    });
-                    throw new ApplicationRuntimeException(HttpStatus.FAILED_DEPENDENCY);
-                }).bodyToMono(Usuario.class).block();
+                .onStatus(HttpStatus::is4xxClientError, this::tratarErroResponse4xx)
+                .bodyToMono(UsuarioDTO.class)
+                .block();
     }
 
-    public Usuario consultarUsuario(String login) {
+    public UsuarioDTO buscarPorLogin(String login) {
         return webClientAuthServer.get()
-                .uri("/usuarios/login/" + login)
+                .uri("/login/" + login)
                 .retrieve()
-                .onStatus(HttpStatus::is4xxClientError, res -> {
-                    Mono<ErroPadraoDTO> monoErro = res.bodyToMono(ErroPadraoDTO.class);
-                    monoErro.subscribe(err -> {
-                        System.err.println("ERROR RESPONSE MESSAGE");
-                    });
-                    throw new ApplicationRuntimeException(HttpStatus.FAILED_DEPENDENCY);
-                })
-                .bodyToMono(Usuario.class).block();
+                .onStatus(HttpStatus::is4xxClientError, this::tratarErroResponse4xx)
+                .bodyToMono(UsuarioDTO.class)
+                .block();
+    }
+
+    public List<UsuarioDTO> buscarTodos() {
+        return webClientAuthServer.get()
+                .uri("/listar/")
+                .retrieve()
+                .onStatus(HttpStatus::is4xxClientError, this::tratarErroResponse4xx)
+                .bodyToMono(new ParameterizedTypeReference<List<UsuarioDTO>>() {
+                }).block();
+    }
+
+    private Mono<ApplicationRuntimeException> tratarErroResponse4xx(ClientResponse response) {
+            Mono<String> monoErro = response.bodyToMono(String.class);
+            monoErro.subscribe(err -> {
+                System.err.println("ERROR RESPONSE MESSAGE " + err);
+            });
+        throw new ApplicationRuntimeException(HttpStatus.FAILED_DEPENDENCY);
     }
 }

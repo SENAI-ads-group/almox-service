@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class RequisicaoService extends CrudService<Requisicao, FiltroRequisicaoDTO>  {
+public class RequisicaoService extends CrudService<Requisicao, FiltroRequisicaoDTO> {
 
     @Getter
     private final RequisicaoRepository repository;
@@ -49,7 +49,7 @@ public class RequisicaoService extends CrudService<Requisicao, FiltroRequisicaoD
                 })
                 .collect(Collectors.toList());
         entidade.setItens(itens);
-        entidade.setRequisitante(usuarioService.getUsuarioLogado());
+        entidade.setRequisitante(usuarioService.getUsuarioLogado().getId());
         entidade.setStatus(StatusRequisicao.ABERTO);
 
         if (!erros.isEmpty()) {

@@ -2,11 +2,8 @@ package com.almox.services;
 
 import com.almox.exceptions.ApplicationRuntimeException;
 import com.almox.model.dto.FiltroUsuarioDTO;
-import com.almox.model.entidades.Usuario;
-import com.almox.repositories.usuario.UsuarioRepository;
+import com.almox.model.dto.UsuarioDTO;
 import com.almox.security.AuthManagerService;
-import com.almox.services.ICrudService;
-import com.almox.util.CondicaoUtil;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import lombok.extern.slf4j.Slf4j;
@@ -18,7 +15,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.ExecutionException;
@@ -38,25 +34,23 @@ import static com.almox.util.BooleanUtil.isNuloOuVazio;
 @Slf4j
 @Service
 @Transactional(readOnly = true)
-public class UsuarioService implements ICrudService<Usuario, FiltroUsuarioDTO>, AuditorAware<Usuario> {
+public class UsuarioService implements ICrudService<UsuarioDTO, FiltroUsuarioDTO>, AuditorAware<UsuarioDTO> {
 
     private static final long DURACAO_REGISTRO_NO_CACHE = 1L;
 
-    private static final Cache<String, Usuario> USR_CACHE = CacheBuilder.newBuilder()//
+    private static final Cache<String, UsuarioDTO> USR_CACHE = CacheBuilder.newBuilder()//
             .expireAfterWrite(DURACAO_REGISTRO_NO_CACHE, TimeUnit.MINUTES)//
             .build();
 
-    private final UsuarioRepository usuarioRepository;
     private final AuthManagerService authManagerService;
 
     @Autowired
-    public UsuarioService(UsuarioRepository usuarioRepository, AuthManagerService authManagerService) {
-        this.usuarioRepository = usuarioRepository;
+    public UsuarioService(AuthManagerService authManagerService) {
         this.authManagerService = authManagerService;
     }
 
     @Transactional
-    public Usuario getUsuarioLogado() {
+    public UsuarioDTO getUsuarioLogado() {
         try {
             var principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
             String loginUsuarioLogado = principal instanceof UserDetails
@@ -73,22 +67,16 @@ public class UsuarioService implements ICrudService<Usuario, FiltroUsuarioDTO>, 
 
     @Override
     @Transactional(propagation = Propagation.REQUIRES_NEW)
-    public Optional<Usuario> getCurrentAuditor() {
+    public Optional<UsuarioDTO> getCurrentAuditor() {
         return Optional.ofNullable(getUsuarioLogado());
     }
 
-    private Usuario consultarOuCriarUsuario(String login) {
+    private UsuarioDTO consultarOuCriarUsuario(String login) {
         if (isNuloOuVazio(login))
             return null;
 
         try {
-            return USR_CACHE.get(login,
-                    () -> usuarioRepository.findByLogin(login)
-                            .orElseGet(() -> {
-                                var novoUsuario = authManagerService.consultarUsuario(login);
-                                return usuarioRepository.save(novoUsuario);
-                            })
-            );
+            return USR_CACHE.get(login, () -> authManagerService.buscarPorLogin(login));
         } catch (ExecutionException e) {
             String mensagemErro = "Erro ao obter usuario logado";
             log.error(mensagemErro, e);
@@ -97,17 +85,16 @@ public class UsuarioService implements ICrudService<Usuario, FiltroUsuarioDTO>, 
     }
 
     @Override
-    public List<Usuario> buscarTodos() {
-        return usuarioRepository.findAll();
+    public List<UsuarioDTO> buscarTodos() {
+        return authManagerService.buscarTodos();
     }
 
     @Override
-    public List<Usuario> buscarTodos(FiltroUsuarioDTO filtro) {
-        return usuarioRepository.findAll(filtro);
+    public List<UsuarioDTO> buscarTodos(FiltroUsuarioDTO filtro) {
+        return authManagerService.buscarTodos();
     }
 
-    @Override
-    public Usuario buscarPorId(Long id) {
-        return CondicaoUtil.verificarEntidade(usuarioRepository.findById(id));
+    public UsuarioDTO buscarPorId(String id) {
+        return authManagerService.buscarPorId(id);
     }
 }

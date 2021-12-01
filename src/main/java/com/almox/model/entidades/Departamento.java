@@ -1,5 +1,7 @@
 package com.almox.model.entidades;
 
+import com.almox.converters.SetUsuarioDTOConverter;
+import com.almox.model.dto.UsuarioDTO;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -7,6 +9,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.Column;
+import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -37,13 +40,9 @@ public class Departamento extends Auditavel {
     @Column(name = "dpto_nome", nullable = false)
     private String nome;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(
-            name = "usr_dpto_usuarios_departamentos",
-            joinColumns = @JoinColumn(name = "dpto_id"),
-            inverseJoinColumns = @JoinColumn(name = "usr_id")
-    )
-    private Set<Usuario> usuarios;
+    @Column(name = "usuarios")
+    @Convert(converter = SetUsuarioDTOConverter.class)
+    private Set<UsuarioDTO> usuarios;
 
     @JsonIgnore
     @ManyToMany(fetch = FetchType.LAZY)

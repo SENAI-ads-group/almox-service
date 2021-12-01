@@ -9,4 +9,5 @@ import lombok.Setter;
 public class FiltroDepartamentoDTO {
     private String nome;
     private FiltroStatusAuditavel filtroStatusAuditavel;
+    private Long idProduto;
 }
