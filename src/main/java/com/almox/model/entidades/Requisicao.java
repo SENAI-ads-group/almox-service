@@ -1,5 +1,7 @@
 package com.almox.model.entidades;
 
+import com.almox.converters.UsuarioDTOConverter;
+import com.almox.model.dto.UsuarioDTO;
 import com.almox.model.enums.StatusRequisicao;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -7,6 +9,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.Column;
+import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -43,10 +46,12 @@ public class Requisicao extends EntidadePadrao {
     private LocalDateTime dataEntrega;
 
     @Column(name = "id_usr_requisitante", nullable = false)
-    private String requisitante;
+    @Convert(converter = UsuarioDTOConverter.class)
+    private UsuarioDTO requisitante;
 
     @Column(name = "id_usr_almoxarife", nullable = false)
-    private String almoxarife;
+    @Convert(converter = UsuarioDTOConverter.class)
+    private UsuarioDTO almoxarife;
 
     @NotNull
     @ManyToOne

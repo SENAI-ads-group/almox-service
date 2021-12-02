@@ -8,6 +8,7 @@ import com.almox.model.entidades.Requisicao;
 import com.almox.model.enums.StatusRequisicao;
 import com.almox.repositories.requisicao.ItemRequisicaoRepository;
 import com.almox.repositories.requisicao.RequisicaoRepository;
+import com.almox.util.CondicaoUtil;
 import com.google.common.collect.Lists;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
@@ -49,7 +50,7 @@ public class RequisicaoService extends CrudService<Requisicao, FiltroRequisicaoD
                 })
                 .collect(Collectors.toList());
         entidade.setItens(itens);
-        entidade.setRequisitante(usuarioService.getUsuarioLogado().getId());
+        entidade.setRequisitante(usuarioService.getUsuarioLogado());
         entidade.setStatus(StatusRequisicao.ABERTO);
 
         if (!erros.isEmpty()) {
@@ -78,5 +79,10 @@ public class RequisicaoService extends CrudService<Requisicao, FiltroRequisicaoD
     @Override
     protected List<Requisicao> _buscarTodos(FiltroRequisicaoDTO filtro) {
         return repository.findAll();
+    }
+
+    @Override
+    protected Requisicao _buscarPorId(Long id) {
+        return CondicaoUtil.verificarEntidade(repository.findById(id));
     }
 }
