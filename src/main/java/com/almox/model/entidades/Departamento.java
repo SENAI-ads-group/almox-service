@@ -47,7 +47,7 @@ public class Departamento extends Auditavel {
     @JsonIgnore
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
-            name = "prod_dpto_produtos_departamentos",
+            name = "produtos_departamentos",
             joinColumns = @JoinColumn(name = "dpto_id"),
             inverseJoinColumns = @JoinColumn(name = "prod_id")
     )

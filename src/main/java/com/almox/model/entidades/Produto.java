@@ -84,6 +84,11 @@ public class Produto extends Auditavel {
     private List<String> palavrasChave;
 
     @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "produtos_departamentos",
+            joinColumns = @JoinColumn(name = "prod_id"),
+            inverseJoinColumns = @JoinColumn(name = "dpto_id")
+    )
     private Set<Departamento> departamentos;
 
     @ManyToOne

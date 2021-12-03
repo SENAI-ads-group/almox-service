@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -22,12 +21,14 @@ public class DepartamentoService extends CrudService<Departamento, FiltroDeparta
     @Getter
     private final DepartamentoRepository repository;
     private final UsuarioService usuarioService;
+    private final ProdutoService produtoService;
     private final OrcamentoDepartamentoRepository orcamentoDepartamentoRepository;
 
     @Autowired
-    public DepartamentoService(DepartamentoRepository repository, UsuarioService usuarioService, OrcamentoDepartamentoRepository orcamentoDepartamentoRepository) {
+    public DepartamentoService(DepartamentoRepository repository, UsuarioService usuarioService, ProdutoService produtoService, OrcamentoDepartamentoRepository orcamentoDepartamentoRepository) {
         this.repository = repository;
         this.usuarioService = usuarioService;
+        this.produtoService = produtoService;
         this.orcamentoDepartamentoRepository = orcamentoDepartamentoRepository;
     }
 
@@ -73,5 +74,12 @@ public class DepartamentoService extends CrudService<Departamento, FiltroDeparta
                             .map(UsuarioDTO::getId).anyMatch(id -> id.equals(idUsuario));
                 })
                 .collect(Collectors.toUnmodifiableList());
+    }
+
+    public List<Departamento> buscarPorRelacaoComProduto(Long idProduto, boolean relacionados) {
+        var produto = produtoService.buscarPorId(idProduto);
+        return relacionados
+                ? repository.findAllByProduct(produto.getId())
+                : repository.findAllByNotProduct(produto.getId());
     }
 }
