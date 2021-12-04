@@ -35,6 +35,14 @@ public class RequisicaoService extends CrudService<Requisicao, FiltroRequisicaoD
 
     @Override
     protected Requisicao _criar(Requisicao entidade) {
+        // Inserir valores padrões da Requisição
+        entidade.setRequisitante(usuarioService.getUsuarioLogado());
+        entidade.setStatus(StatusRequisicao.AGUARDANDO_ATENDIMENTO);
+
+        // Salvar a requisição
+        var entidadeSalva = salvar(entidade);
+
+        // Validar cada item da requisição e salvá-los
         List<String> erros = Lists.newArrayList();
         var itens = entidade.getItens().stream()
                 .map(amostraItem -> {
@@ -42,6 +50,7 @@ public class RequisicaoService extends CrudService<Requisicao, FiltroRequisicaoD
                     item.setQuantidade(amostraItem.getQuantidade());
                     try {
                         item.setProduto(produtoService.buscarPorId(amostraItem.getProduto().getId()));
+                        item.setRequisicao(entidadeSalva);
                     } catch (EntidadeNaoEncontradaException e) {
                         erros.add("Produto não encontrado. ID: " + amostraItem.getProduto().getId());
                         return null;
@@ -49,15 +58,14 @@ public class RequisicaoService extends CrudService<Requisicao, FiltroRequisicaoD
                     return itemRequisicaoRepository.save(item);
                 })
                 .collect(Collectors.toList());
-        entidade.setItens(itens);
-        entidade.setRequisitante(usuarioService.getUsuarioLogado());
-        entidade.setStatus(StatusRequisicao.ABERTO);
 
+        // Verificar se houve erros ao salvar algum dos itens
         if (!erros.isEmpty()) {
             throw new ApplicationRuntimeException(HttpStatus.UNPROCESSABLE_ENTITY, erros.toArray(new String[0]));
         }
 
-        return salvar(entidade);
+        entidadeSalva.setItens(itens);
+        return entidadeSalva;
     }
 
     @Override

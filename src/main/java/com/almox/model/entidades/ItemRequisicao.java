@@ -1,5 +1,6 @@
 package com.almox.model.entidades;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,6 +14,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.DecimalMin;
 import java.math.BigDecimal;
 
 @Getter
@@ -28,6 +30,7 @@ public class ItemRequisicao extends EntidadePadrao {
     @Column(name = "itr_id")
     private Long id;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "req_id")
     private Requisicao requisicao;
@@ -36,6 +39,7 @@ public class ItemRequisicao extends EntidadePadrao {
     @JoinColumn(name = "prod_id")
     private Produto produto;
 
+    @DecimalMin(value = "0.0", inclusive = false, message = "{ItemRequisicao.quantidade.DecimalMin}")
     @Column(name = "itr_quantidade")
     private BigDecimal quantidade;
 

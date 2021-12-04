@@ -53,7 +53,7 @@ public class Requisicao extends EntidadePadrao {
     @Convert(converter = UsuarioDTOConverter.class)
     private UsuarioDTO almoxarife;
 
-    @NotNull
+    @NotNull(message = "{Requisicao.departamento.NotNull}")
     @ManyToOne
     @JoinColumn(name = "dpto_id")
     private Departamento departamento;

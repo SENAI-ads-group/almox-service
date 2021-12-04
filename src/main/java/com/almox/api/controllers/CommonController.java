@@ -31,6 +31,7 @@ public class CommonController {
         enums.put("tiposOrigemMovimento", Lists.newArrayList(TipoOrigemMovimento.values()));
         enums.put("tiposTelefone", Lists.newArrayList(TipoTelefone.values()));
         enums.put("unidadesMedida", Lists.newArrayList(UnidadeMedida.values()));
+        enums.put("statusRequisicoes", Lists.newArrayList(StatusRequisicao.values()));
 
         return enums;
     }

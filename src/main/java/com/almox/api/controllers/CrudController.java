@@ -51,7 +51,7 @@ public abstract class CrudController<ENTIDADE extends EntidadePadrao, FILTRO> {
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<ENTIDADE> editar(@PathVariable Long id, @RequestBody ENTIDADE entidade) {
+    public ResponseEntity<ENTIDADE> editar(@PathVariable Long id, @RequestBody @Valid ENTIDADE entidade) {
         var entidadeAtualizada = getService().atualizar(id, entidade);
         return ResponseEntity.ok().body(entidadeAtualizada);
     }

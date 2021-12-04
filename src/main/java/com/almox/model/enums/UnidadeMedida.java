@@ -7,11 +7,11 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum UnidadeMedida implements IEnum{
-    KG("Quilograma"),
-    LT("Litro"),
-    UN("Unidade"),
-    FD("Fardo"),
-    CX("Caixa");
+    KG("Quilograma(s)"),
+    LT("Litro(s)"),
+    UN("Unidade(s)"),
+    FD("Fardo(s)"),
+    CX("Caixa(s)");
 
     @Getter
     private String descricao;
