@@ -93,4 +93,36 @@ public class RequisicaoService extends CrudService<Requisicao, FiltroRequisicaoD
     protected Requisicao _buscarPorId(Long id) {
         return CondicaoUtil.verificarEntidade(repository.findById(id));
     }
+
+    public void iniciarAtendimento(Long id) {
+        var requisicao = buscarPorId(id);
+        if(StatusRequisicao.CANCELADA.equals(requisicao.getStatus())){
+            throw new ApplicationRuntimeException(HttpStatus.UNPROCESSABLE_ENTITY, "Não é possível iniciar o atendimento" +
+                    " em uma requisição que já foi cancelada!");
+        }
+        System.out.println("atendido");
+        requisicao.setStatus(StatusRequisicao.EM_ATENDIMENTO);
+        repository.save(requisicao);
+    }
+
+    public void cancelarAtendimento(Long id) {
+        var requisicao = buscarPorId(id);
+        if(StatusRequisicao.ENTREGUE.equals(requisicao.getStatus())){
+            throw new ApplicationRuntimeException(HttpStatus.UNPROCESSABLE_ENTITY, "Não é possível cancelar uma requisição" +
+                    " que já foi entregue!");
+        }
+        requisicao.setStatus(StatusRequisicao.CANCELADA);
+        repository.save(requisicao);
+    }
+
+    public void entregarAtendimento(Long id) {
+        var requisicaoEncontrada = buscarPorId(id);
+        if(StatusRequisicao.CANCELADA.equals(requisicaoEncontrada.getStatus())){
+            throw new ApplicationRuntimeException(HttpStatus.UNPROCESSABLE_ENTITY, "Não é possível entregar uma requisição" +
+                    " que já foi cancelada!");
+        }
+        requisicaoEncontrada.setStatus(StatusRequisicao.ENTREGUE);
+        repository.save(requisicaoEncontrada);
+    }
+
 }
