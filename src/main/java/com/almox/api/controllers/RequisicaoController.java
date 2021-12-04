@@ -5,8 +5,7 @@ import com.almox.model.entidades.Requisicao;
 import com.almox.services.ICrudService;
 import com.almox.services.RequisicaoService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(value = "/requisicoes")
@@ -23,4 +22,20 @@ public class RequisicaoController extends CrudController<Requisicao, FiltroRequi
     public ICrudService<Requisicao, FiltroRequisicaoDTO> getService() {
         return service;
     }
+
+    @PostMapping(value = "/iniciar-atendimento/{id}")
+    public void iniciarAtendimento(@PathVariable("id") Long id) {
+        service.iniciarAtendimento(id);
+    }
+
+    @PostMapping(value = "/cancelar-atendimento/{id}")
+    public void cancelarAtendimento(@PathVariable("id") Long id) {
+        service.cancelarAtendimento(id);
+    }
+
+    @PostMapping(value = "/entregar-atendimento/{id}")
+    public void entregarAtendimento(@PathVariable("id") Long id) {
+        service.entregarAtendimento(id);
+    }
+
 }
