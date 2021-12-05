@@ -16,6 +16,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.DecimalMin;
 import java.math.BigDecimal;
+import java.util.Objects;
 
 @Getter
 @Setter
@@ -43,4 +44,24 @@ public class ItemRequisicao extends EntidadePadrao {
     @Column(name = "itr_quantidade")
     private BigDecimal quantidade;
 
+    public void adicionarQuantidade(BigDecimal quantidadeAcrescentada) {
+        if (quantidade != null)
+            quantidade = quantidade.add(quantidadeAcrescentada);
+        else
+            quantidade = quantidadeAcrescentada;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        ItemRequisicao that = (ItemRequisicao) o;
+        return Objects.equals(id, that.id) && Objects.equals(produto, that.produto) && Objects.equals(quantidade, that.quantidade);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), id, produto, quantidade);
+    }
 }

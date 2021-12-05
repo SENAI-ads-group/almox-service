@@ -23,19 +23,19 @@ public class RequisicaoController extends CrudController<Requisicao, FiltroRequi
         return service;
     }
 
-    @PostMapping(value = "/iniciar-atendimento/{id}")
-    public void iniciarAtendimento(@PathVariable("id") Long id) {
-        service.iniciarAtendimento(id);
+    @PostMapping(value = "/atender/{id}")
+    public void atenderRequisicao(@PathVariable("id") Long id) {
+        service.atenderRequisicao(id);
     }
 
-    @PostMapping(value = "/cancelar-atendimento/{id}")
-    public void cancelarAtendimento(@PathVariable("id") Long id) {
-        service.cancelarAtendimento(id);
+    @PostMapping(value = "/cancelar/{id}")
+    public void cancelarRequisicao(@PathVariable("id") Long id) {
+        service.cancelarRequisicao(id);
     }
 
-    @PostMapping(value = "/entregar-atendimento/{id}")
-    public void entregarAtendimento(@PathVariable("id") Long id) {
-        service.entregarAtendimento(id);
+    @PostMapping(value = "/entregar/{id}")
+    public void entregarAtendimento(@PathVariable("id") Long id, @RequestBody Requisicao requisicaoEntregue) {
+        service.entregarRequisicao(id, requisicaoEntregue);
     }
 
 }

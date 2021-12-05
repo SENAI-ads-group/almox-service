@@ -4,6 +4,7 @@ import com.almox.model.entidades.HistoricoEstoqueProduto;
 import com.almox.model.entidades.ItemMovimento;
 import com.almox.model.entidades.ItemRequisicao;
 import com.almox.model.entidades.Movimento;
+import com.almox.model.entidades.Produto;
 import com.almox.model.entidades.Requisicao;
 import com.almox.model.enums.TipoDeMovimento;
 import com.almox.model.enums.TipoOrigemMovimento;
@@ -14,11 +15,13 @@ import com.almox.repositories.movimento.MovimentoRepository;
 import com.almox.repositories.produto.ProdutoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -27,64 +30,74 @@ public class MovimentoService {
 
     private final MovimentoRepository movimentoRepository;
     private final HistoricoEstoqueProdutoRepository historicoEstoqueProdutoRepository;
-    private final ProdutoRepository produtoRepository;
+    private final ProdutoService produtoService;
     private final ConfiguracaoEstoqueProdutoRepository configuracaoEstoqueProdutoRepository;
     private final ItemMovimentoRepository itemMovimentoRepository;
 
-    private Map<Class<?>, TipoDeMovimento> mapaTipoMovimentoAplicadoParaCadaOrigem = Map.of(
+    private final Map<Class<?>, TipoDeMovimento> mapaTipoMovimentoAplicadoParaCadaOrigem = Map.of(
             Requisicao.class, TipoDeMovimento.SAIDA
     );
 
-    private Map<Class<?>, TipoOrigemMovimento> mapaTipoOrigemMovimentoAplicadoParaCadaOrigem = Map.of(
+    private final Map<Class<?>, TipoOrigemMovimento> mapaTipoOrigemMovimentoAplicadoParaCadaOrigem = Map.of(
             Requisicao.class, TipoOrigemMovimento.REQUISICAO
     );
 
     @Autowired
     public MovimentoService(MovimentoRepository movimentoRepository, HistoricoEstoqueProdutoRepository historicoEstoqueProdutoRepository,
-                            ProdutoRepository produtoRepository, ConfiguracaoEstoqueProdutoRepository configuracaoEstoqueProdutoRepository,
+                            ProdutoService produtoService, ConfiguracaoEstoqueProdutoRepository configuracaoEstoqueProdutoRepository,
                             ItemMovimentoRepository itemMovimentoRepository) {
         this.movimentoRepository = movimentoRepository;
         this.historicoEstoqueProdutoRepository = historicoEstoqueProdutoRepository;
-        this.produtoRepository = produtoRepository;
+        this.produtoService = produtoService;
         this.configuracaoEstoqueProdutoRepository = configuracaoEstoqueProdutoRepository;
         this.itemMovimentoRepository = itemMovimentoRepository;
     }
-    
+
+    @Transactional
     public Movimento movimentarProdutosRequisicao(Requisicao requisicao) {
+        Movimento movimento = movimentoRepository.save(
+                Movimento.builder()
+                        .dataCriacao(LocalDateTime.now())
+                        .criadoPor(requisicao.getAlmoxarife())
+                        .data(LocalDate.now())
+                        .tipoDeMovimento(mapaTipoMovimentoAplicadoParaCadaOrigem.get(requisicao.getClass()))
+                        .tipoOrigemMovimento(mapaTipoOrigemMovimentoAplicadoParaCadaOrigem.get(requisicao.getClass()))
+                        .idOrigem(requisicao.getId())
+                        .build()
+        );
+
         Set<ItemMovimento> itensMovimento = requisicao.getItens().stream()
-                .map(this::criarItemMovimento)
+                .map(itemRequisicao -> criarItemMovimento(itemRequisicao, movimento))
                 .peek(this::gerarHistoricoEstoqueProduto)
                 .collect(Collectors.toSet());
         var custoBrutoMovimento = itensMovimento.stream()
                 .map(ItemMovimento::getCustoBruto)
+                .filter(Objects::nonNull)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
         var custoLiquidoMovimento = itensMovimento.stream()
                 .map(ItemMovimento::getCustoLiquido)
+                .filter(Objects::nonNull)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
 
-        Movimento movimento = new Movimento();
-        movimento.setData(LocalDate.now());
-        movimento.setTipoDeMovimento(mapaTipoMovimentoAplicadoParaCadaOrigem.get(requisicao.getClass()));
-        movimento.setTipoOrigemMovimento(mapaTipoOrigemMovimentoAplicadoParaCadaOrigem.get(requisicao.getClass()));
-        movimento.setIdOrigem(requisicao.getId());
         movimento.setItens(itensMovimento);
         movimento.setCustoBruto(custoBrutoMovimento);
         movimento.setCustoLiquido(custoLiquidoMovimento);
         return movimentoRepository.save(movimento);
     }
 
-    private ItemMovimento criarItemMovimento(ItemRequisicao itemRequisicao) {
+    private ItemMovimento criarItemMovimento(ItemRequisicao itemRequisicao, Movimento movimento) {
         var produtoRequisicao = itemRequisicao.getProduto();
         ItemMovimento itemMovimento = new ItemMovimento();
+        itemMovimento.setMovimento(movimento);
         itemMovimento.setQuantidade(itemRequisicao.getQuantidade());
         itemMovimento.setProduto(produtoRequisicao);
         itemMovimento.setCustoLiquido(produtoRequisicao.getCustoMedio()); // patrick.ribeiro: rever esse cálculo de custo
         itemMovimento.setCustoBruto(produtoRequisicao.getCustoMedio()); // patrick.ribeiro: rever esse cálculo de custo
-        return itemMovimento;
+        return itemMovimentoRepository.save(itemMovimento);
     }
 
     private HistoricoEstoqueProduto gerarHistoricoEstoqueProduto(ItemMovimento itemMovimento) {
-        var produto = itemMovimento.getProduto();
+        var produto = produtoService.buscarPorId(itemMovimento.getProduto().getId());
         var estoqueAnterior = produto.getConfiguracaoEstoque().getEstoqueAtual();
         var estoqueFinal = calcularEstoqueFinal(estoqueAnterior, itemMovimento);
 

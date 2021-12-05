@@ -40,12 +40,12 @@ public class ItemMovimento extends EntidadePadrao {
     @Column(name = "itm_quantidade", nullable = false)
     private BigDecimal quantidade;
 
-    @DecimalMin(value = "0.0", inclusive = false, message = "{ItemMovimento.custoLiquido.DecimalMin}")
-    @Column(name = "itm_custo_liquido", nullable = false)
+    @DecimalMin(value = "0.0", message = "{ItemMovimento.custoLiquido.DecimalMin}")
+    @Column(name = "itm_custo_liquido")
     private BigDecimal custoLiquido;
 
-    @DecimalMin(value = "0.0", inclusive = false, message = "{ItemMovimento.custoBruto.DecimalMin}")
-    @Column(name = "itm_custo_bruto", nullable = false)
+    @DecimalMin(value = "0.0", message = "{ItemMovimento.custoBruto.DecimalMin}")
+    @Column(name = "itm_custo_bruto")
     private BigDecimal custoBruto;
 
     @NotNull(message = "{itemMovimento.movimento.notnull}")

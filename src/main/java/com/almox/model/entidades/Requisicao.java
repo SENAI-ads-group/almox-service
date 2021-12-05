@@ -25,6 +25,7 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -64,6 +65,6 @@ public class Requisicao extends EntidadePadrao {
 
     @NotEmpty(message = "{Requisicao.itens.NotEmpty}")
     @OneToMany(mappedBy = "requisicao", fetch = FetchType.EAGER)
-    private List<ItemRequisicao> itens;
+    private Set<ItemRequisicao> itens;
 
 }
