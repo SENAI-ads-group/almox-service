@@ -65,8 +65,9 @@ public abstract class CrudService<T extends EntidadePadrao, F> implements ICrudS
             auditavel.setDataExclusao(LocalDateTime.now());
             auditavel.setExcluidoPor(usuarioService.getUsuarioLogado());
             getRepository().save(entidadeEncontrada);
+        } else {
+            _excluir(entidadeEncontrada);
         }
-        _excluir(entidadeEncontrada);
     }
 
     protected abstract CrudRepository<T> getRepository();

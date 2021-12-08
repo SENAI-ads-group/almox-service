@@ -97,7 +97,7 @@ public class RequisicaoService extends CrudService<Requisicao, FiltroRequisicaoD
 
     @Override
     protected List<Requisicao> _buscarTodos(FiltroRequisicaoDTO filtro) {
-        return repository.findAll();
+        return repository.findAll(filtro);
     }
 
     @Override

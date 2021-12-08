@@ -8,6 +8,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.codehaus.jackson.annotate.JsonManagedReference;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -65,6 +66,7 @@ public class Movimento extends Auditavel {
     @Column(name = "mov_tipoOrigemMovimento")
     private TipoOrigemMovimento tipoOrigemMovimento;
 
+    @JsonManagedReference
     @OneToMany(mappedBy = "movimento", fetch = FetchType.EAGER)
     private Set<ItemMovimento> itens;
 

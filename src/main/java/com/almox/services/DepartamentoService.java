@@ -6,6 +6,7 @@ import com.almox.model.entidades.Departamento;
 import com.almox.repositories.departamento.DepartamentoRepository;
 import com.almox.repositories.departamento.OrcamentoDepartamentoRepository;
 import com.almox.util.CondicaoUtil;
+import com.google.common.collect.Lists;
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -78,8 +79,9 @@ public class DepartamentoService extends CrudService<Departamento, FiltroDeparta
 
     public List<Departamento> buscarPorRelacaoComProduto(Long idProduto, boolean relacionados) {
         var produto = produtoService.buscarPorId(idProduto);
-        return relacionados
+        return (relacionados
                 ? repository.findAllByProduct(produto.getId())
-                : repository.findAllByNotProduct(produto.getId());
+                : repository.findAllByNotProduct(produto.getId())
+        ).stream().distinct().collect(Collectors.toList());
     }
 }

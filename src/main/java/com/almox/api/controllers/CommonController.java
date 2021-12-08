@@ -26,6 +26,7 @@ public class CommonController {
         enums.put("statusItemRequisicao", Lists.newArrayList(StatusItemRequisicao.values()));
         enums.put("statusOrcamento", Lists.newArrayList(StatusOrcamento.values()));
         enums.put("statusRequisicao", Lists.newArrayList(StatusRequisicao.values()));
+        enums.put("statusPedido", Lists.newArrayList(StatusPedido.values()));
         enums.put("tiposDeMovimento", Lists.newArrayList(TipoDeMovimento.values()));
         enums.put("tiposEndereco", Lists.newArrayList(TipoEndereco.values()));
         enums.put("tiposOrigemMovimento", Lists.newArrayList(TipoOrigemMovimento.values()));

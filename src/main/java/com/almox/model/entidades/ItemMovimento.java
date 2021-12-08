@@ -1,6 +1,10 @@
 package com.almox.model.entidades;
 
 
+import com.almox.model.enums.TipoDeMovimento;
+import com.almox.model.enums.TipoOrigemMovimento;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,6 +18,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
@@ -48,9 +53,17 @@ public class ItemMovimento extends EntidadePadrao {
     @Column(name = "itm_custo_bruto")
     private BigDecimal custoBruto;
 
+    @JsonBackReference
     @NotNull(message = "{itemMovimento.movimento.notnull}")
     @ManyToOne
     @JoinColumn(name = "mov_id", nullable = false)
     private Movimento movimento;
+
+    @Transient
+    private TipoDeMovimento tipoDeMovimento;
+    @Transient
+    private TipoOrigemMovimento tipoOrigemMovimento;
+    @Transient
+    private Long idOrigem;
 
 }

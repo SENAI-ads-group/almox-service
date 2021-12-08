@@ -1,11 +1,15 @@
 package com.almox.model.entidades;
 
+import com.almox.converters.UsuarioDTOConverter;
+import com.almox.model.dto.UsuarioDTO;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.Column;
+import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -43,7 +47,12 @@ public class HistoricoEstoqueProduto extends EntidadePadrao {
     private ItemMovimento itemMovimento;
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "prod_id", nullable = false)
     private Produto produto;
+
+    @Column(name = "hep_usuario", nullable = false)
+    @Convert(converter = UsuarioDTOConverter.class)
+    private UsuarioDTO usuario;
 
 }
