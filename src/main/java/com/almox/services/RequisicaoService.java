@@ -109,6 +109,8 @@ public class RequisicaoService extends CrudService<Requisicao, FiltroRequisicaoD
         var requisicao = buscarPorId(id);
         if (StatusRequisicao.CANCELADA.equals(requisicao.getStatus()))
             throw new RegraNegocioException("Não é possível iniciar o atendimento em uma requisição que já foi cancelada");
+        if(!usuarioService.getUsuarioLogado().equals(requisicao.getAlmoxarife()))
+            throw new RegraNegocioException("Apenas o Almoxarife responsável pode atender uma requisição");
 
         requisicao.setStatus(StatusRequisicao.EM_ATENDIMENTO);
         repository.save(requisicao);

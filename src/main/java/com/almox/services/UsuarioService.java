@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 import static com.almox.util.BooleanUtil.isNuloOuVazio;
 
@@ -91,7 +92,13 @@ public class UsuarioService implements ICrudService<UsuarioDTO, FiltroUsuarioDTO
 
     @Override
     public List<UsuarioDTO> buscarTodos(FiltroUsuarioDTO filtro) {
-        return authManagerService.buscarTodos();
+        return authManagerService.buscarTodos()
+                .stream()
+                .filter(usr -> usr.getRoles()
+                        .stream()
+                        .map(UsuarioDTO.RoleDTO::getRoleName)
+                        .collect(Collectors.toList()).contains(filtro.getTipoUsuario().name())
+                ).collect(Collectors.toList());
     }
 
     public UsuarioDTO buscarPorId(String id) {

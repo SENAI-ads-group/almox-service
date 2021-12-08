@@ -1,6 +1,8 @@
 package com.almox.api.controllers;
 
+import com.almox.model.dto.FiltroUsuarioDTO;
 import com.almox.model.dto.UsuarioDTO;
+import com.almox.model.enums.TipoUsuario;
 import com.almox.services.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -29,5 +31,12 @@ public class UsuarioController {
     @GetMapping("/listar")
     public ResponseEntity<List<UsuarioDTO>> listar() {
         return ResponseEntity.ok(service.buscarTodos());
+    }
+
+    @GetMapping("/listar-almoxarifes")
+    public ResponseEntity<List<UsuarioDTO>> listarAlmoxarifes() {
+        FiltroUsuarioDTO filtro = new FiltroUsuarioDTO();
+        filtro.setTipoUsuario(TipoUsuario.ALMOXARIFE);
+        return ResponseEntity.ok(service.buscarTodos(filtro));
     }
 }
