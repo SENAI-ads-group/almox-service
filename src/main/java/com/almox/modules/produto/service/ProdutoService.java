@@ -2,7 +2,6 @@ package com.almox.modules.produto.service;
 
 import com.almox.core.exceptions.ViolacaoIntegridadeDadosException;
 import com.almox.modules.produto.model.FiltroProdutoDTO;
-import com.almox.modules.produto.model.IProdutoService;
 import com.almox.modules.produto.model.Produto;
 import com.almox.modules.produto.repository.ProdutoRepository;
 import com.almox.modules.usuario.UsuarioService;

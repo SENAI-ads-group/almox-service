@@ -2,7 +2,7 @@ package com.almox.modules.requisicao.service;
 
 import com.almox.core.exceptions.ApplicationRuntimeException;
 import com.almox.core.exceptions.EntidadeNaoEncontradaException;
-import com.almox.modules.produto.model.IProdutoService;
+import com.almox.modules.produto.service.IProdutoService;
 import com.almox.modules.requisicao.repository.ItemRequisicaoRepository;
 import com.almox.modules.requisicao.repository.RequisicaoRepository;
 import com.almox.modules.requisicao.model.ItemRequisicao;

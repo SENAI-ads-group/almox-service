@@ -28,9 +28,8 @@ public class Contato extends EntidadePadrao {
     @Column(name = "cont_eml_email1", nullable = false)
     private String email1;
 
-    @NotBlank(message = "{contato.email.notblank}")
     @javax.validation.constraints.Email(message = "{contato.email.email}")
-    @Column(name = "cont_eml_emai2", nullable = false)
+    @Column(name = "cont_eml_emai2")
     private String email2;
 
     @NotBlank(message = "{contato.telefone.telefone.notblank}")

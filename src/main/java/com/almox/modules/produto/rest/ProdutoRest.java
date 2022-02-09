@@ -3,7 +3,7 @@ package com.almox.modules.produto.rest;
 import com.almox.modules.common.CrudRest;
 import com.almox.modules.common.ICrudService;
 import com.almox.modules.produto.model.FiltroProdutoDTO;
-import com.almox.modules.produto.model.IProdutoService;
+import com.almox.modules.produto.service.IProdutoService;
 import com.almox.modules.produto.model.Produto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
