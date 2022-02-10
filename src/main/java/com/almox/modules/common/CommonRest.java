@@ -1,10 +1,11 @@
 package com.almox.modules.common;
 
-import com.almox.modules.auditavel.FiltroStatusAuditavel;
-import com.almox.modules.auditavel.StatusAuditavel;
+import com.almox.modules.auditoria.FiltroStatusAuditavel;
+import com.almox.modules.auditoria.StatusAuditavel;
 import com.almox.modules.movimento.model.TipoDeMovimento;
 import com.almox.modules.movimento.model.TipoOrigemMovimento;
-import com.almox.modules.orcamento.model.StatusOrcamento;
+import com.almox.modules.orcamento.StatusOrcamento;
+import com.almox.modules.pedido.model.StatusPedido;
 import com.almox.modules.pessoa.TipoEndereco;
 import com.almox.modules.pessoa.TipoTelefone;
 import com.almox.modules.produto.model.UnidadeMedida;
@@ -36,11 +37,13 @@ public class CommonRest {
         enums.put("statusItemRequisicao", Lists.newArrayList(StatusItemRequisicao.values()));
         enums.put("statusOrcamento", Lists.newArrayList(StatusOrcamento.values()));
         enums.put("statusRequisicao", Lists.newArrayList(StatusRequisicao.values()));
+        enums.put("statusPedido", Lists.newArrayList(StatusPedido.values()));
         enums.put("tiposDeMovimento", Lists.newArrayList(TipoDeMovimento.values()));
         enums.put("tiposEndereco", Lists.newArrayList(TipoEndereco.values()));
         enums.put("tiposOrigemMovimento", Lists.newArrayList(TipoOrigemMovimento.values()));
         enums.put("tiposTelefone", Lists.newArrayList(TipoTelefone.values()));
         enums.put("unidadesMedida", Lists.newArrayList(UnidadeMedida.values()));
+        enums.put("statusRequisicoes", Lists.newArrayList(StatusRequisicao.values()));
 
         return enums;
     }

@@ -1,6 +1,8 @@
 package com.almox.modules.requisicao.model;
 
+import com.almox.modules.common.EntidadePadrao;
 import com.almox.modules.produto.model.Produto;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,7 +16,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.DecimalMin;
 import java.math.BigDecimal;
+import java.util.Objects;
 
 @Getter
 @Setter
@@ -22,13 +26,14 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @Entity
 @Table(name = "itr_item_requisicao")
-public class ItemRequisicao {
+public class ItemRequisicao extends EntidadePadrao {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "itr_id")
     private Long id;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "req_id")
     private Requisicao requisicao;
@@ -37,7 +42,28 @@ public class ItemRequisicao {
     @JoinColumn(name = "prod_id")
     private Produto produto;
 
+    @DecimalMin(value = "0.0", inclusive = false, message = "{ItemRequisicao.quantidade.DecimalMin}")
     @Column(name = "itr_quantidade")
     private BigDecimal quantidade;
 
+    public void adicionarQuantidade(BigDecimal quantidadeAcrescentada) {
+        if (quantidade != null)
+            quantidade = quantidade.add(quantidadeAcrescentada);
+        else
+            quantidade = quantidadeAcrescentada;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        ItemRequisicao that = (ItemRequisicao) o;
+        return Objects.equals(id, that.id) && Objects.equals(produto, that.produto) && Objects.equals(quantidade, that.quantidade);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), id, produto, quantidade);
+    }
 }

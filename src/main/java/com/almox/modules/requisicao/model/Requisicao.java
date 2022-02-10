@@ -1,14 +1,16 @@
 package com.almox.modules.requisicao.model;
 
+import com.almox.core.converters.UsuarioDTOConverter;
+import com.almox.modules.usuario.model.UsuarioDTO;
 import com.almox.modules.departamento.model.Departamento;
 import com.almox.modules.common.EntidadePadrao;
-import com.almox.modules.usuario.model.Usuario;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.Column;
+import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -21,8 +23,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
-import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -40,10 +43,18 @@ public class Requisicao extends EntidadePadrao {
     @Column(name = "req_dt_requisicao", nullable = false)
     private LocalDateTime dataRequisicao;
 
-    @ManyToOne
-    @JoinColumn(name = "usr_id_requisitante")
-    private Usuario requisitante;
+    @Column(name = "req_dt_entrega")
+    private LocalDateTime dataEntrega;
 
+    @Column(name = "id_usr_requisitante", nullable = false)
+    @Convert(converter = UsuarioDTOConverter.class)
+    private UsuarioDTO requisitante;
+
+    @Column(name = "id_usr_almoxarife", nullable = false)
+    @Convert(converter = UsuarioDTOConverter.class)
+    private UsuarioDTO almoxarife;
+
+    @NotNull(message = "{Requisicao.departamento.NotNull}")
     @ManyToOne
     @JoinColumn(name = "dpto_id")
     private Departamento departamento;
@@ -54,6 +65,6 @@ public class Requisicao extends EntidadePadrao {
 
     @NotEmpty(message = "{Requisicao.itens.NotEmpty}")
     @OneToMany(mappedBy = "requisicao", fetch = FetchType.EAGER)
-    private List<ItemRequisicao> itens;
+    private Set<ItemRequisicao> itens;
 
 }

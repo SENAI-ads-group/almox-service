@@ -1,7 +1,7 @@
 package com.almox.modules.produto.model;
 
 import com.almox.core.converters.ListaPalavraChaveConverter;
-import com.almox.modules.auditavel.Auditavel;
+import com.almox.modules.auditoria.Auditavel;
 import com.almox.modules.departamento.model.Departamento;
 import com.almox.modules.fabricante.model.Fabricante;
 import com.almox.modules.fornecedor.model.Fornecedor;
@@ -56,12 +56,11 @@ public class Produto extends Auditavel {
     @Column(name = "prod_cod_barras", nullable = false, unique = true)
     private String codigoBarras;
 
-    @Column(name = "prod_custo_medio", nullable = false)
+    @Column(name = "prod_custo_medio")
     private BigDecimal custoMedio;
 
-    @NotNull(message = "{Produto.possuiLoteValidade.NotNull}")
     @Column(name = "prod_possui_lote_validade", nullable = false)
-    private Boolean possuiLoteValidade;
+    private Boolean possuiLoteValidade = Boolean.FALSE;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
@@ -81,11 +80,6 @@ public class Produto extends Auditavel {
     @JoinColumn(name = "fab_id")
     private Fabricante fabricante;
 
-    @NotNull(message = "{Produto.fornecedor.NotNull}")
-    @ManyToOne
-    @JoinColumn(name = "forn_id")
-    private Fabricante fornecedor;
-
     @Column(name = "prod_detalhes")
     private String detalhes;
 
@@ -94,6 +88,11 @@ public class Produto extends Auditavel {
     private List<String> palavrasChave;
 
     @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "produtos_departamentos",
+            joinColumns = @JoinColumn(name = "prod_id"),
+            inverseJoinColumns = @JoinColumn(name = "dpto_id")
+    )
     private Set<Departamento> departamentos;
 
     @ManyToOne

@@ -1,9 +1,10 @@
 package com.almox.modules.departamento.model;
 
-import com.almox.modules.auditavel.Auditavel;
-import com.almox.modules.orcamento.model.OrcamentoDepartamento;
+import com.almox.core.converters.SetUsuarioDTOConverter;
+import com.almox.modules.usuario.model.UsuarioDTO;
+import com.almox.modules.auditoria.Auditavel;
+import com.almox.modules.orcamento.OrcamentoDepartamento;
 import com.almox.modules.produto.model.Produto;
-import com.almox.modules.usuario.model.Usuario;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -11,6 +12,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.Column;
+import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -41,18 +43,14 @@ public class Departamento extends Auditavel {
     @Column(name = "dpto_nome", nullable = false)
     private String nome;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(
-            name = "usr_dpto_usuarios_departamentos",
-            joinColumns = @JoinColumn(name = "dpto_id"),
-            inverseJoinColumns = @JoinColumn(name = "usr_id")
-    )
-    private Set<Usuario> usuarios;
+    @Column(name = "usuarios")
+    @Convert(converter = SetUsuarioDTOConverter.class)
+    private Set<UsuarioDTO> usuarios;
 
     @JsonIgnore
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
-            name = "prod_dpto_produtos_departamentos",
+            name = "produtos_departamentos",
             joinColumns = @JoinColumn(name = "dpto_id"),
             inverseJoinColumns = @JoinColumn(name = "prod_id")
     )

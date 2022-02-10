@@ -6,6 +6,5 @@ import com.almox.modules.produto.model.Produto;
 import java.util.List;
 
 public interface ProdutoRepositoryCustom {
-
     public List<Produto> findAll(FiltroProdutoDTO filtro);
 }

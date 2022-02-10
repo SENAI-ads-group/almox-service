@@ -4,10 +4,7 @@ import com.almox.modules.pessoa.Contato;
 import com.almox.modules.pessoa.PessoaJuridica;
 import com.almox.modules.produto.model.Produto;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -32,10 +29,12 @@ public class Fabricante extends PessoaJuridica {
     @Column(name = "fab_id")
     private Long id;
 
+    @Builder
     public Fabricante(Long id, String razaoSocial, String cnpj, String nomeFantasia, Contato contato) {
         super(razaoSocial, cnpj, nomeFantasia, contato);
         this.id = id;
     }
+
     @JsonIgnore
     @OneToMany(mappedBy = "fabricante", fetch = FetchType.LAZY)
     private Set<Produto> produtosFornecidos;

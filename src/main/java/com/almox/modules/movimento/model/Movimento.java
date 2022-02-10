@@ -1,10 +1,13 @@
 package com.almox.modules.movimento.model;
 
-import com.almox.modules.auditavel.Auditavel;
+import com.almox.modules.usuario.model.UsuarioDTO;
+import com.almox.modules.auditoria.Auditavel;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.codehaus.jackson.annotate.JsonManagedReference;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -17,10 +20,10 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.DecimalMin;
-import javax.validation.constraints.Future;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Set;
 
 @Getter
@@ -36,34 +39,48 @@ public class Movimento extends Auditavel {
     @Column(name = "mov_id")
     private Long id;
 
-    @Future(message = "{movimento.data.futureorpresent}")
     @NotNull(message = "{movimento.data.notnull}")
     @Column(name = "mov_data", nullable = false)
     private LocalDate data;
 
-    @NotNull(message = "{movimento.tipoDeMovimento.notnull}")
     @Enumerated(EnumType.STRING)
-    @Column(name = "mov_tipoDeMovimento", nullable = false)
+    @Column(name = "mov_tipoDeMovimento")
     private TipoDeMovimento tipoDeMovimento;
 
-    @DecimalMin(value = "0.0", inclusive = false, message = "{Movimento.custoLiquido.DecimalMin}")
-    @Column(name = "mov_custo_liquido", nullable = false)
+    @DecimalMin(value = "0.0", message = "{Movimento.custoLiquido.DecimalMin}")
+    @Column(name = "mov_custo_liquido")
     private BigDecimal custoLiquido;
 
-    @DecimalMin(value = "0.0", inclusive = false, message = "{Movimento.custoBruto.DecimalMin}")
-    @Column(name = "mov_custo_bruto", nullable = false)
+    @DecimalMin(value = "0.0", message = "{Movimento.custoBruto.DecimalMin}")
+    @Column(name = "mov_custo_bruto")
     private BigDecimal custoBruto;
 
     @NotNull(message = "{movimento.idorigem.notnull}")
-    @Column(name = "mov_id_origem", nullable = false, unique = true)
+    @Column(name = "mov_id_origem", nullable = false)
     private Long idOrigem;
 
     @NotNull(message = "{movimento.tipoOrigemMovimento.notnull}")
     @Enumerated(EnumType.STRING)
-    @Column(name = "mov_tipoOrigemMovimento", unique = true)
+    @Column(name = "mov_tipoOrigemMovimento")
     private TipoOrigemMovimento tipoOrigemMovimento;
 
+    @JsonManagedReference
     @OneToMany(mappedBy = "movimento", fetch = FetchType.EAGER)
     private Set<ItemMovimento> itens;
 
+    @Builder
+    public Movimento(LocalDateTime dataCriacao, LocalDateTime dataAlteracao, LocalDateTime dataExclusao,
+                     UsuarioDTO criadoPor, UsuarioDTO alteradoPor, UsuarioDTO excluidoPor, Long id,
+                     LocalDate data, TipoDeMovimento tipoDeMovimento, BigDecimal custoLiquido, BigDecimal custoBruto,
+                     Long idOrigem, TipoOrigemMovimento tipoOrigemMovimento, Set<ItemMovimento> itens) {
+        super(dataCriacao, dataAlteracao, dataExclusao, criadoPor, alteradoPor, excluidoPor);
+        this.id = id;
+        this.data = data;
+        this.tipoDeMovimento = tipoDeMovimento;
+        this.custoLiquido = custoLiquido;
+        this.custoBruto = custoBruto;
+        this.idOrigem = idOrigem;
+        this.tipoOrigemMovimento = tipoOrigemMovimento;
+        this.itens = itens;
+    }
 }

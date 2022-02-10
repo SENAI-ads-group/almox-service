@@ -6,6 +6,5 @@ import com.almox.modules.fabricante.model.FiltroFabricanteDTO;
 import java.util.List;
 
 public interface FabricanteRepositoryCustom {
-
-    public List<Fabricante> findAll(FiltroFabricanteDTO filtro);
+    List<Fabricante> findAll(FiltroFabricanteDTO filtro);
 }

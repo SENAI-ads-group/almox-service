@@ -1,7 +1,7 @@
 package com.almox.modules.pessoa;
 
 
-import com.almox.modules.auditavel.Auditavel;
+import com.almox.modules.auditoria.Auditavel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

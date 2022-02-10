@@ -1,6 +1,6 @@
 package com.almox.modules.usuario.model;
 
-import com.almox.modules.auditavel.FiltroStatusAuditavel;
+import com.almox.modules.auditoria.FiltroStatusAuditavel;
 import lombok.Getter;
 import lombok.Setter;
 

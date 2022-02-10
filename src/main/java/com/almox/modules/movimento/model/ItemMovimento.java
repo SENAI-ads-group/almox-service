@@ -3,6 +3,7 @@ package com.almox.modules.movimento.model;
 
 import com.almox.modules.common.EntidadePadrao;
 import com.almox.modules.produto.model.Produto;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,6 +17,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
@@ -42,17 +44,25 @@ public class ItemMovimento extends EntidadePadrao {
     @Column(name = "itm_quantidade", nullable = false)
     private BigDecimal quantidade;
 
-    @DecimalMin(value = "0.0", inclusive = false, message = "{ItemMovimento.custoLiquido.DecimalMin}")
-    @Column(name = "itm_custo_liquido", nullable = false)
+    @DecimalMin(value = "0.0", message = "{ItemMovimento.custoLiquido.DecimalMin}")
+    @Column(name = "itm_custo_liquido")
     private BigDecimal custoLiquido;
 
-    @DecimalMin(value = "0.0", inclusive = false, message = "{ItemMovimento.custoBruto.DecimalMin}")
-    @Column(name = "itm_custo_bruto", nullable = false)
+    @DecimalMin(value = "0.0", message = "{ItemMovimento.custoBruto.DecimalMin}")
+    @Column(name = "itm_custo_bruto")
     private BigDecimal custoBruto;
 
+    @JsonBackReference
     @NotNull(message = "{itemMovimento.movimento.notnull}")
     @ManyToOne
     @JoinColumn(name = "mov_id", nullable = false)
     private Movimento movimento;
+
+    @Transient
+    private TipoDeMovimento tipoDeMovimento;
+    @Transient
+    private TipoOrigemMovimento tipoOrigemMovimento;
+    @Transient
+    private Long idOrigem;
 
 }

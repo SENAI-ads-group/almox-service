@@ -1,6 +1,6 @@
 package com.almox.modules.departamento.model;
 
-import com.almox.modules.auditavel.FiltroStatusAuditavel;
+import com.almox.modules.auditoria.FiltroStatusAuditavel;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -9,4 +9,5 @@ import lombok.Setter;
 public class FiltroDepartamentoDTO {
     private String nome;
     private FiltroStatusAuditavel filtroStatusAuditavel;
+    private Long idProduto;
 }

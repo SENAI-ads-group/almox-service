@@ -1,6 +1,6 @@
 package com.almox.core.repository;
 
-import com.almox.modules.auditavel.FiltroStatusAuditavel;
+import com.almox.modules.auditoria.FiltroStatusAuditavel;
 import com.almox.modules.util.BooleanUtil;
 
 import javax.persistence.EntityManager;

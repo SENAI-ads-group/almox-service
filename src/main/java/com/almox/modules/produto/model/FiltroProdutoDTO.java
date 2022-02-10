@@ -3,7 +3,7 @@ package com.almox.modules.produto.model;
 import com.almox.modules.departamento.model.Departamento;
 import com.almox.modules.fornecedor.model.Fornecedor;
 import com.almox.modules.grupo.model.Grupo;
-import com.almox.modules.auditavel.FiltroStatusAuditavel;
+import com.almox.modules.auditoria.FiltroStatusAuditavel;
 import lombok.Getter;
 import lombok.Setter;
 

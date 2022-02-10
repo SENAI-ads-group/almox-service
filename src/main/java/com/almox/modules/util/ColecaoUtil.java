@@ -1,7 +1,7 @@
 package com.almox.modules.util;
 
-import com.almox.modules.auditavel.Auditavel;
-import com.almox.modules.auditavel.FiltroStatusAuditavel;
+import com.almox.modules.auditoria.Auditavel;
+import com.almox.modules.auditoria.FiltroStatusAuditavel;
 
 import java.util.ArrayList;
 import java.util.Collection;

@@ -11,8 +11,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotNull;
@@ -45,13 +43,9 @@ public class ConfiguracaoEstoqueProduto extends EntidadePadrao {
     private BigDecimal estoqueMaximo;
 
     @Column(name = "conf_estq_controla_estoque_min", nullable = false)
-    private Boolean controlaEstoqueMinimo;
+    private Boolean controlaEstoqueMinimo = Boolean.FALSE;
 
     @Column(name = "conf_estq_controla_estoque_max", nullable = false)
-    private Boolean controlaEstoqueMaximo;
+    private Boolean controlaEstoqueMaximo = Boolean.FALSE;
 
-    @NotNull(message = "{ConfiguracaoEstoqueProduto.produto.NotNull}")
-    @OneToOne
-    @JoinColumn(name = "prod_id")
-    private Produto produto;
 }

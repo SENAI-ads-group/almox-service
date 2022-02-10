@@ -8,9 +8,10 @@ import lombok.Getter;
 
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum StatusRequisicao implements IEnum {
-    PENDENTE("Pendente"),
-    ABERTO("Aberto"),
-    FECHADO("Fechado");
+    AGUARDANDO_ATENDIMENTO("Aguardando Atendimento"),
+    EM_ATENDIMENTO("Em Atendimento"),
+    ENTREGUE("Entregue"),
+    CANCELADA("Cancelada");
 
     @Getter
     private String descricao;

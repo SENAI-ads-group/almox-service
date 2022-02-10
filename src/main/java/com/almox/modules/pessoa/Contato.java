@@ -1,10 +1,7 @@
 package com.almox.modules.pessoa;
 
 import com.almox.modules.common.EntidadePadrao;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -12,6 +9,7 @@ import javax.validation.constraints.NotNull;
 
 @Getter
 @Setter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
@@ -28,7 +26,6 @@ public class Contato extends EntidadePadrao {
     @Column(name = "cont_eml_email1", nullable = false)
     private String email1;
 
-    @javax.validation.constraints.Email(message = "{contato.email.email}")
     @Column(name = "cont_eml_emai2")
     private String email2;
 
