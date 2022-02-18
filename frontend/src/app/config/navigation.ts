@@ -20,12 +20,6 @@ export const Navigation: MenuItem[] = [
                 icon: "pi pi-tags",
                 routerLink: "/departamentos",
             },
-        ],
-    },
-    {
-        label: "Movimentos",
-        icon: "pi pi-sort-alt",
-        items: [
             {
                 label: "Fabricantes",
                 icon: "fa fa-industry",
@@ -46,23 +40,24 @@ export const Navigation: MenuItem[] = [
         items: [
             {
                 label: "Requisições",
-                icon: "fa fa-th",
-<<<<<<< HEAD
-                routerLink: "/requisicoes",
-=======
+                icon: "pi pi-ticket",
                 routerLink: "/requisicoes"
->>>>>>> a7d33ac6e034c748fdf869da03c3fbb32b236fec
+            },
+            {
+                label: "Pedidos de Compra",
+                icon: "pi pi-shopping-cart",
+                routerLink: "/pedidos"
             },
         ],
     },
-    {
-        label: "Financeiro",
-        icon: "pi pi-money-bill",
-        items: [],
-    },
-    {
-        label: "Relatórios",
-        icon: "pi pi-file-o",
-        items: [],
-    },
+    // {
+    //     label: "Financeiro",
+    //     icon: "pi pi-money-bill",
+    //     items: [],
+    // },
+    // {
+    //     label: "Relatórios",
+    //     icon: "pi pi-file-o",
+    //     items: [],
+    // },
 ];

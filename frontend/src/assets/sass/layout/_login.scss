@@ -1,21 +1,19 @@
 .login-body {
     background-color: #f5f5f5;
     padding-top: 200px;
-    height: auto;
-    background: url("../../layout/images/login/login-image.png") no-repeat;
-    background-position: 0 -100px;
+    height: 980px;
 
     .login-panel {
         background-color: #ffffff;
         width: 400px;
         margin: 0 auto;
-        padding-bottom: 20px;
+
         -webkit-box-shadow: 0 12px 15px 0 rgba(0, 0, 0, 0.24), 0 17px 50px 0 rgba(0, 0, 0, 0.19);
         -moz-box-shadow: 0 12px 15px 0 rgba(0, 0, 0, 0.24), 0 17px 50px 0 rgba(0, 0, 0, 0.19);
     	box-shadow: 0 12px 15px 0 rgba(0, 0, 0, 0.24), 0 17px 50px 0 rgba(0, 0, 0, 0.19);
 
         .login-header {
-            margin-bottom: 30px;
+
             background-color: $primaryColor;
             color: $primaryTextColor;
             position: relative;
@@ -51,7 +49,7 @@
 
 @media (min-width: 1441px) {
     .login-body {
-        background-size: contain;
+
     }
 }
 

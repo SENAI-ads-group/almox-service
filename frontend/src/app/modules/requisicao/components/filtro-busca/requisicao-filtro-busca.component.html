@@ -26,18 +26,6 @@
         ></p-dropdown>
     </div>
 
-    <div class="p-field p-col-3">
-        <label>Status</label>
-        <p-dropdown
-            [options]="((enums || {}).statusRequisicoes)|| []"
-            [(ngModel)]="filtro.status"
-            placeholder="Todos"
-            optionLabel="descricao"
-            emptyMessage="Nenhum registro encontrado"
-            showClear="true"
-        ></p-dropdown>
-    </div>
-
 </div>
 <div class="p-d-flex p-jc-center">
     <div class="flex align-items-center justify-content-center">

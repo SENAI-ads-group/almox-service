@@ -1,0 +1,35 @@
+<div class="p-fluid p-formgrid p-grid">
+    <div class="p-field p-col-3">
+        <label>Comprador</label>
+        <p-dropdown
+            #compradorControl="ngModel"
+            id="comprador"
+            name="comprador"
+            [options]="compradores"
+            [(ngModel)]="filtro.comprador"
+            placeholder="Todos"
+            optionLabel="nome"
+            emptyMessage="Nenhum registro encontrado"
+            showClear="true"
+        ></p-dropdown>
+    </div>
+
+    <div class="p-field p-col-3">
+        <label>Fornecedor</label>
+        <p-dropdown
+            [options]="fornecedores"
+            [(ngModel)]="filtro.fornecedor"
+            placeholder="Todos"
+            optionLabel="nome"
+            emptyMessage="Nenhum registro encontrado"
+            showClear="true"
+        ></p-dropdown>
+    </div>
+
+</div>
+<div class="p-d-flex p-jc-center">
+    <div class="flex align-items-center justify-content-center">
+        <limpar-filtro-button (click)="onLimpar()"></limpar-filtro-button>
+        <pesquisar-button (click)="onBuscar()"></pesquisar-button>
+    </div>
+</div>

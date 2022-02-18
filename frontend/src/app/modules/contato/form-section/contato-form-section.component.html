@@ -1,298 +1,291 @@
-<div class="p-fluid p-formgrid p-grid">
-    <div class="p-field p-col-4">
-        <label for="email1">E-mail</label>
-        <input
-            #email1Control="ngModel"
-            type="text"
-            id="email1"
-            name="email1"
-            [(ngModel)]="contato.email1"
-            pInputText
-            required
-            autofocus
-            [readonly]="modoVisualizacao"
-        />
-        <small
-            class="p-invalid p-error"
-            *ngIf="formulario.submitted && !email1Control.valid"
-        >
-            Informe um e-mail.
-        </small>
-    </div>
+<p-card styleClass="p-mb-4 p-p-0 p-shadow-3">
+    <ng-template pTemplate="title">Contatos</ng-template>
+    <ng-template pTemplate="subtitle">Informe os dados de contato</ng-template>
+    <div class="p-fluid p-formgrid p-grid">
+        <div class="p-field p-col-6">
+            <label for="email1">E-mail</label>
+            <input
+                #email1Control="ngModel"
+                type="text"
+                id="email1"
+                name="email1"
+                [(ngModel)]="contato.email1"
+                pInputText
+                required
+                autofocus
+                [readonly]="modoVisualizacao"
+            />
+            <small
+                class="p-invalid p-error"
+                *ngIf="formulario.submitted && !email1Control.valid"
+            >
+                Informe um e-mail.
+            </small>
+        </div>
 
-    <div class="p-field p-col-4">
-        <label for="email2">E-mail</label>
-        <input
-            #email2Control="ngModel"
-            type="text"
-            id="email2"
-            name="email2"
-            [(ngModel)]="contato.email2"
-            pInputText
-            required
-            autofocus
-            [readonly]="modoVisualizacao"
-        />
-    </div>
+        <div class="p-field p-col-3">
+            <label for="telefone1">Telefone 1</label>
+            <p-inputMask
+                mask="(99) 99999-9999"
+                placeholder="(99) 99999-9999"
+                #telefone1Control="ngModel"
+                type="text"
+                id="telefone1"
+                name="telefone1"
+                [(ngModel)]="contato.telefone1"
+                required
+                autofocus
+                [readonly]="modoVisualizacao"
+            ></p-inputMask>
+            <small
+                class="p-invalid p-error"
+                *ngIf="formulario.submitted && !telefone1Control.valid"
+            >
+                Informe um telefone.
+            </small>
+        </div>
 
-    <div class="p-field p-col-4">
-        <label for="telefone1">Telefone</label>
-        <p-inputMask
-            mask="(99) 99999-9999"
-            placeholder="(99) 99999-9999"
-            #telefone1Control="ngModel"
-            type="text"
-            id="telefone1"
-            name="telefone1"
-            [(ngModel)]="contato.telefone1"
-            required
-            autofocus
-            [readonly]="modoVisualizacao"
-        ></p-inputMask>
-        <small
-            class="p-invalid p-error"
-            *ngIf="formulario.submitted && !telefone1Control.valid"
-        >
-            Informe um telefone.
-        </small>
-    </div>
+        <div class="p-field p-col-3">
+            <label>Tipo de Telefone 1</label>
+            <p-dropdown
+                #tipoTelefone1Control="ngModel"
+                id="tipoTelefone1"
+                name="tipoTelefone1"
+                [options]="tiposTelefones"
+                [(ngModel)]="contato.tipoTelefone1"
+                placeholder="Tipo de telefone"
+                optionLabel="descricao"
+                emptyMessage="Nenhum registro encontrado"
+                required
+                [readonly]="modoVisualizacao"
+                [showClear]="!modoVisualizacao"
+            ></p-dropdown>
+            <small
+                class="p-invalid p-error"
+                *ngIf="
+                    !tipoTelefone1Control.valid && tipoTelefone1Control.touched
+                "
+            >
+                Informe um tipo de telefone.
+            </small>
+        </div>
 
-    <div class="p-field p-col-4">
-        <label>Tipo de Telefone</label>
-        <p-dropdown
-            #tipoTelefone1Control="ngModel"
-            id="tipoTelefone1"
-            name="tipoTelefone1"
-            [options]="tiposTelefones"
-            [(ngModel)]="contato.tipoTelefone1"
-            placeholder="Selecione o tipo de telefone"
-            optionLabel="descricao"
-            emptyMessage="Nenhum registro encontrado"
-            required
-            [readonly]="modoVisualizacao"
-            [showClear]="!modoVisualizacao"
-        ></p-dropdown>
-        <small
-            class="p-invalid p-error"
-            *ngIf="!tipoTelefone1Control.valid && tipoTelefone1Control.touched"
-        >
-            Informe um tipo de telefone.
-        </small>
-    </div>
+        <div class="p-field p-col-3">
+            <label for="telefone2">Telefone 2</label>
+            <p-inputMask
+                mask="(99) 99999-9999"
+                placeholder="(99) 99999-9999"
+                #telefone2Control="ngModel"
+                type="text"
+                id="telefone2"
+                name="telefone2"
+                [(ngModel)]="contato.telefone2"
+                required
+                autofocus
+                [readonly]="modoVisualizacao"
+            ></p-inputMask>
+            <small
+                class="p-invalid p-error"
+                *ngIf="formulario.submitted && !telefone2Control.valid"
+            >
+                Informe um telefone.
+            </small>
+        </div>
 
-    <div class="p-field p-col-4">
-        <label for="telefone2">Telefone</label>
-        <p-inputMask
-            mask="(99) 99999-9999"
-            placeholder="(99) 99999-9999"
-            #telefone2Control="ngModel"
-            type="text"
-            id="telefone2"
-            name="telefone2"
-            [(ngModel)]="contato.telefone2"
-            required
-            autofocus
-            [readonly]="modoVisualizacao"
-        ></p-inputMask>
-        <small
-            class="p-invalid p-error"
-            *ngIf="formulario.submitted && !telefone2Control.valid"
-        >
-            Informe um telefone.
-        </small>
+        <div class="p-field p-col-3">
+            <label>Tipo de Telefone 2</label>
+            <p-dropdown
+                #tipoTelefone2Control="ngModel"
+                id="tipoTelefone2"
+                name="tipoTelefone2"
+                [options]="tiposTelefones"
+                [(ngModel)]="contato.tipoTelefone2"
+                placeholder="Tipo de telefone"
+                optionLabel="descricao"
+                emptyMessage="Nenhum registro encontrado"
+                required
+                [readonly]="modoVisualizacao"
+                [showClear]="!modoVisualizacao"
+            ></p-dropdown>
+            <small
+                class="p-invalid p-error"
+                *ngIf="
+                    !tipoTelefone2Control.valid && tipoTelefone2Control.touched
+                "
+            >
+                Informe um tipo de telefone.
+            </small>
+        </div>
     </div>
+</p-card>
 
-    <div class="p-field p-col-4">
-        <label>Tipo de Telefone</label>
-        <p-dropdown
-            #tipoTelefone2Control="ngModel"
-            id="tipoTelefone2"
-            name="tipoTelefone2"
-            [options]="tiposTelefones"
-            [(ngModel)]="contato.tipoTelefone2"
-            placeholder="Selecione o tipo de telefone"
-            optionLabel="descricao"
-            emptyMessage="Nenhum registro encontrado"
-            required
-            [readonly]="modoVisualizacao"
-            [showClear]="!modoVisualizacao"
-        ></p-dropdown>
-        <small
-            class="p-invalid p-error"
-            *ngIf="!tipoTelefone2Control.valid && tipoTelefone2Control.touched"
-        >
-            Informe um tipo de telefone.
-        </small>
-    </div>
+<p-card styleClass="p-mb-4 p-p-0 p-shadow-3">
+    <ng-template pTemplate="title">Endereço</ng-template>
+    <ng-template pTemplate="subtitle">Informe os dados de endereço</ng-template>
 
-    <div class="p-field p-col-4">
-        <label for="logradouro">Logradouro</label>
-        <input
-            #logradouroControl="ngModel"
-            type="text"
-            id="logradouro"
-            name="logradouro"
-            [(ngModel)]="contato.logradouro"
-            pInputText
-            required
-            autofocus
-            [readonly]="modoVisualizacao"
-        />
-        <small
-            class="p-invalid p-error"
-            *ngIf="formulario.submitted && !logradouroControl.valid"
-        >
-            Informe o Logradouro.
-        </small>
-    </div>
+    <div class="p-fluid p-formgrid p-grid">
+        <div class="p-field p-col-3">
+            <label for="cep">CEP</label>
+            <p-inputMask
+                mask="99999-999"
+                placeholder="99999-999"
+                #cepControl="ngModel"
+                type="text"
+                id="cep"
+                name="cep"
+                [(ngModel)]="contato.cep"
+                required
+                autofocus
+            ></p-inputMask>
+            <small
+                class="p-invalid p-error"
+                *ngIf="formulario.submitted && !cepControl.valid"
+            >
+                Informe o número.
+            </small>
+        </div>
 
-    <div class="p-field p-col-4">
-        <label for="complemento">Complemento</label>
-        <input
-            #complementoControl="ngModel"
-            type="text"
-            id="complemento"
-            name="complemento"
-            [(ngModel)]="contato.complemento"
-            pInputText
-            required
-            autofocus
-            [readonly]="modoVisualizacao"
-        />
-        <small
-            class="p-invalid p-error"
-            *ngIf="formulario.submitted && !complementoControl.valid"
-        >
-            Informe o complemento.
-        </small>
-    </div>
+        <div class="p-field p-col-4">
+            <label for="logradouro">Logradouro</label>
+            <input
+                #logradouroControl="ngModel"
+                type="text"
+                id="logradouro"
+                name="logradouro"
+                [(ngModel)]="contato.logradouro"
+                pInputText
+                required
+                autofocus
+            />
+            <small
+                class="p-invalid p-error"
+                *ngIf="formulario.submitted && !logradouroControl.valid"
+            >
+                Informe o Logradouro.
+            </small>
+        </div>
 
-    <div class="p-field p-col-4">
-        <label for="numero">Número</label>
-        <input
-            #numeroControl="ngModel"
-            type="text"
-            id="numero"
-            name="numero"
-            [(ngModel)]="contato.numero"
-            pInputText
-            required
-            autofocus
-            [readonly]="modoVisualizacao"
-        />
-        <small
-            class="p-invalid p-error"
-            *ngIf="formulario.submitted && !numeroControl.valid"
-        >
-            Informe o número.
-        </small>
-    </div>
+        <div class="p-field p-col-4">
+            <label for="complemento">Complemento</label>
+            <input
+                #complementoControl="ngModel"
+                type="text"
+                id="complemento"
+                name="complemento"
+                [(ngModel)]="contato.complemento"
+                pInputText
+                required
+                autofocus
+            />
+            <small
+                class="p-invalid p-error"
+                *ngIf="formulario.submitted && !complementoControl.valid"
+            >
+                Informe o complemento.
+            </small>
+        </div>
 
-    <div class="p-field p-col-4">
-        <label for="cep">CEP</label>
-        <p-inputMask
-            mask="99999-999"
-            placeholder="99999-999"
-            #cepControl="ngModel"
-            type="text"
-            id="cep"
-            name="cep"
-            [(ngModel)]="contato.cep"
-            required
-            autofocus
-            [readonly]="modoVisualizacao"
-        ></p-inputMask>
-        <small
-            class="p-invalid p-error"
-            *ngIf="formulario.submitted && !cepControl.valid"
-        >
-            Informe o número.
-        </small>
-    </div>
+        <div class="p-field p-col-1">
+            <label for="numero">Número</label>
+            <input
+                #numeroControl="ngModel"
+                type="text"
+                id="numero"
+                name="numero"
+                [(ngModel)]="contato.numero"
+                pInputText
+                required
+                autofocus
+            />
+            <small
+                class="p-invalid p-error"
+                *ngIf="formulario.submitted && !numeroControl.valid"
+            >
+                Informe o número.
+            </small>
+        </div>
 
-    <div class="p-field p-col-4">
-        <label for="cidade">Cidade</label>
-        <input
-            #cidadeControl="ngModel"
-            type="text"
-            id="cidade"
-            name="cidade"
-            [(ngModel)]="contato.cidade"
-            pInputText
-            required
-            autofocus
-            [readonly]="modoVisualizacao"
-        />
-        <small
-            class="p-invalid p-error"
-            *ngIf="formulario.submitted && !cidadeControl.valid"
-        >
-            Informe a cidade.
-        </small>
-    </div>
+        <div class="p-field p-col-3">
+            <label for="cidade">Cidade</label>
+            <input
+                #cidadeControl="ngModel"
+                type="text"
+                id="cidade"
+                name="cidade"
+                [(ngModel)]="contato.cidade"
+                pInputText
+                required
+                autofocus
+            />
+            <small
+                class="p-invalid p-error"
+                *ngIf="formulario.submitted && !cidadeControl.valid"
+            >
+                Informe a cidade.
+            </small>
+        </div>
 
-    <div class="p-field p-col-4">
-        <label for="estado">Estado</label>
-        <input
-            #estadoControl="ngModel"
-            type="text"
-            id="estado"
-            name="estado"
-            [(ngModel)]="contato.estado"
-            pInputText
-            required
-            autofocus
-            [readonly]="modoVisualizacao"
-        />
-        <small
-            class="p-invalid p-error"
-            *ngIf="formulario.submitted && !estadoControl.valid"
-        >
-            Informe o estado.
-        </small>
-    </div>
+        <div class="p-field p-col-2">
+            <label for="estado">Estado</label>
+            <input
+                #estadoControl="ngModel"
+                type="text"
+                id="estado"
+                name="estado"
+                [(ngModel)]="contato.estado"
+                pInputText
+                required
+                autofocus
+            />
+            <small
+                class="p-invalid p-error"
+                *ngIf="formulario.submitted && !estadoControl.valid"
+            >
+                Informe o estado.
+            </small>
+        </div>
 
-    <div class="p-field p-col-4">
-        <label for="bairro">Bairro</label>
-        <input
-            #bairroControl="ngModel"
-            type="text"
-            id="bairro"
-            name="bairro"
-            [(ngModel)]="contato.bairro"
-            pInputText
-            required
-            autofocus
-            [readonly]="modoVisualizacao"
-        />
-        <small
-            class="p-invalid p-error"
-            *ngIf="formulario.submitted && !bairroControl.valid"
-        >
-            Informe o bairro.
-        </small>
-    </div>
+        <div class="p-field p-col-4">
+            <label for="bairro">Bairro</label>
+            <input
+                #bairroControl="ngModel"
+                type="text"
+                id="bairro"
+                name="bairro"
+                [(ngModel)]="contato.bairro"
+                pInputText
+                required
+                autofocus
+            />
+            <small
+                class="p-invalid p-error"
+                *ngIf="formulario.submitted && !bairroControl.valid"
+            >
+                Informe o bairro.
+            </small>
+        </div>
 
-    <div class="p-field p-col-4">
-        <label>Tipo de Endereço</label>
-        <p-dropdown
-            #tipoEnderecoControl="ngModel"
-            id="tipoEndereco"
-            name="tipoEndereco"
-            [options]="tiposEnderecos"
-            [(ngModel)]="contato.tipoEndereco"
-            placeholder="Selecione o tipo de Endereço"
-            optionLabel="descricao"
-            emptyMessage="Nenhum registro encontrado"
-            required
-            [readonly]="modoVisualizacao"
-            [showClear]="!modoVisualizacao"
-        ></p-dropdown>
-        <small
-            class="p-invalid p-error"
-            *ngIf="!tipoEnderecoControl.valid && tipoEnderecoControl.touched"
-        >
-            Informe um tipo de endereço.
-        </small>
+        <div class="p-field p-col-3">
+            <label>Tipo de Endereço</label>
+            <p-dropdown
+                #tipoEnderecoControl="ngModel"
+                id="tipoEndereco"
+                name="tipoEndereco"
+                [options]="tiposEnderecos"
+                [(ngModel)]="contato.tipoEndereco"
+                placeholder="Tipo de Endereço"
+                optionLabel="descricao"
+                emptyMessage="Nenhum registro encontrado"
+                required
+            ></p-dropdown>
+            <small
+                class="p-invalid p-error"
+                *ngIf="
+                    !tipoEnderecoControl.valid && tipoEnderecoControl.touched
+                "
+            >
+                Informe um tipo de endereço.
+            </small>
+        </div>
     </div>
-</div>
+</p-card>

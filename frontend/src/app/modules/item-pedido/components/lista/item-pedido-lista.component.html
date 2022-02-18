@@ -1,0 +1,77 @@
+<p-table [value]="itens" responsiveLayout="scroll">
+    <ng-template pTemplate="header">
+        <tr>
+            <th>Cód Produto</th>
+            <th>Produto</th>
+            <th>Grupo</th>
+            <th>Quantidade</th>
+            <th style="text-align: center">Ações</th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-item let-rowIndex="rowIndex">
+        <tr>
+            <td>{{ item?.produto?.id }}</td>
+            <td>{{ item?.produto?.descricao }}</td>
+            <td>{{ item?.produto?.grupo?.descricao }}</td>
+            <td>{{ item?.quantidade }} {{ item?.produto?.unidadeMedida?.descricao }}</td>
+
+            <td>
+                <div style="vertical-align: middle; text-align: center">
+                    <button
+                        type="button"
+                        pButton
+                        pRipple
+                        class="
+                            p-mr-2
+                            p-mb-2
+                            p-button-sm
+                            p-button-icon-only
+                            p-button-primary-alt
+                        "
+                        pTooltip="Editar"
+                        tooltipPosition="bottom"
+                        (click)="handleEditar(rowIndex, item)"
+                    >
+                        <i
+                            class="fa fa-fw fa-edit"
+                            style="
+                                font-size: 1.1rem;
+                                font-weight: 550;
+                                line-height: 1.5rem;
+                            "
+                        ></i>
+                    </button>
+                    <button
+                        pButton
+                        pRipple
+                        type="button"
+                        class="
+                            p-mr-2
+                            p-mb-2
+                            p-button-sm
+                            p-button-icon-only
+                            p-button-danger-alt
+                        "
+                        pTooltip="Excluir"
+                        tooltipPosition="bottom"
+                        (click)="handleExcluir(rowIndex)"
+                    >
+                        <i
+                            class="fa fa-fw fa-times"
+                            style="
+                                font-size: 1.1rem;
+                                font-weight: 550;
+                                line-height: 1.5rem;
+                            "
+                        ></i>
+                    </button>
+                </div>
+            </td>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="summary">
+        <div class="p-d-flex p-ai-center p-jc-between">
+            No total de {{ itens ? itens.length : 0 }} registros.
+        </div>
+    </ng-template>
+</p-table>

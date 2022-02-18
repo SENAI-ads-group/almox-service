@@ -1,0 +1,8 @@
+<strong>{{ produto.descricao }} - {{ produto.grupo.descricao }}</strong>
+<br />
+<small>Cod. de barras: {{ produto.codigoBarras }}</small
+><br />
+<small>Cod. interno: {{ produto.id }}</small>
+<br />
+<br />
+<tabela [colunas]="colunas" [dados]="registros" [loading]="loading"> </tabela>

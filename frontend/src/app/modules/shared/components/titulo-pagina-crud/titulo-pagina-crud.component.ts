@@ -25,13 +25,16 @@ export class TituloPaginaCrudComponent implements OnInit {
                 this.iconeAcao = "pi pi-list";
                 break;
             case "Visualizar":
-                this.iconeAcao = "fa fa-fw fa-eye"
+                this.iconeAcao = "fa fa-fw fa-eye";
                 break;
             case "Editar":
-                this.iconeAcao = "fa fa-fw fa-edit"
+                this.iconeAcao = "fa fa-fw fa-edit";
                 break;
             case "Novo":
                 this.iconeAcao = "fa fa-fw fa-plus-square";
+                break;
+            case "Detalhes":
+                this.iconeAcao = "fa fa-fw fa-info-circle";
                 break;
             default:
                 break;

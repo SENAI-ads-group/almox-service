@@ -3,145 +3,243 @@
         <div class="p-d-flex p-jc-between">
             <div>
                 <titulo-pagina-crud
-                    entidade="{{ NOME_PAGINA }}"
-                    acao="Consultar"
+                    entidade="Requisições"
+                    acao="Detalhes"
                 ></titulo-pagina-crud>
             </div>
             <div>
                 <button
+                    pButton
+                    pRipple
+                    label="Consultar"
+                    class="p-mb-3 p-mr-1 p-shadow-4 p-button-secondary"
+                    icon="pi pi-list"
+                    routerLink="/requisicoes"
+                ></button>
+            </div>
+        </div>
+
+        <div class="p-grid">
+            <div class="p-col-8">
+                <div
+                    class="card"
                     *ngIf="
                         registro &&
                         registro.status &&
-                        registro.status.type === 'AGUARDANDO_ATENDIMENTO'
+                        registro.status.type !== 'EM_ATENDIMENTO'
                     "
-                    (click)="onAtender()"
-                    pButton
-                    pRipple
-                    label="Atender"
-                    class="p-mb-3 p-mr-1 p-shadow-4 p-button-primary"
-                    icon="pi pi-check"
-                ></button>
-
-                <button
+                >
+                    <p-virtualScroller
+                        [value]="registro.itens"
+                        scrollHeight="500px"
+                        [itemSize]="90"
+                    >
+                        <ng-template
+                            pTemplate="item"
+                            let-item
+                            let-index="index"
+                        >
+                            <p-divider></p-divider>
+                            <div class="p-d-flex p-jc-between">
+                                <div class="p-ml-2">
+                                    <div class="p-d-flex p-jc-between">
+                                        <div
+                                            style="text-align: center"
+                                            class="p-mr-4 p-pt-2"
+                                        >
+                                            <h3>{{ index + 1 }}</h3>
+                                        </div>
+                                        <div>
+                                            <strong
+                                                >{{ item.produto.descricao }} -
+                                                {{
+                                                    item.produto.grupo.descricao
+                                                }}</strong
+                                            >
+                                            <i
+                                                pTooltip="Visualizar Produto"
+                                                tooltipPosition="bottom"
+                                                class="p-ml-2 pi pi-eye"
+                                                style="
+                                                    cursor: pointer;
+                                                    color: #007bff;
+                                                "
+                                                (click)="
+                                                    onVisualizarProduto(item)
+                                                "
+                                            ></i>
+                                            <i
+                                                pTooltip="Histórico de Movimento"
+                                                tooltipPosition="bottom"
+                                                class="p-ml-2 fa fa-history"
+                                                style="
+                                                    cursor: pointer;
+                                                    color: #007bff;
+                                                "
+                                                (click)="
+                                                    onVisualizarHistoricoMovimento(
+                                                        item
+                                                    )
+                                                "
+                                            ></i>
+                                            <br />
+                                            <small
+                                                >Cod. de barras:
+                                                {{
+                                                    item.produto.codigoBarras
+                                                }}</small
+                                            ><br />
+                                            <small
+                                                >Cod. interno:
+                                                {{ item.produto.id }}</small
+                                            >
+                                            <br />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div style="text-align: center" class="p-mr-6">
+                                    <strong>Quantidade</strong>
+                                    <br />
+                                    <p-badge
+                                        value="{{ item.quantidade }}
+                                        {{ item.produto.unidadeMedida.type }}"
+                                        size="large"
+                                        severity="warning"
+                                    ></p-badge>
+                                </div>
+                            </div>
+                            <p-divider></p-divider>
+                        </ng-template>
+                    </p-virtualScroller>
+                </div>
+                <div
+                    class="card"
                     *ngIf="
                         registro &&
                         registro.status &&
                         registro.status.type === 'EM_ATENDIMENTO'
                     "
-                    (click)="onEntregar()"
-                    pButton
-                    pRipple
-                    label="Entregar"
-                    class="p-mb-3 p-mr-1 p-shadow-4 p-button-primary"
-                    icon="pi pi-check"
-                ></button>
-
-                <button
-                    *ngIf="
-                        registro &&
-                        registro.status &&
-                        registro.status.type !== 'ENTREGUE' &&
-                            registro.status.type !== 'CANCELADA'
-                    "
-                    (click)="onCancelar()"
-                    pButton
-                    pRipple
-                    label="Cancelar"
-                    class="p-mb-3 p-mr-1 p-shadow-4 p-button-primary"
-                    icon="pi pi-check"
-                ></button>
-            </div>
-        </div>
-
-        <div
-            class="card"
-            *ngIf="
-                registro &&
-                registro.status &&
-                registro.status.type !== 'EM_ATENDIMENTO'
-            "
-        >
-            <p-virtualScroller
-                [value]="registro.itens"
-                scrollHeight="500px"
-                [itemSize]="150"
-            >
-                <ng-template pTemplate="header">
-                    <div class="p-d-flex p-ai-center p-jc-between">
-                        <h4 class="p-mb-2">Detalhes da Requisição</h4>
-                    </div>
-                </ng-template>
-
-                <h5 class="p-mb-2">Descrição dos Produtos</h5>
-                <ng-template pTemplate="item" let-item>
-                    <div class="product-item">
-                        <div class="product-list-detail">
-                            <h6 class="p-mb-2">
-                                <i class="pi pi-list product-category-icon"></i>
-                                <b>Descrição: </b>{{ item.produto.descricao }}
-                            </h6>
-
-                            <i class="pi pi-th-large product-category-icon"></i>
-                            <span class="product-category"
-                                ><b>Grupo: </b
-                                >{{ item.produto.grupo.descricao }}</span
-                            >
-                        </div>
-                        <div class="product-list-detail">
-                            <h6 class="p-mb-2">
-                                <i class="pi pi-key product-category-icon"></i>
-                                <b>Código: </b>{{ item.produto.id }}
-                            </h6>
-
-                            <i
-                                class="pi pi-filter-slash product-category-icon"
-                            ></i>
-                            <span class="product-category"
-                                ><b>Unidade de Medida: </b
-                                >{{ item.produto.unidadeMedida.type }}</span
-                            >
-                        </div>
-                        <div class="product-list-action">
-                            <h6 class="p-mb-2">
-                                <i class="pi pi-tags product-category-icon"></i
-                                ><b>Quantidade: </b>{{ item.quantidade }}
-                            </h6>
-                            <span [class]="'p-mb-2'">
-                                <i class="pi pi-bars product-category-icon"></i
-                                ><b>Código de Barras: </b
-                                >{{ item.produto.codigoBarras }}</span
-                            >
-                        </div>
-                    </div>
-                </ng-template>
-            </p-virtualScroller>
-        </div>
-        <div
-            class="card"
-            *ngIf="
-                registro &&
-                registro.status &&
-                registro.status.type === 'EM_ATENDIMENTO'
-            "
-        >
-            <div class="card" *ngIf="registroNoFormulario">
-                <item-requisicao-form
-                    (submit)="onEditarItemSubmit($event)"
-                    [item]="registroNoFormulario.item"
                 >
-                </item-requisicao-form>
+                    <div class="card" *ngIf="registroNoFormulario">
+                        <item-requisicao-form
+                            (submit)="onEditarItemSubmit($event)"
+                            [item]="registroNoFormulario.item"
+                        >
+                        </item-requisicao-form>
+                    </div>
+                    <div class="card">
+                        <div class="p-fluid">
+                            <item-requisicao-lista
+                                [itens]="registro.itens"
+                                (editar)="onEditarItem($event)"
+                                (excluir)="onExcluirItem($event)"
+                            ></item-requisicao-lista>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="card">
-                <div class="p-fluid">
-                    <item-requisicao-lista
-                        [itens]="registro.itens"
-                        (editar)="onEditarItem($event)"
-                        (excluir)="onExcluirItem($event)"
-                    ></item-requisicao-lista>
+
+            <div class="p-col-4">
+                <div class="p-grid">
+                    <p-card header="Ações" class="p-col-12">
+                        <ng-template pTemplate="content">
+                            <button
+                                *ngIf="
+                                    registro.status.type ===
+                                    'AGUARDANDO_ATENDIMENTO'
+                                "
+                                (click)="onAtender()"
+                                pButton
+                                pRipple
+                                type="button"
+                                label="Iniciar Atendimento"
+                                class="p-mr-1 p-mb-3 p-shadow-3"
+                                style="
+                                    width: 100%;
+                                    background: #c8e6c9;
+                                    color: #256029;
+                                    font-weight: 600;
+                                    font-size: 18px;
+                                "
+                            ></button>
+
+                            <button
+                                *ngIf="
+                                    registro.status.type === 'EM_ATENDIMENTO'
+                                "
+                                (click)="onEntregar()"
+                                pButton
+                                pRipple
+                                type="button"
+                                label="Entregar"
+                                class="p-mr-1 p-mb-3 p-shadow-3"
+                                style="
+                                    width: 100%;
+                                    background: #c8e6c9;
+                                    color: #256029;
+                                    font-weight: 600;
+                                    font-size: 18px;
+                                "
+                            ></button>
+
+                            <p
+                                *ngIf="
+                                    registro.status.type === 'ENTREGUE' ||
+                                    registro.status.type === 'CANCELADA'
+                                "
+                            >
+                                Nenhuma ação permitida nesta requisição
+                                (Requisições entregues ou canceladas não podem
+                                ser modificadas)
+                            </p>
+                        </ng-template>
+                    </p-card>
+                    <p-card header="Anotações" class="p-col-12" *ngIf="false">
+                        <textarea
+                            [(ngModel)]="registro.anotacoes"
+                            rows="5"
+                            style="width: 100%"
+                            pInputTextarea
+                            autoResize="autoResize"
+                            [disabled]="
+                                registro.status.type === 'ENTREGUE' ||
+                                registro.status.type === 'CANCELADA'
+                            "
+                        ></textarea>
+                    </p-card>
+                    <p-card header="Cancelamento" class="p-col-12">
+                        <ng-template pTemplate="content">
+                            <button
+                                *ngIf="
+                                    registro.status.type !== 'ENTREGUE' &&
+                                    registro.status.type !== 'CANCELADA'
+                                "
+                                (click)="onCancelar()"
+                                pButton
+                                pRipple
+                                type="button"
+                                label="Cancelar"
+                                class="
+                                    p-mr-1 p-mb-3 p-shadow-3 p-button-danger-alt
+                                "
+                                style="
+                                    width: 100%;
+                                    font-weight: 600;
+                                    font-size: 18px;
+                                "
+                            ></button>
+                            <p *ngIf="registro.status.type === 'ENTREGUE'">
+                                Cancelamento não permitido (Requisições
+                                entregues não podem ser canceladas)
+                            </p>
+                            <p *ngIf="registro.status.type === 'CANCELADA'">
+                                Requisição Cancelada
+                            </p>
+                        </ng-template>
+                    </p-card>
                 </div>
             </div>
         </div>
     </div>
 </div>
 <p-confirmDialog [style]="{ width: '450px' }"></p-confirmDialog>
-<p-toast></p-toast>

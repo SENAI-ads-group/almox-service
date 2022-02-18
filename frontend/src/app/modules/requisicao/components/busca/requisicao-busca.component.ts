@@ -24,7 +24,7 @@ import { DialogService, DynamicDialogRef } from "primeng/dynamicdialog";
 })
 export class RequisicaoBuscaComponent extends PaginaBuscaCrud<Requisicao> {
     NOME_PAGINA = "Requisições";
-    enums$: Observable<any>;
+    enums: any;
     almoxarifes$: Observable<Usuario[]>;
     requisitantes$: Observable<Usuario[]>;
     colunas: any[];
@@ -65,20 +65,22 @@ export class RequisicaoBuscaComponent extends PaginaBuscaCrud<Requisicao> {
                 "Departamento",
                 TipoColuna.TEXTO
             ),
-            criarConfiguracaoColuna(
-                "status.descricao",
-                "Status",
-                TipoColuna.TEXTO
-            ),
         ];
 
-        this.enums$ = this.commonService.buscarEnumeradores();
+        this.commonService
+            .buscarEnumeradores()
+            .subscribe(resp => (this.enums = resp));
         this.almoxarifes$ = this.usuarioService.buscarTodos();
         this.requisitantes$ = this.usuarioService.buscarTodos();
+
         this.onBuscar({});
     }
 
     onBuscar(filtro: any) {
+        filtro.status = filtro.status
+            ? filtro.status
+            : { type: 'AGUARDANDO_ATENDIMENTO' };
+
         this.loading = true;
         this.service.buscarTodosFiltrado(filtro).subscribe(
             (dados: Requisicao[]) => {
@@ -89,10 +91,13 @@ export class RequisicaoBuscaComponent extends PaginaBuscaCrud<Requisicao> {
         );
     }
 
+    onChangeStatus({ index }) {
+        this.onBuscar({ status: this.enums.statusRequisicao[index] });
+    }
+
     onNovaRequisicao() {
         this.dialogRef = this.dialogService.open(RequisicaoFormComponent, {
-            width: "80%",
-            showHeader: true,
+            width: "70%",
             header: "Nova Requisição",
         });
 
@@ -100,6 +105,10 @@ export class RequisicaoBuscaComponent extends PaginaBuscaCrud<Requisicao> {
     }
 
     onEditar(registro: Requisicao) {
+        this.router.navigate([`requisicoes/informacoes/${registro.id}`]);
+    }
+
+    onDetalhes(registro: Requisicao) {
         this.router.navigate([`requisicoes/informacoes/${registro.id}`]);
     }
 

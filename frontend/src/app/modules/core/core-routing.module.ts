@@ -62,6 +62,14 @@ const routes: Routes = [
                     ),
             },
             {
+                path: "pedidos",
+                loadChildren: () =>
+                    import("../pedido/pedido.module").then(
+                        module => module.PedidoModule
+
+                    ),
+            },
+            {
                 path: "fornecedores",
                 loadChildren: () =>
                     import("../fornecedor/fornecedor.module").then(

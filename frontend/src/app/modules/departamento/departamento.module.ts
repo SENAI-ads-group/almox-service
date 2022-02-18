@@ -8,8 +8,8 @@ import { DepartamentoFiltroComponent } from './components/filtro-busca/departame
 import {
     DepartamentoFormSectionComponent,
 } from './components/form-section/departamento-form-section.component';
-import { DepartamentoFormComponent } from './components/form/departamento-form.component';
-import { DepartamentoBuscaComponent } from './components/busca/departamento-busca.component';
+import { DepartamentoFormComponent } from './pages/form/departamento-form.component';
+import { DepartamentoBuscaComponent } from './pages/busca/departamento-busca.component';
 import { DepartamentoRoutingModule } from './departamento-routing.module';
 
 @NgModule({

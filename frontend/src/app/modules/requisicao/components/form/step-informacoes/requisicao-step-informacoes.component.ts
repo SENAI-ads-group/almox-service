@@ -29,7 +29,7 @@ export class RequisicaoStepInformacoesComponent implements OnInit {
     ngOnInit(): void {
         this.departamentos$ =
             this.departamentoService.buscarAssociadosUsuarioLogado();
-        this.almoxarifes$ = this.usuarioService.buscarTodos();
+        this.almoxarifes$ = this.usuarioService.buscarAlmoxarifes();
     }
 
     onSubmit() {

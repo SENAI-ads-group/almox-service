@@ -1,3 +1,4 @@
+import { TabelaComponent } from './components/tabela/tabela.component';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 
@@ -26,7 +27,8 @@ import { HandleErrorService } from './services/handle-error.service';
         SubmitButtonComponent,
         StepComponent,
         InputButtonComponent,
-        LimparFiltroButtonComponent
+        LimparFiltroButtonComponent,
+        TabelaComponent
     ],
     imports: [CommonModule, PrimengModule],
     providers: [CommonService, HandleErrorService],
@@ -40,7 +42,8 @@ import { HandleErrorService } from './services/handle-error.service';
         PesquisarButtonComponent,
         SubmitButtonComponent,
         StepComponent,
-        InputButtonComponent
+        InputButtonComponent,
+        TabelaComponent
     ],
 })
 export class SharedModule {}

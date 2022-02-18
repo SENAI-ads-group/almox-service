@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, ContentChild, EventEmitter, Input, OnInit, Output, TemplateRef } from '@angular/core';
 import * as moment from 'moment';
 import { Auditavel } from 'src/app/model/auditavel';
 import { StatusEntidadeAuditavel } from 'src/app/model/enums';
@@ -28,6 +28,8 @@ export class TabelaCrudComponent<T> implements OnInit {
     @Output("visualizar") visualizarEvent = new EventEmitter<T>();
     @Output("editar") editarEvent = new EventEmitter<T>();
     @Output("excluir") excluirEvent = new EventEmitter<T>();
+
+    @ContentChild(TemplateRef) botoesAcaoTemplateRef: TemplateRef<any>;
 
     constructor() {}
 

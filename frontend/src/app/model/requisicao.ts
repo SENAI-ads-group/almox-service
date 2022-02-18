@@ -7,6 +7,7 @@ export interface Requisicao {
     dataRequisicao?: Date;
     requisitante?: Usuario;
     almoxarife?: Usuario;
+    anotacoes?: string;
     departamento?: Departamento;
     status?: any;
     itens?: ItemRequisicao[];

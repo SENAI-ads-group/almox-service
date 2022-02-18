@@ -13,7 +13,7 @@
     [loading]="loading"
     dataKey="id"
     styleClass="p-datatable-customers p-datatable-striped p-datatable-gridlines p-datatable-sm"
-    currentPageReportTemplate="Mostando {first} ao {last} de {totalRecords} registros"
+    currentPageReportTemplate="Mostrando {first} ao {last} de {totalRecords} registros"
     [showCurrentPageReport]="true"
     p-datatable-loading-icon="pi pi-spin pi-spinner"
 >
@@ -45,7 +45,18 @@
                     </span>
                 </div>
             </td>
-            <td>
+            <td *ngIf="botoesAcaoTemplateRef">
+                <div style="vertical-align: middle; text-align: center">
+                    <ng-container
+                        *ngTemplateOutlet="
+                            botoesAcaoTemplateRef;
+                            context: { rowData: rowData }
+                        "
+                    >
+                    </ng-container>
+                </div>
+            </td>
+            <td *ngIf="!botoesAcaoTemplateRef">
                 <div style="vertical-align: middle; text-align: center">
                     <button
                         *ngIf="exibirAcaoEditar(rowData)"

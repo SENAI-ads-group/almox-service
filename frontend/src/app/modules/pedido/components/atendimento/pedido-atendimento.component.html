@@ -1,0 +1,229 @@
+<div class="p-grid">
+    <div class="p-col-12">
+        <div class="p-d-flex p-jc-between">
+            <div>
+                <titulo-pagina-crud
+                    entidade="Pedidos de Compra"
+                    acao="Detalhes"
+                ></titulo-pagina-crud>
+            </div>
+            <div>
+                <button
+                    pButton
+                    pRipple
+                    label="Consultar"
+                    class="p-mb-3 p-mr-1 p-shadow-4 p-button-secondary"
+                    icon="pi pi-list"
+                    routerLink="/pedidos"
+                ></button>
+            </div>
+        </div>
+
+        <div class="p-grid">
+            <div class="p-col-8">
+                <div
+                    class="card"
+                    *ngIf="registro.status.type !== 'PENDENTE_ENTREGA'"
+                >
+                    <p-virtualScroller
+                        [value]="registro.itens"
+                        scrollHeight="500px"
+                        [itemSize]="90"
+                    >
+                        <ng-template
+                            pTemplate="item"
+                            let-item
+                            let-index="index"
+                        >
+                            <p-divider></p-divider>
+                            <div class="p-d-flex p-jc-between">
+                                <div class="p-ml-2">
+                                    <div class="p-d-flex p-jc-between">
+                                        <div
+                                            style="text-align: center"
+                                            class="p-mr-4 p-pt-2"
+                                        >
+                                            <h3>{{ index + 1 }}</h3>
+                                        </div>
+                                        <div>
+                                            <strong
+                                                >{{ item.produto.descricao }} -
+                                                {{
+                                                    item.produto.grupo.descricao
+                                                }}</strong
+                                            >
+                                            <i
+                                                pTooltip="Visualizar Produto"
+                                                tooltipPosition="bottom"
+                                                class="p-ml-2 pi pi-eye"
+                                                style="
+                                                    cursor: pointer;
+                                                    color: #007bff;
+                                                "
+                                                (click)="
+                                                    onVisualizarProduto(item)
+                                                "
+                                            ></i>
+                                            <i
+                                                pTooltip="Histórico de Movimento"
+                                                tooltipPosition="bottom"
+                                                class="p-ml-2 fa fa-history"
+                                                style="
+                                                    cursor: pointer;
+                                                    color: #007bff;
+                                                "
+                                                (click)="
+                                                    onVisualizarHistoricoMovimento(
+                                                        item
+                                                    )
+                                                "
+                                            ></i>
+                                            <br />
+                                            <small
+                                                >Cod. de barras:
+                                                {{
+                                                    item.produto.codigoBarras
+                                                }}</small
+                                            ><br />
+                                            <small
+                                                >Cod. interno:
+                                                {{ item.produto.id }}</small
+                                            >
+                                            <br />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div style="text-align: center" class="p-mr-6">
+                                    <strong>Quantidade</strong>
+                                    <br />
+                                    <p-badge
+                                        value="{{ item.quantidade }}
+                                        {{ item.produto.unidadeMedida.type }}"
+                                        size="large"
+                                        severity="warning"
+                                    ></p-badge>
+                                </div>
+                            </div>
+                            <p-divider></p-divider>
+                        </ng-template>
+                    </p-virtualScroller>
+                </div>
+                <div
+                    class="card"
+                    *ngIf="registro.status.type === 'PENDENTE_ENTREGA'"
+                >
+                    <p-panel
+                        [header]="
+                            registroNoFormulario.rowIndex === -1
+                                ? 'Novo Item'
+                                : 'Alterar Item'
+                        "
+                        *ngIf="registroNoFormulario"
+                    >
+                        <item-pedido-form
+                            (submit)="onEditarItemSubmit($event)"
+                            [item]="registroNoFormulario.item"
+                        >
+                        </item-pedido-form>
+                    </p-panel>
+                    <div class="p-mb-3" *ngIf="registroNoFormulario"></div>
+
+                    <p-panel header="Itens" class="p-shadown-4">
+                        <ng-template pTemplate="icons">
+                            <p-button
+                                icon="pi pi-plus"
+                                (click)="onEditarItem({ rowIndex: -1, item: {} })"
+                            ></p-button>
+                        </ng-template>
+                        <item-pedido-lista
+                            [itens]="registro.itens"
+                            (editar)="onEditarItem($event)"
+                            (excluir)="onExcluirItem($event)"
+                        ></item-pedido-lista>
+                    </p-panel>
+                </div>
+            </div>
+
+            <div class="p-col-4">
+                <div class="p-grid">
+                    <p-card header="Ações" class="p-col-12">
+                        <ng-template pTemplate="content">
+                            <button
+                                *ngIf="
+                                    registro.status.type === 'PENDENTE_ENTREGA'
+                                "
+                                (click)="onReceber()"
+                                pButton
+                                pRipple
+                                type="button"
+                                label="Receber Pedido"
+                                class="p-mr-1 p-mb-3 p-shadow-3"
+                                style="
+                                    width: 100%;
+                                    background: #c8e6c9;
+                                    color: #256029;
+                                    font-weight: 600;
+                                    font-size: 18px;
+                                "
+                            ></button>
+
+                            <p
+                                *ngIf="
+                                    registro.status.type === 'RECEBIDO' ||
+                                    registro.status.type === 'CANCELADO'
+                                "
+                            >
+                                Nenhuma ação permitida neste pedido (Pedidos
+                                recebidos ou cancelados não podem ser
+                                modificados)
+                            </p>
+                        </ng-template>
+                    </p-card>
+                    <p-card header="Anotações" class="p-col-12" *ngIf="false">
+                        <textarea
+                            [(ngModel)]="registro.anotacoes"
+                            rows="5"
+                            style="width: 100%"
+                            pInputTextarea
+                            autoResize="autoResize"
+                            [disabled]="
+                                registro.status.type === 'ENTREGUE' ||
+                                registro.status.type === 'CANCELADA'
+                            "
+                        ></textarea>
+                    </p-card>
+                    <p-card header="Cancelamento" class="p-col-12">
+                        <ng-template pTemplate="content">
+                            <button
+                                *ngIf="
+                                    registro.status.type !== 'RECEBIDO' &&
+                                    registro.status.type !== 'CANCELADO'
+                                "
+                                (click)="onCancelar()"
+                                pButton
+                                pRipple
+                                type="button"
+                                label="Cancelar"
+                                class="
+                                    p-mr-1 p-mb-3 p-shadow-3 p-button-danger-alt
+                                "
+                                style="
+                                    width: 100%;
+                                    font-weight: 600;
+                                    font-size: 18px;
+                                "
+                            ></button>
+                            <p *ngIf="registro.status.type === 'RECEBIDO'">
+                                Cancelamento não permitido (Pedidos recebidos
+                                não podem ser cancelados)
+                            </p>
+                            <p *ngIf="registro.status.type === 'CANCELADO'">
+                                Pedido Cancelado
+                            </p>
+                        </ng-template>
+                    </p-card>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

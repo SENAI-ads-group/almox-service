@@ -6,13 +6,20 @@
             .p-tabview-nav-link {
                 transition: background-color $transitionDuration;
                 border-radius: 0;
-                
+
                 > .p-ink {
-                    background-color: rgba($primaryColor, .16);
+                    background-color: rgba($primaryColor, 0.16);
                 }
 
                 &:focus {
-                    background-color: rgba($primaryColor, .12);
+                    background-color: rgba($primaryColor, 0.12);
+                }
+            }
+
+            .status {
+                &.AGUARDANDO_ATENDIMENTO {
+                    background: #feedaf;
+                    color: #8a5340;
                 }
             }
         }
@@ -25,6 +32,10 @@
             height: 2px;
             background-color: $primaryColor;
             transition: 500ms cubic-bezier(0.35, 0, 0.25, 1);
+
+            &.AGUARDANDO_ATENDIMENTO {
+                background-color: #8a5340;
+            }
         }
     }
 }

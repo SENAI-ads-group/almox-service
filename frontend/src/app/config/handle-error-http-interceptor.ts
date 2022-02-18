@@ -51,7 +51,7 @@ export class HandleErrorHttpInterceptor implements HttpInterceptor {
     }
 
     private handleError401 = (errorResponse: HttpErrorResponse) => {
-        this.genericHandleError(errorResponse);
+        //this.genericHandleError(errorResponse);
 
         sessionStorage.removeItem(environment.auth.tokensessionStorage);
         this.router.navigate(["/login"]);

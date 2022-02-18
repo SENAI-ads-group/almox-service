@@ -19,13 +19,10 @@ export class DepartamentoService extends CrudService<Departamento, number> {
             this._base + "/associados-usuario-logado"
         );
     }
-<<<<<<< HEAD
-=======
 
     buscarPorRelacaoProduto(idProduto: number, relacionados : boolean): Observable<Departamento[]> {
         return this._http.get<Departamento[]>(
             this._base + `/relacao-produto/${idProduto}?relacionados=${relacionados}`
         );
     }
->>>>>>> a7d33ac6e034c748fdf869da03c3fbb32b236fec
 }

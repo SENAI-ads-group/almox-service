@@ -1,16 +1,4 @@
 <div class="topbar clearfix">
-<<<<<<< HEAD
-    <p-menubar [model]="items" class="full-width">
-        <ng-template pTemplate="start">
-            <div>
-                <img
-                    src="../../../../assets/layout/images/logo.png"
-                    height="40"
-                />
-            </div>
-        </ng-template>
-    </p-menubar>
-=======
     <div class="topbar-content">
         <div class="topbar-menu">
             <p-menubar [model]="items" class="full-width">
@@ -24,8 +12,18 @@
                         />
                     </div>
                 </ng-template>
+                <ng-template pTemplate="end">
+                    <button
+                        pButton
+                        pRipple
+                        class="p-button-icon-only"
+                        style="color: white; font-size: 25px"
+                        (click)="logout()"
+                    >
+                        <i class="fa fa-sign-out"></i>
+                    </button>
+                </ng-template>
             </p-menubar>
         </div>
     </div>
->>>>>>> a7d33ac6e034c748fdf869da03c3fbb32b236fec
 </div>

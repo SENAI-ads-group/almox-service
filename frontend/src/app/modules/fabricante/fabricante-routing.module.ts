@@ -1,7 +1,7 @@
 import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
-import { FabricanteFormComponent } from "./components/fabricante-form/fabricante-form.component";
-import { FabricanteListaComponent } from "./components/fabricante-lista/fabricante-lista.component";
+import { FabricanteFormComponent } from "./pages/fabricante-form/fabricante-form.component";
+import { FabricanteListaComponent } from "./pages/fabricante-busca/fabricante-busca.component";
 
 const routes: Routes = [
     { path: "", component: FabricanteListaComponent },

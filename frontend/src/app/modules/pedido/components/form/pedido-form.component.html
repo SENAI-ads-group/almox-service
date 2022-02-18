@@ -1,0 +1,22 @@
+<div class="p-grid">
+    <div class="p-col-12">
+        <form #formulario="ngForm" (ngSubmit)="onSubmit(formulario)">
+            <p-steps
+                [model]="itensStep"
+                [readonly]="true"
+                [(activeIndex)]="stepMergeService.index"
+            ></p-steps>
+            <div class="p-fluid p-formgrid p-grid">
+                <div class="p-col-12">
+                    <pedido-step-informacoes
+                        *ngIf="stepMergeService.index === 0"
+                    ></pedido-step-informacoes>
+                    <pedido-step-itens
+                        *ngIf="stepMergeService.index === 1"
+                    ></pedido-step-itens>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<p-toast key="requisicao-form"></p-toast>

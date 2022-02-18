@@ -12,4 +12,8 @@ export class UsuarioService extends CrudService<Usuario, number> {
     constructor(protected _http: HttpClient) {
         super(_http, `${environment.api.baseUrl}/usuarios`);
     }
+
+    buscarAlmoxarifes() {
+        return this._http.get<Usuario[]>(`${this._base}/listar-almoxarifes`)
+    }
 }

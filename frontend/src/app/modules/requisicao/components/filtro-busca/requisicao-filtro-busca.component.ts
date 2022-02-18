@@ -17,8 +17,7 @@ export class RequisicaoFiltroComponent {
     filtro = {
         descricao: null,
         almoxarife: null,
-        requisitante: null,
-        status: null
+        requisitante: null
     };
 
     constructor(private usuarioService: UsuarioService) {}
@@ -31,8 +30,7 @@ export class RequisicaoFiltroComponent {
         this.filtro = {
             descricao: null,
             almoxarife: null,
-            requisitante: null,
-            status: null
+            requisitante: null
         };
     }
 }

@@ -1,0 +1,42 @@
+<step
+    exibirBotaoProximo="true"
+    [stepMergeService]="stepMergeService"
+    titulo="Informações Básicas"
+    subtitulo="Preencha as informações básicas"
+    (proximo)="onSubmit()"
+>
+    <form #formulario="ngForm" (ngSubmit)="onSubmit()">
+        <div class="p-fluid p-formgrid p-grid">
+            <div class="p-field p-col-6">
+                <label>Fornecedor</label>
+                <p-dropdown
+                    #fornecedorControl="ngModel"
+                    id="fornecedor"
+                    name="fornecedor"
+                    [options]="fornecedores$ | async"
+                    [(ngModel)]="stepMergeService.state.fornecedor"
+                    placeholder="Selecione o fornecedor"
+                    optionLabel="nomeFantasia"
+                    emptyMessage="Nenhum registro encontrado"
+                    required
+                    showClear="true"
+                ></p-dropdown>
+                <small
+                    class="p-invalid p-error"
+                    *ngIf="!stepMergeService.state.fornecedor"
+                >
+                    É necessário selecionar um fornecedor
+                </small>
+            </div>
+
+            <div class="p-field p-col-6">
+                <label>Previsão de Entrega</label>
+                <input
+                    pInputText
+                    [(ngModel)]="stepMergeService.state.dataPrevisaoEntrega"
+                    type="date"
+                />
+            </div>
+        </div>
+    </form>
+</step>

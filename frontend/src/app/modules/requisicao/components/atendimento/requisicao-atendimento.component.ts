@@ -1,3 +1,4 @@
+import { DialogService } from 'primeng/dynamicdialog';
 import { Mensagens } from 'src/app/utils/Mensagens';
 import { MessageService } from 'primeng/api';
 import { Component, OnInit } from '@angular/core';
@@ -7,6 +8,7 @@ import { Requisicao } from 'src/app/model/requisicao';
 
 import { ItemRequisicao } from '../../../../model/item-requisicao';
 import { RequisicaoService } from '../../services/requisicao.service';
+import { ModalHistoricoComponent } from 'src/app/modules/produto/components/modal-historico/modal-historico-produto.component';
 
 @Component({
     selector: "requisicao-atendimento",
@@ -15,13 +17,15 @@ import { RequisicaoService } from '../../services/requisicao.service';
 })
 export class RequisicaoAtendimentoComponent implements OnInit {
     NOME_PAGINA = "Informações da Requisição";
-    registro: Requisicao = {};
+    registro: Requisicao = { status: {}};
     registroNoFormulario: any;
 
     constructor(
         private requisicaoService: RequisicaoService,
         private messageService : MessageService,
-        private activatedRoute: ActivatedRoute
+        private activatedRoute: ActivatedRoute,
+        private router : Router,
+        private dialogService: DialogService
     ) {}
 
     ngOnInit(): void {
@@ -38,6 +42,18 @@ export class RequisicaoAtendimentoComponent implements OnInit {
     }
 
     onSubmit(formulario: NgForm): void {}
+
+    onVisualizarProduto(item: ItemRequisicao) {
+        this.router.navigate([`/produtos/editar/${item.produto.id}`])
+    }
+
+    onVisualizarHistoricoMovimento(item : ItemRequisicao) {
+        this.dialogService.open(ModalHistoricoComponent, {
+            header: "Histórico de Estoque",
+            width: "70%",
+            data: item.produto
+        });
+    }
 
     onEditarItem({ rowIndex, item }) {
         this.registroNoFormulario = { rowIndex, item: Object.assign({}, item) };

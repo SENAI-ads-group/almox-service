@@ -1,26 +1,38 @@
 import { Message } from "primeng/api";
 export class Mensagens {
+
+    static readonly BEM_VINDO: Message = {
+        severity: "success",
+        key: "notification",
+        summary: "Bem vindo(a)",
+        life: 1500,
+    };
+
     static readonly SUCESSO_REGISTRO_SALVO: Message = {
         severity: "success",
         key: "notification",
-        summary: "Sucesso",
-        detail: "Registro Salvo com Sucesso!",
+        summary: "Registro Salvo com Sucesso!",
+        life: 1500,
+    };
+
+    static readonly SUCESSO_REGISTRO_EXCLUIDO: Message = {
+        severity: "success",
+        key: "notification",
+        summary: "Registro Excluído com Sucesso!",
         life: 1500,
     };
 
     static readonly SUCESSO_PRODUTO_ADICIONADO: Message = {
         severity: "success",
         key: "requisicao-form",
-        summary: "Sucesso",
-        detail: "Produto Adicionado com Sucesso!",
+        summary: "Produto Adicionado com Sucesso!",
         life: 1500,
     };
 
     static readonly SUCESSO_PRODUTO_ATUALIZADO: Message = {
         severity: "success",
         key: "requisicao-form",
-        summary: "Sucesso",
-        detail: "Produto Atualizado com Sucesso!",
+        summary: "Produto Atualizado com Sucesso!",
         life: 1500,
     };
 
@@ -39,4 +51,20 @@ export class Mensagens {
         detail: "Requisição entregue!",
         life: 1500,
     };
+
+    static readonly SUCESSO_PEDIDO_RECEBIDO: Message = {
+        severity: "success",
+        key: "notification",
+        summary: "Sucesso",
+        detail: "Pedido recebido!",
+        life: 1500,
+    }
+
+    static readonly SUCESSO_PEDIDO_CANCELADO: Message = {
+        severity: "success",
+        key: "notification",
+        summary: "Sucesso",
+        detail: "Pedido cancelado!",
+        life: 1500,
+    }
 }
