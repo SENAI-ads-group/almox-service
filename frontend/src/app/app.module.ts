@@ -10,8 +10,8 @@ import { ToastModule } from 'primeng/toast';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { HandleErrorHttpInterceptor } from './config/handle-error-http-interceptor';
-import { CoreModule } from './modules/core/core.module';
+import { HandleErrorHttpInterceptor } from '../config/handle-error-http-interceptor';
+import { CoreModule } from '../modules/core/core.module';
 
 @NgModule({
     imports: [
