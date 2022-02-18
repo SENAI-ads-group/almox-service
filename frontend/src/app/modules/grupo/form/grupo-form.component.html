@@ -1,0 +1,140 @@
+<div class="p=grid">
+    <div class="p-col-12">
+        <div class="p-d-flex p-jc-between">
+            <titulo-pagina-crud
+                entidade="Grupos"
+                acao="{{ editandoRegistroExistente ? 'Editar' : 'Novo' }}"
+            ></titulo-pagina-crud>
+            <div>
+                <button
+                    pButton
+                    pRipple
+                    label="Consultar"
+                    class="p-mb-3 p-mr-1 p-shadow-4 p-button-secondary"
+                    icon="pi pi-list"
+                    routerLink="/grupos"
+                ></button>
+            </div>
+        </div>
+
+        <form #formulario="ngForm" (ngSubmit)="onSubmit(formulario)">
+            <p-card styleClass="p-mb-4 p-p-0 p-shadow-3">
+                <ng-template pTemplate="title">Informações Básicas</ng-template>
+                <ng-template pTemplate="subtitle"
+                    >Informe os dados do Grupo</ng-template
+                >
+
+                <div class="p-fluid p-formgrid p-grid">
+                    <div class="p-field p-col-12">
+                        <label for="name">Descrição</label>
+                        <input
+                            #descricaoControl="ngModel"
+                            type="text"
+                            id="descricao"
+                            name="descricao"
+                            [(ngModel)]="grupo.descricao"
+                            pInputText
+                            required
+                            autofocus
+                        />
+                        <small
+                            class="p-invalid p-error"
+                            *ngIf="
+                                !descricaoControl.valid &&
+                                descricaoControl.touched
+                            "
+                        >
+                            A descrição do grupo é necessária.
+                        </small>
+                    </div>
+                </div>
+            </p-card>
+
+            <p-card
+                styleClass="p-p-0 p-mb-4 p-shadow-3"
+                *ngIf="grupo.criadoPor"
+            >
+                <ng-template pTemplate="title">Auditoria</ng-template>
+                <ng-template pTemplate="subtitle"
+                    >Dados de auditoria do Grupo de Produto</ng-template
+                >
+
+                <div class="p-fluid p-formgrid p-grid">
+                    <div class="p-field p-col-6">
+                        <label for="criadoPor">Criado Por</label>
+                        <input
+                            type="text"
+                            id="criadoPor"
+                            name="criadoPor.nome"
+                            [(ngModel)]="grupo.criadoPor.nome"
+                            pInputText
+                            readonly
+                        />
+                    </div>
+                    <div class="p-field p-col-6">
+                        <label for="dataCriacao">Data Criação</label>
+                        <input
+                            type="text"
+                            id="dataCriacao"
+                            name="dataCriacao"
+                            [(ngModel)]="grupo.dataCriacao"
+                            pInputText
+                            readonly
+                        />
+                    </div>
+
+                    <div class="p-field p-col-6" *ngIf="grupo.alteradoPor">
+                        <label for="alteradoPor">Alterado Por</label>
+                        <input
+                            type="text"
+                            id="alteradoPor"
+                            name="alteradoPor.nome"
+                            [(ngModel)]="grupo.alteradoPor.nome"
+                            pInputText
+                            readonly
+                        />
+                    </div>
+                    <div class="p-field p-col-6" *ngIf="grupo.alteradoPor">
+                        <label for="dataAlteracao">Data Alteração</label>
+                        <input
+                            type="text"
+                            id="dataAlteracao"
+                            name="dataAlteracao"
+                            [(ngModel)]="grupo.dataAlteracao"
+                            pInputText
+                            readonly
+                        />
+                    </div>
+
+                    <div class="p-field p-col-6" *ngIf="grupo.excluidoPor">
+                        <label for="excluidoPor">Excluído Por</label>
+                        <input
+                            type="text"
+                            id="excluidoPor.nome"
+                            name="excluidoPor.nome"
+                            [(ngModel)]="grupo.excluidoPor.nome"
+                            pInputText
+                            readonly
+                        />
+                    </div>
+                    <div class="p-field p-col-6" *ngIf="grupo.excluidoPor">
+                        <label for="dataExclusao">Data Exclusão</label>
+                        <input
+                            type="text"
+                            id="dataExclusao"
+                            name="dataExclusao"
+                            [(ngModel)]="grupo.dataExclusao"
+                            pInputText
+                            readonly
+                        />
+                    </div>
+                </div>
+            </p-card>
+
+            <div class="p-grid p-justify-end">
+                <limpar-button (click)="onLimpar()"></limpar-button>
+                <submit-button></submit-button>
+            </div>
+        </form>
+    </div>
+</div>

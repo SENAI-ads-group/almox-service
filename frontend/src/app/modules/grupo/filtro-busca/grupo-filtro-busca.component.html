@@ -1,0 +1,25 @@
+<div class="p-fluid p-formgrid p-grid">
+    <div class="p-field p-col-3">
+        <label for="descricao">Descrição</label>
+        <input
+            id="descricao"
+            type="text"
+            [(ngModel)]="filtro.descricao"
+            pInputText
+        />
+    </div>
+    <div class="p-field p-col-3">
+        <br />
+        <br />
+        <filtro-status-auditavel
+            [filtroSelecionado]="filtro.filtroStatusAuditavel"
+            (filtroChange)="filtro.filtroStatusAuditavel = $event"
+        ></filtro-status-auditavel>
+    </div>
+</div>
+<div class="p-d-flex p-jc-center">
+    <div class="flex align-items-center justify-content-center">
+        <limpar-filtro-button (click)="limparFiltros()"></limpar-filtro-button>
+        <pesquisar-button (click)="buscar()"></pesquisar-button>
+    </div>
+</div>

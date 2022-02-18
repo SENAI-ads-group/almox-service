@@ -1,0 +1,150 @@
+<p-card styleClass="p-mb-4 p-p-0 p-shadow-3">
+    <ng-template pTemplate="title">Informações Básicas</ng-template>
+    <ng-template pTemplate="subtitle"
+        >Informe os dados departamento</ng-template
+    >
+
+    <div class="p-fluid p-formgrid p-grid">
+        <div class="p-field p-col-12">
+            <label for="criadoPor">Nome</label>
+            <input
+                #nomeControl
+                type="text"
+                id="nome"
+                name="nome"
+                [(ngModel)]="departamento.nome"
+                pInputText
+                required
+                [readonly]="modoVisualizacao"
+            />
+        </div>
+    </div>
+</p-card>
+
+<p-card styleClass="p-mb-4 p-p-0 p-shadow-3">
+    <ng-template pTemplate="title">Usuários Pertencentes</ng-template>
+    <ng-template pTemplate="subtitle"
+        >Selecione os usuários pertencentes à este departamento</ng-template
+    >
+    <div class="p-field p-col-12">
+        <p-pickList
+            name="usr"
+            id="usr"
+            [source]="usuarios"
+            [target]="departamento.usuarios"
+            sourceHeader="Disponíveis"
+            targetHeader="Selecionados"
+            [dragdrop]="true"
+            [responsive]="true"
+            [sourceStyle]="{ height: '25rem' }"
+            [targetStyle]="{ height: '25rem' }"
+            filterBy="nome"
+            [showSourceControls]="false"
+            [showTargetControls]="false"
+            sourceFilterPlaceholder="Pesquisar por nome"
+            targetFilterPlaceholder="Pesquisar por nome"
+            [disabled]="modoVisualizacao"
+        >
+            <ng-template let-usuario pTemplate="item">
+<<<<<<< HEAD:src/app/modules/departamento/components/departamento-form-section/departamento-form-section.component.html
+                <h5 class="p-mb-2">{{ usuario.login }}</h5>
+=======
+                <h5 class="p-mb-2">{{ usuario.username }}</h5>
+>>>>>>> a7d33ac6e034c748fdf869da03c3fbb32b236fec:src/app/modules/departamento/components/form-section/departamento-form-section.component.html
+            </ng-template>
+        </p-pickList>
+    </div>
+</p-card>
+
+<p-card styleClass="p-p-0 p-mb-4 p-shadow-3" *ngIf="departamento.criadoPor">
+    <ng-template pTemplate="title">Auditoria</ng-template>
+    <ng-template pTemplate="subtitle"
+        >Dados de auditoria do departamento</ng-template
+    >
+
+    <div class="p-fluid p-formgrid p-grid">
+        <div class="p-field p-col-6">
+            <label for="criadoPor">Criado Por</label>
+            <input
+                type="text"
+                id="criadoPor"
+                name="criadoPor.nome"
+                [(ngModel)]="departamento.criadoPor.nome"
+                pInputText
+                readonly
+            />
+        </div>
+
+        <div class="p-field p-col-6">
+            <label for="dataCriacao">Data Criação</label>
+            <input
+                type="text"
+                id="dataCriacao"
+                name="dataCriacao"
+                [(ngModel)]="departamento.dataCriacao"
+                pInputText
+                readonly
+            />
+        </div>
+
+        <div class="p-field p-col-6" *ngIf="departamento.alteradoPor">
+            <label for="alteradoPor">Alterado Por</label>
+            <input
+                type="text"
+                id="alteradoPor"
+                name="alteradoPor.nome"
+                [(ngModel)]="departamento.alteradoPor.nome"
+                pInputText
+                readonly
+            />
+        </div>
+
+        <div class="p-field p-col-6" *ngIf="departamento.alteradoPor">
+            <label for="dataAlteracao">Data Alteração</label>
+            <input
+                type="text"
+                id="dataAlteracao"
+                name="dataAlteracao"
+                [(ngModel)]="departamento.dataAlteracao"
+                pInputText
+                readonly
+            />
+        </div>
+
+        <div class="p-field p-col-6" *ngIf="departamento.excluidoPor">
+            <label for="excluidoPor">Excluído Por</label>
+            <input
+                type="text"
+                id="excluidoPor.nome"
+                name="excluidoPor.nome"
+                [(ngModel)]="usuario.excluidoPor.nome"
+                pInputText
+                readonly
+            />
+        </div>
+
+        <div class="p-field p-col-6" *ngIf="departamento.excluidoPor">
+            <label for="dataExclusao">Data Exclusão</label>
+            <input
+                type="text"
+                id="dataExclusao"
+                name="dataExclusao"
+                [(ngModel)]="departamento.dataExclusao"
+                pInputText
+                readonly
+            />
+        </div>
+    </div>
+</p-card>
+
+<p-card styleClass="p-p-0 p-mb-4 p-shadow-3">
+    <ng-template pTemplate="title">Auditoria</ng-template>
+    <ng-template pTemplate="subtitle"
+        >Dados de auditoria do departamento</ng-template
+    >
+    <auditoria-form-section
+        [auditavel]="departamento"
+    >
+    </auditoria-form-section>
+
+</p-card>

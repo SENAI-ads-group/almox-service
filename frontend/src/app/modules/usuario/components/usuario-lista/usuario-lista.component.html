@@ -1,0 +1,38 @@
+<div class="p-grid">
+    <div class="p-col-12">
+        <div class="p-d-flex p-jc-between">
+            <titulo-pagina-crud entidade="Usuários" acao="Consultar"></titulo-pagina-crud>
+            <div>
+                <button
+                    pButton
+                    pRipple
+                    label="Novo"
+                    icon="pi pi-plus"
+                    class="p-mr-1 p-mb-3"
+                    routerLink="novo"
+                ></button>
+            </div>
+        </div>
+
+        <div class="card">
+            <usuario-filtro
+                #filtroComponent
+                (buscar)="buscar($event.filtro)"
+                [tiposUsuarios]="tiposUsuarios"
+            ></usuario-filtro>
+            <tabela-crud
+                [colunas]="colunas"
+                [dados]="usuarios"
+                [exibirAcaoEditar]="exibirAcaoEditar"
+                [exibirAcaoExcluir]="exibirAcaoExcluir"
+                (selecionadosChange)="selecionados = $event"
+                (visualizar)="visualizar($event)"
+                (editar)="editar($event)"
+                (excluir)="excluir($event)"
+            ></tabela-crud>
+        </div>
+    </div>
+</div>
+
+<p-confirmDialog [style]="{ width: '450px' }"></p-confirmDialog>
+<p-toast></p-toast>

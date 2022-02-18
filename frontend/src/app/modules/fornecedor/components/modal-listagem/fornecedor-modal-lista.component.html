@@ -1,0 +1,25 @@
+<p-dialog
+    [header]="titulo"
+    [(visible)]="mostrarModal"
+    [breakpoints]="{ '960px': '75vw' }"
+    [style]="{ width: '50vw' }"
+    [draggable]="false"
+    [resizable]="false"
+    [modal]="true"
+    [style]="{ width: '50vw' }"
+    [maximizable]="true"
+    (onHide)="handleOnHide()"
+>
+    <p-virtualScroller
+        [value]="fornecedores"
+        scrollHeight="450px"
+        [itemSize]="100"
+        [rows]="100"
+        [lazy]="true"
+    >
+        <ng-template pTemplate="header"> Lista de Fornecedores </ng-template>
+        <ng-template let-fornecedor pTemplate="item" let-i="index">
+            {{fornecedor.nome}}
+        </ng-template>
+    </p-virtualScroller>
+</p-dialog>

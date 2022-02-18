@@ -1,0 +1,24 @@
+.requisicao-badge {
+    border-radius: 2px;
+    padding: .25em .5rem;
+    text-transform: uppercase;
+    font-weight: 700;
+    font-size: 12px;
+    letter-spacing: .3px;
+    text-align: center;
+
+    &.status-ABERTO {
+        background: #C8E6C9;
+        color: #256029;
+    }
+
+    &.status-FECHADO {
+        background: #B3E5FC;
+        color: #23547B;
+    }
+
+    &.status-PENDENTE {
+        background: #FEEDAF;
+        color: #8A5340;
+    }
+}

@@ -1,0 +1,33 @@
+<div class="p-grid">
+    <div class="p-col-12">
+        <div class="p-d-flex p-jc-between">
+            <titulo-pagina-crud
+                entidade="Fabricantes"
+                acao="Consultar"
+            ></titulo-pagina-crud>
+            <div>
+                <novo-button label="Novo Fabricante"></novo-button>
+            </div>
+        </div>
+
+        <div class="card">
+            <fabricante-filtro
+                #filtroComponent
+                (buscar)="handleBuscar($event.filtro)"
+            ></fabricante-filtro>
+            <tabela-crud
+                [colunas]="colunas"
+                [dados]="fabricantes"
+                [exibirAcaoEditar]="handleExibirAcaoEditar"
+                [exibirAcaoExcluir]="handleExibirAcaoExcluir"
+                (selecionadosChange)="selecionados = $event"
+                (visualizar)="handleVisualizar($event)"
+                (editar)="handleEditar($event)"
+                (excluir)="handleExcluir($event)"
+            ></tabela-crud>
+        </div>
+    </div>
+</div>
+
+<p-confirmDialog [style]="{ width: '450px' }"></p-confirmDialog>
+<p-toast></p-toast>

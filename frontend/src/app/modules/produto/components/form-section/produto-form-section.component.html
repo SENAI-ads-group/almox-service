@@ -1,0 +1,323 @@
+<p-card styleClass="p-mb-4 p-p-0 p-shadow-3">
+    <ng-template pTemplate="title">Informações Básicas</ng-template>
+    <ng-template pTemplate="subtitle"
+        >Informe os dados do novo produto</ng-template
+    >
+
+    <div class="p-fluid p-formgrid p-grid">
+        <div class="p-field p-col-3">
+            <label for="id">Código</label>
+            <input
+                #idControl="ngModel"
+                id="id"
+                name="id"
+                type="text"
+                [(ngModel)]="produto.id"
+                pInputText
+                disabled
+            />
+
+            <small
+                class="p-invalid p-error"
+                *ngIf="
+                    !codigoBarrasControl.valid &&
+                    codigoBarrasControl.touched &&
+                    !produto.codigoBarras
+                "
+            >
+                O código de barras do produto é necessário.
+            </small>
+        </div>
+
+        <div class="p-field p-col-3">
+            <label for="codigoBarras">Código de Barras</label>
+            <input
+                #codigoBarrasControl="ngModel"
+                id="codigoBarras"
+                name="codigoBarras"
+                type="text"
+                maxlength="13"
+                [(ngModel)]="produto.codigoBarras"
+                pInputText
+                autofocus
+            />
+        </div>
+
+        <div class="p-field p-col-6">
+            <label for="descricao">Descrição</label>
+            <input
+                #descricaoControl="ngModel"
+                id="descricao"
+                name="descricao"
+                type="text"
+                [(ngModel)]="produto.descricao"
+                pInputText
+                required
+                autofocus
+            />
+            <small
+                class="p-invalid p-error"
+                *ngIf="!descricaoControl.valid && descricaoControl.touched"
+            >
+                A descrição do produto é necessária.
+            </small>
+        </div>
+
+        <div class="p-field p-col-3">
+            <label for="unidadeMedida">Unidade de Medida</label>
+            <p-dropdown
+                #unidadeMedidaControl="ngModel"
+                id="unidadeMedida"
+                name="unidadeMedida"
+                [options]="(enums || {}).unidadesMedida"
+                [(ngModel)]="produto.unidadeMedida"
+                placeholder="Selecione uma medida"
+                optionLabel="descricao"
+                emptyMessage="Nenhum registro encontrado"
+                required
+                [showClear]="true"
+            >
+            </p-dropdown>
+            <small
+                class="p-invalid p-error"
+                *ngIf="
+                    !unidadeMedidaControl.valid && unidadeMedidaControl.touched
+                "
+            >
+                A unidade de medida é necessária
+            </small>
+        </div>
+
+        <div class="p-field p-col-3">
+            <label for="fabricante">Fabricante</label>
+            <p-dropdown
+                #fabricanteControl="ngModel"
+                id="fabricante"
+                name="fabricante"
+                [options]="fabricantes"
+                [(ngModel)]="produto.fabricante"
+                placeholder="Selecione um fabricante"
+                optionLabel="nomeFantasia"
+                emptyMessage="Nenhum registro encontrado"
+                required
+                [showClear]="true"
+            >
+            </p-dropdown>
+            <small class="p-invalid p-error" *ngIf="!fabricanteControl.valid && fabricanteControl.touched">
+                O fabricante é necessário
+            </small>
+        </div>
+
+        <div class="p-field p-col-3">
+            <label for="grupo">Grupo</label>
+            <p-dropdown
+                #grupoControl="ngModel"
+                id="grupo"
+                name="grupo"
+                [options]="grupos"
+                [(ngModel)]="produto.grupo"
+                placeholder="Selecione um grupo"
+                optionLabel="descricao"
+                emptyMessage="Nenhum registro encontrado"
+                required
+                [showClear]="true"
+            >
+            </p-dropdown>
+            <small
+                class="p-invalid p-error"
+                *ngIf="!grupoControl.valid && grupoControl.touched"
+            >
+                O grupo é necessário
+            </small>
+        </div>
+
+        <div class="p-col-3"></div>
+
+        <div class="p-field p-col-6">
+            <label for="palavrasChave">Palavras Chaves</label>
+            <p-chips
+                id="palavrasChave"
+                name="palavrasChave"
+                [(ngModel)]="produto.palavrasChave"
+            >
+            </p-chips>
+        </div>
+
+        <div class="p-field p-col-6">
+            <div class="p-field-inputSwitch p-mt-5">
+                <label for="possuiLoteValidade">Possui Lote e Validade? </label>
+                <p-inputSwitch
+                    id="possuiLoteValidade"
+                    name="possuiLoteValidade"
+                    [(ngModel)]="produto.possuiLoteValidade"
+                >
+                </p-inputSwitch>
+            </div>
+        </div>
+
+        <div class="p-field p-col-12">
+            <label for="detalhes">Detalhes</label>
+            <textarea
+                #descricaoControl="ngModel"
+                id="detalhes"
+                name="detalhes"
+                [(ngModel)]="produto.detalhes"
+                rows="5"
+                pInputTextarea
+                autoResize="autoResize"
+            ></textarea>
+        </div>
+    </div>
+</p-card>
+
+<p-card styleClass="p-mb-4 p-p-0 p-shadow-3" *ngIf="produto.unidadeMedida">
+    <ng-template pTemplate="title">Configuração de Estoque</ng-template>
+    <ng-template pTemplate="subtitle">Informe os dados de custo</ng-template>
+
+    <div class="p-fluid p-formgrid p-grid">
+        <div class="p-field p-col-12">
+            <div class="p-field-inputSwitch">
+                <label for="controlaEstoqueMinimo"
+                    >Controla Estoque Mínimo?
+                </label>
+                <p-inputSwitch
+                    [(ngModel)]="
+                        produto.configuracaoEstoque.controlaEstoqueMinimo
+                    "
+                    id="controlaEstoqueMinimo"
+                    name="controlaEstoqueMinimo"
+                >
+                </p-inputSwitch>
+            </div>
+        </div>
+
+        <div class="p-field p-col-12">
+            <div class="p-field-inputSwitch">
+                <label for="controlaEstoqueMaximo"
+                    >Controla Estoque Máximo?
+                </label>
+                <p-inputSwitch
+                    [(ngModel)]="
+                        produto.configuracaoEstoque.controlaEstoqueMaximo
+                    "
+                    id="controlaEstoqueMaximo"
+                    name="controlaEstoqueMaximo"
+                >
+                </p-inputSwitch>
+            </div>
+        </div>
+
+        <div class="p-field p-col-4">
+            <label for="estoqueMinimo">Estoque Mínimo</label>
+            <div class="p-inputgroup">
+                <input
+                    #estoqueMinimoControl="ngModel"
+                    type="text"
+                    id="estoqueMinimo"
+                    name="estoqueMinimo"
+                    [(ngModel)]="produto.configuracaoEstoque.estoqueMinimo"
+                    pInputText
+                    required
+                    autofocus
+                    [readonly]="modoVisualizacao"
+                />
+                <span
+                    class="p-inputgroup-addon"
+                    *ngIf="produto.unidadeMedida"
+                    >{{ produto.unidadeMedida.type }}</span
+                >
+            </div>
+            <small
+                class="p-invalid p-error"
+                *ngIf="
+                    !estoqueMinimoControl.valid && estoqueMinimoControl.touched
+                "
+            >
+                O estoque mínimo é necessário
+            </small>
+        </div>
+
+        <div
+            class="p-field p-col-4"
+            *ngIf="produto.configuracaoEstoque.estoqueAtual"
+        >
+            <label for="estoqueMinimo">Estoque Atual</label>
+            <div class="p-inputgroup">
+                <input
+                    #estoqueAtualControl="ngModel"
+                    type="text"
+                    id="estoqueAtual"
+                    name="estoqueAtual"
+                    [(ngModel)]="produto.configuracaoEstoque.estoqueAtual"
+                    pInputText
+                    required
+                    autofocus
+                    disabled
+                />
+                <span class="p-inputgroup-addon">{{
+                    produto.unidadeMedida.type
+                }}</span>
+            </div>
+        </div>
+
+        <div class="p-field p-col-4">
+            <label for="estoqueMaximo">Estoque Máximo</label>
+            <div class="p-inputgroup">
+                <input
+                    #estoqueMaximoControl="ngModel"
+                    type="text"
+                    id="estoqueMaximo"
+                    name="estoqueMaximo"
+                    [(ngModel)]="produto.configuracaoEstoque.estoqueMaximo"
+                    pInputText
+                    required
+                    autofocus
+                />
+                <span
+                    class="p-inputgroup-addon"
+                    *ngIf="produto.unidadeMedida"
+                    >{{ produto.unidadeMedida.type }}</span
+                >
+            </div>
+            <small
+                class="p-invalid p-error"
+                *ngIf="
+                    !estoqueMaximoControl.valid && estoqueMaximoControl.touched
+                "
+            >
+                O estoque máximo é necessário
+            </small>
+        </div>
+    </div>
+</p-card>
+
+<p-card styleClass="p-mb-4 p-p-0 p-shadow-3">
+    <ng-template pTemplate="title">Departamentos com Acesso</ng-template>
+    <ng-template pTemplate="subtitle"
+        >Selecione os departamentos com acesso à este produto</ng-template
+    >
+    <div class="p-field p-col-12">
+        <p-pickList
+            #departamentosControl
+            name="departamentos"
+            id="departamentos"
+            [source]="departamentos || []"
+            [target]="produto.departamentos"
+            sourceHeader="Disponíveis"
+            targetHeader="Selecionados"
+            [dragdrop]="true"
+            [responsive]="true"
+            [sourceStyle]="{ height: '20rem' }"
+            [targetStyle]="{ height: '20rem' }"
+            filterBy="nome"
+            [showSourceControls]="false"
+            [showTargetControls]="false"
+            sourceFilterPlaceholder="Pesquisar por nome"
+            targetFilterPlaceholder="Pesquisar por nome"
+        >
+            <ng-template let-departamento pTemplate="item">
+                <h5 class="p-mb-2">{{ departamento.nome }}</h5>
+            </ng-template>
+        </p-pickList>
+    </div>
+</p-card>

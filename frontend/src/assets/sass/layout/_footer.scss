@@ -1,0 +1,21 @@
+.layout-wrapper {
+    .footer {
+        background-color: #eeefefff;
+        padding: .5em;
+        margin: 0 3rem;
+
+        .footer-text-left {
+            float: left;
+        }
+
+        .footer-text-right {
+            color: $textSecondaryColor;
+            float: right;
+
+            span {
+                vertical-align: middle;
+                display: inline-block;
+            }
+        }
+    }
+}

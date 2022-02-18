@@ -1,0 +1,34 @@
+<div class="p-grid">
+    <div class="p-col-12">
+        <div class="p-d-flex p-jc-between">
+            <titulo-pagina-crud
+                entidade="{{ NOME_PAGINA }}"
+                acao="Consultar"
+            ></titulo-pagina-crud>
+            <div>
+                <novo-button label="Nova Requisição" semRota="true" (click)="onNovaRequisicao()"></novo-button>
+            </div>
+        </div>
+
+        <div class="card">
+            <requisicao-filtro
+                #filtroComponent
+                [almoxarifes]="almoxarifes$ | async"
+                [requisitantes]="requisitantes$ | async"
+                [enums]="enums$ | async"
+                (buscar)="onBuscar($event.filtro)"
+            ></requisicao-filtro>
+
+            <tabela-crud
+                [colunas]="colunas"
+                [dados]="registros"
+                [loading]="loading"
+                (editar)="onEditar($event)"
+                (excluir)="onExcluir($event)"
+            ></tabela-crud>
+        </div>
+    </div>
+</div>
+
+<p-confirmDialog [style]="{ width: '450px' }"></p-confirmDialog>
+<p-toast></p-toast>

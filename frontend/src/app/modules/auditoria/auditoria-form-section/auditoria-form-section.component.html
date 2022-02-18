@@ -1,0 +1,81 @@
+<div class="p-fluid p-formgrid p-grid">
+    <div class="p-field p-col-6" *ngIf="auditavel.criadoPor">
+        <label for="criadoPor">Criado Por</label>
+        <input
+            #criadoPorControl="ngModel"
+            type="text"
+            id="criadoPor"
+            name="criadoPor.nome"
+            [(ngModel)]="auditavel.criadoPor.nome"
+            pInputText
+            readonly
+        />
+    </div>
+
+    <div class="p-field p-col-6" *ngIf="auditavel.dataCriacao">
+        <label for="dataCriacao">Data Criação</label>
+        <input
+            #dataCriacaoControl="ngModel"
+            type="text"
+            id="dataCriacao"
+            name="dataCriacao"
+            (ngModelChange)="auditavel.dataCriacao = $event"
+            [ngModel]="auditavel.dataCriacao | date: 'dd/MM/yyyy HH:mm:ss'"
+            pInputText
+            readonly
+        />
+    </div>
+
+    <div class="p-field p-col-6" *ngIf="auditavel.alteradoPor">
+        <label for="alteradoPor">Alterado Por</label>
+        <input
+            #alteradoPorControl="ngModel"
+            type="text"
+            id="alteradoPor"
+            name="alteradoPor.nome"
+            [(ngModel)]="auditavel.alteradoPor.nome"
+            pInputText
+            readonly
+        />
+    </div>
+
+    <div class="p-field p-col-6" *ngIf="auditavel.dataAlteracao">
+        <label for="dataAlteracao">Data Alteração</label>
+        <input
+            #dataAlteracaoControl="ngModel"
+            type="text"
+            id="dataAlteracao"
+            name="dataAlteracao"
+            (ngModelChange)="auditavel.dataAlteracao = $event"
+            [ngModel]="auditavel.dataAlteracao | date: 'dd/MM/yyyy HH:mm:ss'"
+            pInputText
+            readonly
+        />
+    </div>
+
+    <div class="p-field p-col-6" *ngIf="auditavel.excluidoPor">
+        <label for="excluidoPor">Excluído Por</label>
+        <input
+            #excluidoPorControl="ngModel"
+            type="text"
+            id="excluidoPor.nome"
+            name="excluidoPor.nome"
+            [(ngModel)]="auditavel.excluidoPor.nome"
+            pInputText
+            readonly
+        />
+    </div>
+
+    <div class="p-field p-col-6" *ngIf="auditavel.dataExclusao">
+        <label for="dataExclusao">Data Exclusão</label>
+        <input
+            #dataExclusaoControl="ngModel"
+            type="text"
+            id="dataExclusao"
+            name="dataExclusao"
+            [(ngModel)]="auditavel.dataExclusao"
+            pInputText
+            readonly
+        />
+    </div>
+</div>

@@ -1,0 +1,62 @@
+<div class="p-grid">
+    <div class="p-col-12">
+        <div class="p-d-flex p-jc-between">
+            <titulo-pagina-crud
+                entidade="Fabricantes"
+                acao="{{
+                    modoVisualizacao
+                        ? 'Visualizar'
+                        : editandoRegistroExistente
+                        ? 'Editar'
+                        : 'Novo'
+                }}"
+            ></titulo-pagina-crud>
+            <div>
+                <button
+                    *ngIf="modoVisualizacao"
+                    type="button"
+                    pButton
+                    pRipple
+                    label="Editar"
+                    class="p-mb-3 p-mr-2 p-button-outlined p-button-primary"
+                    icon="pi pi-pencil"
+                    (click)="habilitarModoEdicao()"
+                ></button>
+                <button
+                    pButton
+                    pRipple
+                    label="Consultar"
+                    class="p-mb-3 p-mr-1 p-shadow-4 p-button-secondary"
+                    icon="pi pi-list"
+                    routerLink="/fabricantes"
+                ></button>
+            </div>
+        </div>
+
+        <form #formulario="ngForm" (ngSubmit)="onSubmit(formulario)">
+            <p-messages
+                *ngIf="modoVisualizacao && formulario.touched"
+                [value]="[
+                    {
+                        severity: 'warn',
+                        summary: 'Modo de Visualização',
+                        detail: 'O Formulário está em Modo de Visualização.'
+                    }
+                ]"
+                [enableService]="false"
+            ></p-messages>
+            <fabricante-form-section
+                [fabricante]="fabricante"
+                [tiposEnderecos]="tiposEndereco"
+                [tiposTelefones]="tiposTelefone"
+                [modoVisualizacao]="modoVisualizacao"
+                [formulario]="formulario"
+            >
+            </fabricante-form-section>
+            <div class="p-grid p-justify-end" *ngIf="!modoVisualizacao">
+                <limpar-button (click)="limpar()"></limpar-button>
+                <submit-button></submit-button>
+            </div>
+        </form>
+    </div>
+</div>

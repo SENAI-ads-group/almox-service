@@ -1,0 +1,40 @@
+<div class="login-body">
+    <div class="login-panel p-fluid">
+        <div class="p-grid p-nogutter">
+            <div class="p-col-12 login-header">
+                <h1>LOGIN</h1>
+                <h2>Bem vindo(a) ao Almox</h2>
+                <!-- <img src="assets/layout/images/logo.png"> -->
+            </div>
+            <div class="p-col-12">
+                <span class="p-float-label">
+                    <input
+                        type="text"
+                        pInputText
+                        [(ngModel)]="solicitacaoLogin.username"
+                    />
+                    <label>Email</label>
+                </span>
+            </div>
+            <div class="p-col-12">
+                <span class="p-float-label">
+                    <input
+                        type="password"
+                        pInputText
+                        [(ngModel)]="solicitacaoLogin.password"
+                    />
+                    <label>Senha</label>
+                </span>
+            </div>
+            <div class="p-col-12 button-container">
+                <button
+                    pButton
+                    type="button"
+                    label="Entrar"
+                    icon="pi pi-user"
+                    (click)="logar()"
+                ></button>
+            </div>
+        </div>
+    </div>
+</div>

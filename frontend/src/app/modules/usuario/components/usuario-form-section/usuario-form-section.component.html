@@ -1,0 +1,44 @@
+<p-card styleClass="p-mb-4 p-p-0 p-shadow-3">
+    <ng-template pTemplate="title">Informações Básicas</ng-template>
+    <ng-template pTemplate="subtitle">Informe os dados do novo usuário</ng-template>
+
+    <div class="p-fluid p-formgrid p-grid">
+        <div class="p-field p-col-4">
+            <label for="name">Nome</label>
+            <input #nomeControl="ngModel" type="text" id="nome" name="nome" [(ngModel)]="usuario.username" pInputText required autofocus [readonly]="modoVisualizacao" />
+            <small class="p-invalid p-error" *ngIf="formulario.submitted && !nomeControl.valid">
+                O nome do usuário é necessário.
+            </small>
+        </div>
+        <div class="p-field p-col-4">
+            <label for="email">Email</label>
+            <input #emailControl="ngModel" type="email" id="email" name="email" [(ngModel)]="usuario.email" pInputText required email="true" autofocus [readonly]="modoVisualizacao" />
+            <small class="p-invalid p-error" *ngIf="
+                    formulario.submitted &&
+                    !emailControl.valid &&
+                    !usuario.email
+                ">
+                O email do usuário é necessário.
+            </small>
+            <small class="p-invalid p-error" *ngIf="
+                    formulario.submitted && !emailControl.valid && usuario.email
+                ">
+                O email do usuário é inválido.
+            </small>
+        </div>
+        <div class="p-field p-col-4">
+            <label>Cargo</label>
+            <p-dropdown #tipoUsuarioControl="ngModel" id="tipoUsuario" name="tipoUsuario" [options]="tiposUsuarios" [(ngModel)]="usuario.tipoUsuario" placeholder="Selecione um Cargo" optionLabel="descricao" emptyMessage="Nenhum registro encontrado" required [readonly]="modoVisualizacao"
+                [showClear]="!modoVisualizacao"></p-dropdown>
+            <small class="p-invalid p-error" *ngIf="formulario.submitted && !tipoUsuarioControl.valid">
+                O tipo do usuário é necessário.
+            </small>
+        </div>
+    </div>
+</p-card>
+
+<p-card styleClass="p-p-0 p-mb-4 p-shadow-3" *ngIf="usuario.dataCriacao">
+    <ng-template pTemplate="title">Auditoria</ng-template>
+    <ng-template pTemplate="subtitle">Dados de auditoria do usuário</ng-template>
+    <auditoria-form-section [auditavel]="usuario"> </auditoria-form-section>
+</p-card>

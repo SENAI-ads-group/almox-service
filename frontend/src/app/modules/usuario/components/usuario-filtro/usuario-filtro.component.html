@@ -1,0 +1,25 @@
+<div class="p-fluid p-formgrid p-grid">
+    <div class="p-field p-col-3">
+        <label for="nome">Nome</label>
+        <input id="nome" type="text" [(ngModel)]="filtro.nome" pInputText />
+    </div>
+    <div class="p-field p-col-3">
+        <label for="email">Email</label>
+        <input id="email" type="text" [(ngModel)]="filtro.email" pInputText />
+    </div>
+    <div class="p-field p-col-3">
+        <label for="tipoUsuario">Tipo Usuário</label>
+        <p-dropdown id="tipoUsuario" [options]="tiposUsuarios" [(ngModel)]="filtro.tipoUsuario" placeholder="Selecione um Tipo" optionLabel="descricao" emptyMessage="Nenhum registro encontrado" [showClear]="true"></p-dropdown>
+    </div>
+    <div class="p-field p-col-3">
+        <br />
+        <br />
+        <filtro-status-auditavel [filtroSelecionado]="filtro.filtroStatusAuditavel" (filtroChange)="filtro.filtroStatusAuditavel = $event"></filtro-status-auditavel>
+    </div>
+</div>
+<div class="p-d-flex p-jc-center">
+    <div class="flex align-items-center justify-content-center">
+        <button pButton pRipple label="Limpar" (click)="limparFiltros()" class="p-button-outlined p-button-secondary p-mr-2 p-mb-3"></button>
+        <button pButton pRipple label="Buscar" (click)="buscar()" icon="pi pi-search" class="p-button-outlined p-mb-3"></button>
+    </div>
+</div>

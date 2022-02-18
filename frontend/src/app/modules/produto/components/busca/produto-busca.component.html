@@ -1,0 +1,64 @@
+<div class="p-grid">
+    <div class="p-col-12">
+        <div class="p-d-flex p-jc-between titulo-pagina">
+            <titulo-pagina-crud
+                entidade="Produtos"
+                acao="Consultar"
+            ></titulo-pagina-crud>
+            <div>
+                <novo-button label="Novo Produto"></novo-button>
+            </div>
+        </div>
+
+        <div class="card">
+            <produto-filtro
+                #filtroComponent
+                [grupos]="grupos$ | async"
+                [departamentos]="departamentos$ | async"
+                (buscar)="onBuscar($event.filtro)"
+            ></produto-filtro>
+            <tabela-crud
+                [colunas]="colunas"
+                [dados]="registros"
+                [exibirAcaoEditar]="exibirAcaoEditar"
+                [exibirAcaoExcluir]="exibirAcaoExcluir"
+                [loading]="loading"
+                (selecionadosChange)="selecionados = $event"
+                (editar)="onEditar($event)"
+                (excluir)="onExcluir($event)"
+            ></tabela-crud>
+        </div>
+    </div>
+</div>
+
+<p-confirmDialog [style]="{ width: '450px' }">
+    <ng-template pTemplate="footer">
+        <button
+            type="button"
+            pButton
+            icon="pi pi-times"
+            label="Não"
+            style="
+                background: #28a745;
+                color: #fff;
+                font-weight: 700;
+                font-size: 14px;
+            "
+            (click)="cd.reject()"
+        ></button>
+        <button
+            type="button"
+            pButton
+            icon="pi pi-check"
+            label="Sim"
+            style="
+                background: #ffc107;
+                color: #212529;
+                font-weight: 700;
+                font-size: 14px;
+            "
+            (click)="cd.accept()"
+        ></button>
+    </ng-template>
+</p-confirmDialog>
+<p-toast></p-toast>

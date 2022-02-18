@@ -1,0 +1,11 @@
+<p-card styleClass="p-mb-4 p-p-0 p-shadow-3">
+    <ng-template pTemplate="title">Informações Básicas</ng-template>
+    <ng-template pTemplate="subtitle">Informe os dados do novo fornecedor</ng-template>
+    <pj-form-section [pessoa]="fornecedor" [modoVisualizacao]="modoVisualizacao" [formulario]="formulario"></pj-form-section>
+</p-card>
+
+<p-card styleClass="p-mb-4 p-p-0 p-shadow-3">
+    <ng-template pTemplate="title">Contatos</ng-template>
+    <ng-template pTemplate="subtitle">Informe os dados de contato</ng-template>
+    <contato-form-section [contato]="fornecedor.contato" [tiposEnderecos]='tiposEnderecos' [tiposTelefones]='tiposTelefones' [modoVisualizacao]="modoVisualizacao" [formulario]="formulario"></contato-form-section>
+</p-card>

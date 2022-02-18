@@ -1,0 +1,84 @@
+<div class="p-fluid p-formgrid p-grid">
+    <div class="p-field p-col-3">
+        <label for="nome">Descrição</label>
+        <input
+            id="descricao"
+            type="text"
+            [(ngModel)]="filtro.descricao"
+            pInputText
+        />
+    </div>
+    <div class="p-field p-col-3">
+        <label for="email">Código de Barras</label>
+        <input
+            id="codigoBarras"
+            type="text"
+            [(ngModel)]="filtro.codigoBarras"
+            pInputText
+        />
+    </div>
+    <div class="p-field p-col-3">
+        <label for="tipoUsuario">Grupos</label>
+        <p-multiSelect
+            name="grupos"
+            [options]="grupos"
+            [(ngModel)]="filtro.grupos"
+            emptyMessage="Nenhum registro encontrado"
+            defaultLabel="Todos"
+            optionLabel="descricao"
+            class="multiselect-custom"
+        ></p-multiSelect>
+    </div>
+    <div class="p-field p-col-3">
+        <label for="tipoUsuario">Departamentos</label>
+        <p-multiSelect
+            name="departamentos"
+            [options]="departamentos"
+            [(ngModel)]="filtro.departamentos"
+            emptyMessage="Nenhum registro encontrado"
+            defaultLabel="Todos"
+            optionLabel="nome"
+            class="multiselect-custom"
+        ></p-multiSelect>
+    </div>
+</div>
+<div class="p-fluid p-formgrid p-grid">
+    <div class="p-field p-col-3">
+        <label for="fornecedor">Fornecedor</label>
+        <p-dropdown
+            id="fornecedor"
+            [options]=""
+            [(ngModel)]="filtro.fornecedor"
+            placeholder="Todos"
+            optionLabel="descricao"
+            emptyMessage="Nenhum registro encontrado"
+            [showClear]="true"
+        ></p-dropdown>
+    </div>
+    <div class="p-field p-col-3">
+        <label for="unidadeMedida">Unidade de Medida</label>
+        <p-dropdown
+            id="unidadeMedida"
+            [options]=""
+            [(ngModel)]="filtro.unidadeMedida"
+            placeholder="Todos"
+            optionLabel="descricao"
+            emptyMessage="Nenhum registro encontrado"
+            [showClear]="true"
+        ></p-dropdown>
+    </div>
+    <div class="p-field p-col-3">
+        <br />
+        <br />
+        <filtro-status-auditavel
+            [filtroSelecionado]="filtro.filtroStatusAuditavel"
+            (filtroChange)="filtro.filtroStatusAuditavel = $event"
+        ></filtro-status-auditavel>
+    </div>
+</div>
+<div class="p-d-flex p-jc-center">
+    <div class="flex align-items-center justify-content-center">
+        <limpar-filtro-button (click)="limpar()"></limpar-filtro-button>
+        <pesquisar-button (click)="buscar()"></pesquisar-button>
+    </div>
+</div>

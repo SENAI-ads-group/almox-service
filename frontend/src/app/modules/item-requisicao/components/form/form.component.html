@@ -1,0 +1,36 @@
+<div class="p-fluid p-formgrid p-grid">
+    <div class="p-field p-col-8">
+        <label for="produto">Produto</label>
+        <input-button
+            id="produto"
+            name="produto"
+            (onClick)="abrirDialogProduto()"
+            (remover)="this.item.produto = {}"
+            [value]="(item.produto || {}).descricao"
+            placeholder="Selecione um Produto"
+        >
+        </input-button>
+    </div>
+    <div class="p-field p-col-4">
+        <label for="quantidade">Quantidade</label>
+        <input
+            type="text"
+            id="quantidade"
+            name="quantidade"
+            [(ngModel)]="item.quantidade"
+            pInputText
+        />
+    </div>
+</div>
+<div class="p-grid p-justify-end">
+    <div class="p-col-2">
+        <button
+            type="button"
+            pButton
+            label="Salvar"
+            class="p-mr-2 p-mb-2"
+            icon="pi pi-save"
+            (click)="submit.emit(item)"
+        ></button>
+    </div>
+</div>

@@ -1,0 +1,77 @@
+<p-table [value]="itens" responsiveLayout="scroll">
+    <ng-template pTemplate="caption">
+        <div class="p-d-flex p-ai-center p-jc-between">
+            <div></div>
+            <p-button
+                icon="pi pi-plus"
+                (click)="onEditar(-1, { produto: {} })"
+            ></p-button>
+        </div>
+    </ng-template>
+    <ng-template pTemplate="header">
+        <tr>
+            <th>Produto</th>
+            <th>Quantidade</th>
+            <th>Ações</th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-item let-rowIndex="rowIndex">
+        <tr>
+            <td>{{ item.produto.descricao }}</td>
+            <td>{{ item.quantidade }}</td>
+            <td>
+                <button
+                    pButton
+                    pRipple
+                    class="
+                        p-mr-2
+                        p-mb-2
+                        p-button-sm
+                        p-button-icon-only
+                        p-button-primary-alt
+                    "
+                    pTooltip="Editar"
+                    tooltipPosition="bottom"
+                    (click)="onEditar(rowIndex, item)"
+                >
+                    <i
+                        class="fa fa-fw fa-edit"
+                        style="
+                            font-size: 1.1rem;
+                            font-weight: 550;
+                            line-height: 1.5rem;
+                        "
+                    ></i>
+                </button>
+                <button
+                    pButton
+                    pRipple
+                    class="
+                        p-mr-2
+                        p-mb-2
+                        p-button-sm
+                        p-button-icon-only
+                        p-button-danger-alt
+                    "
+                    pTooltip="Excluir"
+                    tooltipPosition="bottom"
+                    (click)="handleOnExcluir(rowData)"
+                >
+                    <i
+                        class="fa fa-fw fa-times"
+                        style="
+                            font-size: 1.1rem;
+                            font-weight: 550;
+                            line-height: 1.5rem;
+                        "
+                    ></i>
+                </button>
+            </td>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="summary">
+        <div class="p-d-flex p-ai-center p-jc-between">
+            In total there are {{ products ? products.length : 0 }} products.
+        </div>
+    </ng-template>
+</p-table>

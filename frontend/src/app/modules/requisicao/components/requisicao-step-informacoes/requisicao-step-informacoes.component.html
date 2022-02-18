@@ -1,0 +1,38 @@
+<step
+    exibirBotaoProximo="true"
+    titulo="Informações Básicas"
+    subtitulo="Preencha as informações básicas"
+    (proximo)="onSubmit()"
+>
+    <form #formulario="ngForm" (ngSubmit)="onSubmit()">
+        <div class="p-fluid p-formgrid p-grid">
+            <div class="p-field p-col-4">
+                <label for="criadoPor">Data de Requisição</label>
+                <input
+                    #requisitanteControl
+                    type="text"
+                    id="dataRequisicao"
+                    name="dataRequisicao"
+                    [(ngModel)]="dados.dataRequisicao"
+                    pInputText
+                    readonly
+                />
+            </div>
+            <div class="p-field p-col-4">
+                <label>Departamento</label>
+                <p-dropdown
+                    #departamentoControl="ngModel"
+                    id="departamento"
+                    name="departamento"
+                    [options]="departamentos$ | async"
+                    [(ngModel)]="dados.departamento"
+                    placeholder="Selecione o departamento da requisição"
+                    optionLabel="nome"
+                    emptyMessage="Nenhum registro encontrado"
+                    required
+                    showClear="true"
+                ></p-dropdown>
+            </div>
+        </div>
+    </form>
+</step>
