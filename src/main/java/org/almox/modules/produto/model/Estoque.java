@@ -22,8 +22,8 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "conf_estq_configuracao_estoque_produto")
-public class ConfiguracaoEstoqueProduto implements EntidadePadrao {
+@Table(name = "prod_estoque")
+public class Estoque implements EntidadePadrao {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

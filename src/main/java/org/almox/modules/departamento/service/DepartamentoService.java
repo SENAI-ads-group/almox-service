@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.UUID;
 
 public interface DepartamentoService {
-    Departamento criar(Departamento operador);
+    Departamento criar(Departamento departamento);
 
     Departamento buscarPorId(UUID id);
 
@@ -18,7 +18,7 @@ public interface DepartamentoService {
 
     Page<Departamento> buscarPaginado(FiltroDepartamento filtro, Pageable pageable);
 
-    Departamento atualizar(UUID id, Departamento operador);
+    Departamento atualizar(UUID id, Departamento departamento);
 
     void excluir(UUID id);
 }

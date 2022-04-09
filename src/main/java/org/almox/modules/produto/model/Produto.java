@@ -59,9 +59,6 @@ public class Produto extends Auditavel {
     @Column(name = "prod_custo_medio")
     private BigDecimal custoMedio;
 
-    @Column(name = "prod_possui_lote_validade", nullable = false)
-    private Boolean possuiLoteValidade = Boolean.FALSE;
-
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "prod_forn_fornecedores_produtos",
@@ -98,6 +95,6 @@ public class Produto extends Auditavel {
     @OneToOne
     @NotNull(message = "{Produto.configuracaoEstoque.NotNull}")
     @JoinColumn(name = "conf_estq_id")
-    private ConfiguracaoEstoqueProduto configuracaoEstoque;
+    private Estoque estoque;
 
 }

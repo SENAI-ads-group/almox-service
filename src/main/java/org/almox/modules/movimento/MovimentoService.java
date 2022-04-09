@@ -1,19 +1,21 @@
 package org.almox.modules.movimento;
 
 import org.almox.modules.movimento.model.ItemMovimento;
-import org.almox.modules.movimento.repository.ItemMovimentoRepository;
 import org.almox.modules.movimento.model.Movimento;
-import org.almox.modules.movimento.repository.MovimentoRepository;
 import org.almox.modules.movimento.model.TipoDeMovimento;
 import org.almox.modules.movimento.model.TipoOrigemMovimento;
+import org.almox.modules.movimento.repository.ItemMovimentoRepository;
+import org.almox.modules.movimento.repository.MovimentoRepository;
+import org.almox.modules.pedido.model.ItemPedido;
+import org.almox.modules.pedido.model.Pedido;
+import org.almox.modules.produto.model.Estoque;
 import org.almox.modules.produto.model.HistoricoEstoqueProduto;
+import org.almox.modules.produto.model.Produto;
+import org.almox.modules.produto.repository.EstoqueRepository;
+import org.almox.modules.produto.repository.HistoricoEstoqueProdutoRepository;
 import org.almox.modules.produto.service.ProdutoService;
 import org.almox.modules.requisicao.model.ItemRequisicao;
 import org.almox.modules.requisicao.model.Requisicao;
-import org.almox.modules.pedido.model.ItemPedido;
-import org.almox.modules.pedido.model.Pedido;
-import org.almox.modules.produto.repository.ConfiguracaoEstoqueProdutoRepository;
-import org.almox.modules.produto.repository.HistoricoEstoqueProdutoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,7 +34,7 @@ public class MovimentoService {
     private final MovimentoRepository movimentoRepository;
     private final HistoricoEstoqueProdutoRepository historicoEstoqueProdutoRepository;
     private final ProdutoService produtoService;
-    private final ConfiguracaoEstoqueProdutoRepository configuracaoEstoqueProdutoRepository;
+    private final EstoqueRepository estoqueRepository;
     private final ItemMovimentoRepository itemMovimentoRepository;
 
     private final Map<Class<?>, TipoDeMovimento> mapaTipoMovimentoAplicadoParaCadaOrigem = Map.of(
@@ -47,12 +49,12 @@ public class MovimentoService {
 
     @Autowired
     public MovimentoService(MovimentoRepository movimentoRepository, HistoricoEstoqueProdutoRepository historicoEstoqueProdutoRepository,
-                            ProdutoService produtoService, ConfiguracaoEstoqueProdutoRepository configuracaoEstoqueProdutoRepository,
+                            ProdutoService produtoService, EstoqueRepository estoqueRepository,
                             ItemMovimentoRepository itemMovimentoRepository) {
         this.movimentoRepository = movimentoRepository;
         this.historicoEstoqueProdutoRepository = historicoEstoqueProdutoRepository;
         this.produtoService = produtoService;
-        this.configuracaoEstoqueProdutoRepository = configuracaoEstoqueProdutoRepository;
+        this.estoqueRepository = estoqueRepository;
         this.itemMovimentoRepository = itemMovimentoRepository;
     }
 
@@ -73,11 +75,11 @@ public class MovimentoService {
                 .map(itemRequisicao -> criarItemMovimento(itemRequisicao, movimento))
                 .peek(this::gerarHistoricoEstoqueProduto)
                 .collect(Collectors.toSet());
-        var custoBrutoMovimento = itensMovimento.stream()
+        BigDecimal custoBrutoMovimento = itensMovimento.stream()
                 .map(ItemMovimento::getCustoBruto)
                 .filter(Objects::nonNull)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
-        var custoLiquidoMovimento = itensMovimento.stream()
+        BigDecimal custoLiquidoMovimento = itensMovimento.stream()
                 .map(ItemMovimento::getCustoLiquido)
                 .filter(Objects::nonNull)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
@@ -88,7 +90,7 @@ public class MovimentoService {
         return movimentoRepository.save(movimento);
     }
 
-    public Movimento movimentarProdutosPedido(Pedido pedido){
+    public Movimento movimentarProdutosPedido(Pedido pedido) {
         Movimento movimento = movimentoRepository.save(
                 Movimento.builder()
                         .dataCriacao(LocalDateTime.now())
@@ -104,11 +106,11 @@ public class MovimentoService {
                 .map(itemPedido -> criarItemMovimento(itemPedido, movimento))
                 .peek(this::gerarHistoricoEstoqueProduto)
                 .collect(Collectors.toSet());
-        var custoBrutoMovimento = itensMovimento.stream()
+        BigDecimal custoBrutoMovimento = itensMovimento.stream()
                 .map(ItemMovimento::getCustoBruto)
                 .filter(Objects::nonNull)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
-        var custoLiquidoMovimento = itensMovimento.stream()
+        BigDecimal custoLiquidoMovimento = itensMovimento.stream()
                 .map(ItemMovimento::getCustoLiquido)
                 .filter(Objects::nonNull)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
@@ -120,7 +122,7 @@ public class MovimentoService {
     }
 
     private ItemMovimento criarItemMovimento(ItemRequisicao itemRequisicao, Movimento movimento) {
-        var produtoRequisicao = itemRequisicao.getProduto();
+        Produto produtoRequisicao = itemRequisicao.getProduto();
         ItemMovimento itemMovimento = new ItemMovimento();
         itemMovimento.setMovimento(movimento);
         itemMovimento.setQuantidade(itemRequisicao.getQuantidade());
@@ -131,7 +133,7 @@ public class MovimentoService {
     }
 
     private ItemMovimento criarItemMovimento(ItemPedido itemPedido, Movimento movimento) {
-        var produtoPedido = itemPedido.getProduto();
+        Produto produtoPedido = itemPedido.getProduto();
         ItemMovimento itemMovimento = new ItemMovimento();
         itemMovimento.setMovimento(movimento);
         itemMovimento.setQuantidade(itemPedido.getQuantidade());
@@ -142,9 +144,9 @@ public class MovimentoService {
     }
 
     private HistoricoEstoqueProduto gerarHistoricoEstoqueProduto(ItemMovimento itemMovimento) {
-        var produto = produtoService.buscarPorId(itemMovimento.getProduto().getId());
-        var estoqueAnterior = produto.getConfiguracaoEstoque().getEstoqueAtual();
-        var estoqueFinal = calcularEstoqueFinal(estoqueAnterior, itemMovimento);
+        Produto produto = produtoService.buscarPorId(itemMovimento.getProduto().getId());
+        BigDecimal estoqueAnterior = produto.getEstoque().getEstoqueAtual();
+        BigDecimal estoqueFinal = calcularEstoqueFinal(estoqueAnterior, itemMovimento);
 
         HistoricoEstoqueProduto historico = new HistoricoEstoqueProduto();
         historico.setDataRegistro(LocalDateTime.now());
@@ -153,9 +155,9 @@ public class MovimentoService {
         historico.setProduto(produto);
         historico.setEstoqueAnterior(estoqueAnterior);
         historico.setEstoqueFinal(estoqueFinal);
-        var configuracaoEstoque = produto.getConfiguracaoEstoque();
+        Estoque configuracaoEstoque = produto.getEstoque();
         configuracaoEstoque.setEstoqueAtual(estoqueFinal);
-        configuracaoEstoqueProdutoRepository.save(configuracaoEstoque);
+        estoqueRepository.save(configuracaoEstoque);
         return historicoEstoqueProdutoRepository.save(historico);
     }
 
