@@ -1,6 +1,8 @@
 package org.almox.modules.produto.service;
 
 import lombok.RequiredArgsConstructor;
+import org.almox.core.exceptions.EntidadeNaoEncontradaException;
+import org.almox.core.validation.ValidatorAutoThrow;
 import org.almox.modules.produto.model.FiltroProduto;
 import org.almox.modules.produto.model.Produto;
 import org.almox.modules.produto.repository.ProdutoRepository;
@@ -17,35 +19,48 @@ import java.util.UUID;
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class ProdutoServiceImpl implements ProdutoService {
 
-    private final ProdutoRepository fornecedorRepository;
+    private final ProdutoRepository repository;
+    private final EstoqueService estoqueService;
+    private final ValidatorAutoThrow validator;
 
     @Override
-    public Produto criar(Produto operador) {
-        return null;
+    public Produto criar(Produto produto) {
+        validator.validate(produto);
+        produto.setEstoque(estoqueService.salvar(produto.getEstoque()));
+        return repository.save(produto);
     }
 
     @Override
     public Produto buscarPorId(UUID id) {
-        return null;
+        Produto produtoEncontrado = repository.findById(id)
+                .orElseThrow(() -> new EntidadeNaoEncontradaException("${produto_nao_encontrado}"));
+        return produtoEncontrado;
     }
 
     @Override
     public List<Produto> buscar(FiltroProduto filtro, Sort sort) {
-        return null;
+        return repository.buscar(
+                filtro.descricao, filtro.codigoBarras, filtro.idGrupos, filtro.idDepartamentos,
+                filtro.idFornecedor, filtro.unidadeMedida, sort
+        );
     }
 
     @Override
     public Page<Produto> buscarPaginado(FiltroProduto filtro, Pageable pageable) {
-        return null;
+        return repository.buscar(
+                filtro.descricao, filtro.codigoBarras, filtro.idGrupos, filtro.idDepartamentos,
+                filtro.idFornecedor, filtro.unidadeMedida, pageable
+        );
     }
 
     @Override
-    public Produto atualizar(UUID id, Produto operador) {
+    public Produto atualizar(UUID id, Produto produto) {
         return null;
     }
 
     @Override
     public void excluir(UUID id) {
-
+        buscarPorId(id);
+        repository.deleteById(id);
     }
 }

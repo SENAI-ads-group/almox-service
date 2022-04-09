@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.UUID;
 
 public interface FornecedorService {
-    Fornecedor criar(Fornecedor operador);
+    Fornecedor criar(Fornecedor fornecedor);
 
     Fornecedor buscarPorId(UUID id);
 
@@ -18,7 +18,7 @@ public interface FornecedorService {
 
     Page<Fornecedor> buscarPaginado(FiltroFornecedor filtro, Pageable pageable);
 
-    Fornecedor atualizar(UUID id, Fornecedor operador);
+    Fornecedor atualizar(UUID id, Fornecedor fornecedor);
 
     void excluir(UUID id);
 }

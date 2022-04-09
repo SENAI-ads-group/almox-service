@@ -1,12 +1,15 @@
 package org.almox.modules.produto.rest;
 
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
+import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import org.almox.core.rest.RestCollection;
 import org.almox.modules.auditoria.FiltroStatusAuditavel;
 import org.almox.modules.fornecedor.model.FornecedorDTO;
+import org.almox.modules.produto.dto.CriarProduto;
 import org.almox.modules.produto.model.UnidadeMedida;
 import org.springdoc.core.converters.models.PageableAsQueryParam;
 import org.springframework.http.ResponseEntity;
@@ -66,6 +69,12 @@ public interface ProdutoRestFacade {
     ResponseEntity<FornecedorDTO> buscarPorId(@PathVariable("id") UUID id);
 
     @PostMapping
+    @Operation(
+            requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
+                    required = true,
+                    content = @Content(schema = @Schema(anyOf = CriarProduto.class))
+            )
+    )
     ResponseEntity<Void> criar(@RequestBody FornecedorDTO dto);
 
     @PutMapping("/{id}")
