@@ -1,5 +1,6 @@
-package org.almox.modules.grupo.model;
+package org.almox.modules.grupo.dto;
 
+import org.almox.modules.grupo.model.Grupo;
 import org.mapstruct.Mapper;
 
 import java.util.List;

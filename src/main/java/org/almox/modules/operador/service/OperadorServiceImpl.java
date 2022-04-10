@@ -3,7 +3,7 @@ package org.almox.modules.operador.service;
 import lombok.RequiredArgsConstructor;
 import org.almox.core.exceptions.EntidadeNaoEncontradaException;
 import org.almox.core.exceptions.RegraNegocioException;
-import org.almox.core.validation.ValidatorAutoThrow;
+import org.almox.core.config.validation.ValidatorAutoThrow;
 import org.almox.modules.operador.dto.OperadorFiltroDTO;
 import org.almox.modules.operador.model.Operador;
 import org.almox.modules.operador.repository.FuncaoRepository;

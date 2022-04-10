@@ -36,7 +36,7 @@ import java.util.UUID;
 @Table(name = "dpto_departamento")
 public class Departamento extends Auditavel {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(generator = "UUID")
     @Column(name = "dpto_id")
     private UUID id;
 
@@ -56,8 +56,8 @@ public class Departamento extends Auditavel {
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "produtos_departamentos",
-            joinColumns = @JoinColumn(name = "dpto_id"),
-            inverseJoinColumns = @JoinColumn(name = "prod_id")
+            joinColumns = @JoinColumn(name = "dpto_id", columnDefinition = "uuid"),
+            inverseJoinColumns = @JoinColumn(name = "prod_id", columnDefinition = "uuid")
     )
     private Set<Produto> produtos;
 

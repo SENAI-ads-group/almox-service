@@ -34,7 +34,7 @@ import java.util.UUID;
 public class Movimento extends Auditavel {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(generator = "UUID")
     @Column(name = "mov_id")
     private UUID id;
 

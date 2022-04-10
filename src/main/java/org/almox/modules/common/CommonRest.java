@@ -9,8 +9,6 @@ import org.almox.modules.movimento.model.TipoOrigemMovimento;
 import org.almox.modules.orcamento.StatusOrcamento;
 import org.almox.modules.pedido.model.StatusPedido;
 import org.almox.modules.produto.model.UnidadeMedida;
-import org.almox.modules.requisicao.model.AcaoHistoricoItemRequisicao;
-import org.almox.modules.requisicao.model.StatusItemRequisicao;
 import org.almox.modules.requisicao.model.StatusRequisicao;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,10 +25,8 @@ public class CommonRest {
     @GetMapping("/enumeradores")
     public Map<String, List<Enum<?>>> getEnumeradores() {
         Map<String, List<Enum<?>>> enums = Maps.newHashMap();
-        enums.put("acoesHistoricoItemRequisicoes", Lists.newArrayList(AcaoHistoricoItemRequisicao.values()));
         enums.put("filtroStatusAuditavel", Lists.newArrayList(FiltroStatusAuditavel.values()));
         enums.put("statusAuditavel", Lists.newArrayList(StatusAuditavel.values()));
-        enums.put("statusItemRequisicao", Lists.newArrayList(StatusItemRequisicao.values()));
         enums.put("statusOrcamento", Lists.newArrayList(StatusOrcamento.values()));
         enums.put("statusRequisicao", Lists.newArrayList(StatusRequisicao.values()));
         enums.put("statusPedido", Lists.newArrayList(StatusPedido.values()));

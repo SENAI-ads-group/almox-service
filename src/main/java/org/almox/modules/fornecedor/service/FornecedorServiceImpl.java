@@ -3,7 +3,7 @@ package org.almox.modules.fornecedor.service;
 import lombok.RequiredArgsConstructor;
 import org.almox.core.exceptions.EntidadeNaoEncontradaException;
 import org.almox.core.exceptions.RegraNegocioException;
-import org.almox.core.validation.ValidatorAutoThrow;
+import org.almox.core.config.validation.ValidatorAutoThrow;
 import org.almox.modules.fornecedor.model.FiltroFornecedor;
 import org.almox.modules.fornecedor.model.Fornecedor;
 import org.almox.modules.fornecedor.repository.FornecedorRepository;

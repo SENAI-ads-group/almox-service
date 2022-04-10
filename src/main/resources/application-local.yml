@@ -4,10 +4,11 @@ spring:
     username: postgres
     password: almox@123
   jpa:
+    generate-ddl: true
     hibernate:
       naming:
         implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyJpaCompliantImpl
-      ddl-auto: update
+      ddl-auto: create-drop
       format_sql: true
     database-platform: org.hibernate.dialect.PostgreSQL94Dialect
     properties:

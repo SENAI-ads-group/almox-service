@@ -1,4 +1,4 @@
-package org.almox.core.config.security;
+package org.almox.core.config.security.authorizationServer;
 
 
 import lombok.RequiredArgsConstructor;

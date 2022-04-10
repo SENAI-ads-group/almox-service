@@ -39,7 +39,7 @@ import java.util.stream.Collectors;
 public class Operador implements EntidadePadrao, UserDetails {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(generator = "UUID")
     @Column(name = "ope_id")
     private UUID id;
 
@@ -63,11 +63,6 @@ public class Operador implements EntidadePadrao, UserDetails {
     @NotBlank(message = "${Operador.senha.NotBlank}")
     @Column(name = "ope_senha")
     private String senha;
-
-    @Override
-    public boolean isNew() {
-        return id == null;
-    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

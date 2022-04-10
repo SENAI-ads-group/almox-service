@@ -34,7 +34,7 @@ import java.util.UUID;
 public class Fornecedor implements EntidadePadrao {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(generator = "UUID")
     @Column(name = "forn_id")
     private UUID id;
 

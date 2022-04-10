@@ -27,7 +27,7 @@ import java.util.UUID;
 public class ItemOrcamentoDepartamento implements EntidadePadrao {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(generator = "UUID")
     @Column(name = "orc_dpto_item_id")
     private UUID id;
 

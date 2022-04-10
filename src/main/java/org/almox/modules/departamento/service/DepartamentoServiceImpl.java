@@ -2,7 +2,7 @@ package org.almox.modules.departamento.service;
 
 import lombok.RequiredArgsConstructor;
 import org.almox.core.exceptions.EntidadeNaoEncontradaException;
-import org.almox.core.validation.ValidatorAutoThrow;
+import org.almox.core.config.validation.ValidatorAutoThrow;
 import org.almox.modules.departamento.model.Departamento;
 import org.almox.modules.departamento.model.FiltroDepartamento;
 import org.almox.modules.departamento.repository.DepartamentoRepository;

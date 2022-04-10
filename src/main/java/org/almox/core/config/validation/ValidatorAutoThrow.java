@@ -1,4 +1,4 @@
-package org.almox.core.validation;
+package org.almox.core.config.validation;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;

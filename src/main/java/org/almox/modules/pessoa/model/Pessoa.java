@@ -37,7 +37,7 @@ public abstract class Pessoa implements EntidadePadrao {
     public static final String PESSOA_JURIDICA = "PJ";
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(generator = "UUID")
     @Column(name = "pess_id")
     private UUID id;
 

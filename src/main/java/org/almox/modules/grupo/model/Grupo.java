@@ -27,7 +27,7 @@ import java.util.UUID;
 public class Grupo extends Auditavel {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(generator = "UUID")
     @Column(name = "grp_id")
     private UUID id;
 

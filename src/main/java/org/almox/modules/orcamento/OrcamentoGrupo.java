@@ -18,7 +18,7 @@ import java.util.UUID;
 public class OrcamentoGrupo extends Orcamento {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(generator = "UUID")
     @Column(name = "orc_grp_id")
     private UUID id;
 

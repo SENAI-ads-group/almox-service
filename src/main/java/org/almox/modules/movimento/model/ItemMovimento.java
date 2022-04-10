@@ -32,7 +32,7 @@ import java.util.UUID;
 public class ItemMovimento implements EntidadePadrao {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(generator = "UUID")
     @Column(name = "itm_id")
     private UUID id;
 

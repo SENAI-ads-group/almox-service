@@ -2,7 +2,7 @@ package org.almox.modules.produto.service;
 
 import lombok.RequiredArgsConstructor;
 import org.almox.core.exceptions.EntidadeNaoEncontradaException;
-import org.almox.core.validation.ValidatorAutoThrow;
+import org.almox.core.config.validation.ValidatorAutoThrow;
 import org.almox.modules.produto.model.FiltroProduto;
 import org.almox.modules.produto.model.Produto;
 import org.almox.modules.produto.repository.ProdutoRepository;
