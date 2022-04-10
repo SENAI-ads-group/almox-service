@@ -2,13 +2,6 @@ spring:
   jpa:
     open-in-view: false
 
-auth:
-  manager: https://almox-fatesg-auth.herokuapp.com/usuarios
-  url: https://almox-fatesg-auth.herokuapp.com/oauth/token
-  accessCheckTokenUri: https://almox-fatesg-auth.herokuapp.com/oauth/check_token
-  clientId: teste
-  clientSecret: 123456
-
 springdoc:
   api-docs:
     path: /api-docs
