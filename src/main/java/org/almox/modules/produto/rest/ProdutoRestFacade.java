@@ -6,10 +6,12 @@ import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.almox.core.rest.RestCollection;
 import org.almox.modules.auditoria.FiltroStatusAuditavel;
-import org.almox.modules.fornecedor.model.FornecedorDTO;
-import org.almox.modules.produto.dto.CriarProduto;
+import org.almox.modules.produto.dto.AtualizarProdutoDTO;
+import org.almox.modules.produto.dto.CriarProdutoDTO;
+import org.almox.modules.produto.dto.ProdutoDTO;
 import org.almox.modules.produto.model.UnidadeMedida;
 import org.springdoc.core.converters.models.PageableAsQueryParam;
 import org.springframework.http.ResponseEntity;
@@ -25,6 +27,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.Optional;
 import java.util.UUID;
 
+@Tag(name = "Produtos", description = "Operações relacionadas aos recursos de produtos")
 @RequestMapping(ProdutoRestFacade.PATH)
 public interface ProdutoRestFacade {
     String PATH = "/produtos";
@@ -56,7 +59,7 @@ public interface ProdutoRestFacade {
             )
     })
     @PageableAsQueryParam
-    ResponseEntity<RestCollection<FornecedorDTO>> buscar(
+    ResponseEntity<RestCollection<ProdutoDTO>> buscar(
             @RequestParam(required = false) String cnpj,
             @RequestParam(required = false, defaultValue = "") String nome,
             @RequestParam(required = false, defaultValue = "CONSIDERAR_TODOS") FiltroStatusAuditavel status,
@@ -66,19 +69,19 @@ public interface ProdutoRestFacade {
     );
 
     @GetMapping("/{id}")
-    ResponseEntity<FornecedorDTO> buscarPorId(@PathVariable("id") UUID id);
+    ResponseEntity<ProdutoDTO> buscarPorId(@PathVariable("id") UUID id);
 
     @PostMapping
     @Operation(
             requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
                     required = true,
-                    content = @Content(schema = @Schema(anyOf = CriarProduto.class))
+                    content = @Content(schema = @Schema(implementation = CriarProdutoDTO.class))
             )
     )
-    ResponseEntity<Void> criar(@RequestBody FornecedorDTO dto);
+    ResponseEntity<Void> criar(@RequestBody CriarProdutoDTO dto);
 
     @PutMapping("/{id}")
-    ResponseEntity<FornecedorDTO> atualizar(@PathVariable("id") UUID id, @RequestBody FornecedorDTO dto);
+    ResponseEntity<ProdutoDTO> atualizar(@PathVariable("id") UUID id, @RequestBody AtualizarProdutoDTO dto);
 
     @DeleteMapping("/{id}")
     ResponseEntity<Void> excluir(@PathVariable("id") UUID id);

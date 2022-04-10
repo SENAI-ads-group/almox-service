@@ -6,6 +6,7 @@ import org.almox.core.exceptions.RegraNegocioException;
 import org.almox.core.validation.ValidatorAutoThrow;
 import org.almox.modules.pessoa.dto.PessoaFiltroDTO;
 import org.almox.modules.pessoa.model.Pessoa;
+import org.almox.modules.pessoa.model.PessoaFisica;
 import org.almox.modules.pessoa.repository.PessoaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
