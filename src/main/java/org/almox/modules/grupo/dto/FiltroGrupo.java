@@ -1,4 +1,4 @@
-package org.almox.modules.grupo.model;
+package org.almox.modules.grupo.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

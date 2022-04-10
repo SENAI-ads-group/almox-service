@@ -1,4 +1,4 @@
-package org.almox.core.validation;
+package org.almox.core.config.validation;
 
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;

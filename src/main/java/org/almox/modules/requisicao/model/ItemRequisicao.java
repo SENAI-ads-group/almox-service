@@ -2,6 +2,7 @@ package org.almox.modules.requisicao.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -21,17 +22,18 @@ import java.math.BigDecimal;
 import java.util.Objects;
 import java.util.UUID;
 
+@Builder
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "itr_item_requisicao")
+@Table(name = "req_requisicao_item")
 public class ItemRequisicao implements EntidadePadrao {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "itr_id")
+    @GeneratedValue(generator = "UUID")
+    @Column(name = "req_item_id")
     private UUID id;
 
     @JsonIgnore
@@ -44,7 +46,7 @@ public class ItemRequisicao implements EntidadePadrao {
     private Produto produto;
 
     @DecimalMin(value = "0.0", inclusive = false, message = "{ItemRequisicao.quantidade.DecimalMin}")
-    @Column(name = "itr_quantidade")
+    @Column(name = "req_item_quantidade")
     private BigDecimal quantidade;
 
     public void adicionarQuantidade(BigDecimal quantidadeAcrescentada) {

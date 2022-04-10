@@ -1,4 +1,4 @@
-package org.almox.core.repository;
+package org.almox.core.config.persistence;
 
 import org.almox.modules.auditoria.AuditorAwareImpl;
 import org.almox.modules.operador.model.Operador;

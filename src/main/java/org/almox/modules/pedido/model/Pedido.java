@@ -35,7 +35,7 @@ import java.util.UUID;
 public class Pedido implements EntidadePadrao {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(generator = "UUID")
     @Column(name = "ped_id")
     private UUID id;
 

@@ -20,7 +20,7 @@ import java.util.UUID;
 @Table(name = "orc_dpto_orcamento_grupo_item")
 public class ItemOrcamentoGrupo implements EntidadePadrao {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(generator = "UUID")
     @Column(name = "orc_grp_item_id")
     private UUID id;
 

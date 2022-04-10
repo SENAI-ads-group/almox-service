@@ -26,7 +26,7 @@ import java.util.UUID;
 public class Estoque implements EntidadePadrao {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(generator = "UUID")
     @Column(name = "conf_estq_id")
     private UUID id;
 

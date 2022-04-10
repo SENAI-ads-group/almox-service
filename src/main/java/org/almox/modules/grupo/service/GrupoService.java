@@ -1,6 +1,6 @@
 package org.almox.modules.grupo.service;
 
-import org.almox.modules.grupo.model.FiltroGrupo;
+import org.almox.modules.grupo.dto.FiltroGrupo;
 import org.almox.modules.grupo.model.Grupo;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

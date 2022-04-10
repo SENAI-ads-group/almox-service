@@ -1,6 +1,8 @@
 package org.almox.modules.pessoa.repository;
 
 import org.almox.modules.pessoa.model.Pessoa;
+import org.almox.modules.pessoa.model.PessoaFisica;
+import org.almox.modules.pessoa.model.PessoaJuridica;
 import org.almox.modules.pessoa.model.TipoPessoa;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -33,4 +35,10 @@ public interface PessoaRepository extends JpaRepository<Pessoa, UUID> {
 
     @Query("FROM Pessoa as p WHERE p.tipo = :tipo AND (LOWER(p.nome) LIKE LOWER(CONCAT('%',:nome,'%')) OR p.email = :email)")
     Page<Pessoa> findAll(@Param("nome") String nome, @Param("email") String email, @Param("tipo") String tipo, Pageable pageable);
+
+    @Query("FROM PessoaFisica as pf WHERE pf.cpf = :cpf")
+    Optional<PessoaFisica> buscarPorCpf(@Param("cpf") String cpf);
+
+    @Query("FROM PessoaJuridica as pj WHERE pj.cnpj = :cnpj")
+    Optional<PessoaJuridica> buscarPorCnpj(@Param("cnpj") String cnpj);
 }

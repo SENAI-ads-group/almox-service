@@ -26,7 +26,7 @@ import java.util.UUID;
 public class Funcao implements Persistable<UUID> {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(generator = "UUID")
     @Column(name = "func_id")
     private UUID id;
 

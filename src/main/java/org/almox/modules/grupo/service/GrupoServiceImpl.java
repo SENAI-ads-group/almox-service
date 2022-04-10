@@ -2,8 +2,8 @@ package org.almox.modules.grupo.service;
 
 import lombok.RequiredArgsConstructor;
 import org.almox.core.exceptions.EntidadeNaoEncontradaException;
-import org.almox.core.validation.ValidatorAutoThrow;
-import org.almox.modules.grupo.model.FiltroGrupo;
+import org.almox.core.config.validation.ValidatorAutoThrow;
+import org.almox.modules.grupo.dto.FiltroGrupo;
 import org.almox.modules.grupo.model.Grupo;
 import org.almox.modules.grupo.repository.GrupoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
