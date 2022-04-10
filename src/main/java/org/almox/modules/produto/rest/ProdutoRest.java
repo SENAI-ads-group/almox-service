@@ -3,7 +3,9 @@ package org.almox.modules.produto.rest;
 import lombok.RequiredArgsConstructor;
 import org.almox.core.rest.RestCollection;
 import org.almox.modules.auditoria.FiltroStatusAuditavel;
-import org.almox.modules.fornecedor.model.FornecedorDTO;
+import org.almox.modules.produto.dto.AtualizarProdutoDTO;
+import org.almox.modules.produto.dto.CriarProdutoDTO;
+import org.almox.modules.produto.dto.ProdutoDTO;
 import org.almox.modules.produto.service.ProdutoServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +21,7 @@ public class ProdutoRest implements ProdutoRestFacade {
     private final ProdutoServiceImpl fornecedorService;
 
     @Override
-    public ResponseEntity<RestCollection<FornecedorDTO>> buscar(
+    public ResponseEntity<RestCollection<ProdutoDTO>> buscar(
             String cnpj, String nome, FiltroStatusAuditavel status,
             Optional<Integer> page, Optional<Integer> size, String[] sort
     ) {
@@ -27,17 +29,17 @@ public class ProdutoRest implements ProdutoRestFacade {
     }
 
     @Override
-    public ResponseEntity<FornecedorDTO> buscarPorId(UUID id) {
+    public ResponseEntity<ProdutoDTO> buscarPorId(UUID id) {
         return null;
     }
 
     @Override
-    public ResponseEntity<Void> criar(FornecedorDTO dto) {
+    public ResponseEntity<Void> criar(CriarProdutoDTO dto) {
         return null;
     }
 
     @Override
-    public ResponseEntity<FornecedorDTO> atualizar(UUID id, FornecedorDTO dto) {
+    public ResponseEntity<ProdutoDTO> atualizar(UUID id, AtualizarProdutoDTO dto) {
         return null;
     }
 

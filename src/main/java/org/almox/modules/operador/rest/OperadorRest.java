@@ -2,10 +2,10 @@ package org.almox.modules.operador.rest;
 
 import lombok.RequiredArgsConstructor;
 import org.almox.core.rest.RestCollection;
-import org.almox.modules.operador.model.Operador;
 import org.almox.modules.operador.dto.OperadorDTO;
 import org.almox.modules.operador.dto.OperadorFiltroDTO;
 import org.almox.modules.operador.dto.OperadorMapper;
+import org.almox.modules.operador.model.Operador;
 import org.almox.modules.operador.service.OperadorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;

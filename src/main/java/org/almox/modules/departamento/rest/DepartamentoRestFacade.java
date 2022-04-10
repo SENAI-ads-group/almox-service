@@ -4,6 +4,7 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.almox.core.rest.RestCollection;
 import org.almox.core.rest.RestInterface;
 import org.almox.modules.auditoria.FiltroStatusAuditavel;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.Optional;
 import java.util.UUID;
 
+@Tag(name = "Departamentos", description = "Operações relacionadas aos recursos de departamentos")
 @RequestMapping(DepartamentoRestFacade.PATH)
 public interface DepartamentoRestFacade extends RestInterface {
     String PATH = "/departamentos";

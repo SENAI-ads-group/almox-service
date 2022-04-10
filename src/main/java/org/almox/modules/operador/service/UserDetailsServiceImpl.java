@@ -15,7 +15,7 @@ import java.util.Set;
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class UserDetailsServiceImpl implements UserDetailsService {
 
-    private final IOperadorService operadorService;
+    private final OperadorService operadorService;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

@@ -55,7 +55,11 @@ public class ProdutoServiceImpl implements ProdutoService {
 
     @Override
     public Produto atualizar(UUID id, Produto produto) {
-        return null;
+        buscarPorId(id);
+        validator.validate(produto);
+        produto.setId(id);
+        Produto produtoAtualizado = repository.save(produto);
+        return produtoAtualizado;
     }
 
     @Override

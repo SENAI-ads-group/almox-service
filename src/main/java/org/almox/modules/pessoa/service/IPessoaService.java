@@ -2,6 +2,7 @@ package org.almox.modules.pessoa.service;
 
 import org.almox.modules.pessoa.dto.PessoaFiltroDTO;
 import org.almox.modules.pessoa.model.Pessoa;
+import org.almox.modules.pessoa.model.PessoaFisica;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
