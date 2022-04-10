@@ -1,0 +1,14 @@
+spring:
+  jpa:
+    show-sql: false
+    hibernate:
+      format_sql: true
+      ddl-auto: update
+      naming:
+        implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyJpaCompliantImpl
+    properties:
+      hibernate:
+        format_sql: false
+        jdbc:
+          lob:
+            non_contextual_creation: true

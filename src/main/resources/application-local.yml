@@ -5,15 +5,15 @@ spring:
     password: almox@123
   jpa:
     generate-ddl: true
+    database-platform: org.hibernate.dialect.PostgreSQL94Dialect
+    show-sql: true
     hibernate:
       naming:
         implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyJpaCompliantImpl
       ddl-auto: create-drop
       format_sql: true
-    database-platform: org.hibernate.dialect.PostgreSQL94Dialect
     properties:
-      jdbc:
-        lob:
-          non_contextual_creation: true
-    show-sql: true
-
+      hibernate:
+        jdbc:
+          lob:
+            non_contextual_creation: true
