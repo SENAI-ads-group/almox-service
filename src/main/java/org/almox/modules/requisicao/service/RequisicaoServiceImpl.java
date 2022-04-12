@@ -3,6 +3,7 @@ package org.almox.modules.requisicao.service;
 import lombok.RequiredArgsConstructor;
 import org.almox.core.config.validation.ValidatorAutoThrow;
 import org.almox.core.exceptions.EntidadeNaoEncontradaException;
+import org.almox.modules.operador.model.Operador;
 import org.almox.modules.requisicao.dto.FiltroRequisicao;
 import org.almox.modules.requisicao.model.Requisicao;
 import org.almox.modules.requisicao.repository.RequisicaoRepository;
@@ -21,6 +22,7 @@ public class RequisicaoServiceImpl implements RequisicaoService {
 
     private final RequisicaoRepository repository;
     private final ValidatorAutoThrow validator;
+    private final Operador operadorLogado;
 
     @Override
     public Requisicao criar(Requisicao requisicao) {

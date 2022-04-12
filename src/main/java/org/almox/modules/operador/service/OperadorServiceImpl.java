@@ -1,9 +1,9 @@
 package org.almox.modules.operador.service;
 
 import lombok.RequiredArgsConstructor;
+import org.almox.core.config.validation.ValidatorAutoThrow;
 import org.almox.core.exceptions.EntidadeNaoEncontradaException;
 import org.almox.core.exceptions.RegraNegocioException;
-import org.almox.core.config.validation.ValidatorAutoThrow;
 import org.almox.modules.operador.dto.OperadorFiltroDTO;
 import org.almox.modules.operador.model.Operador;
 import org.almox.modules.operador.repository.FuncaoRepository;
@@ -11,11 +11,17 @@ import org.almox.modules.operador.repository.OperadorRepository;
 import org.almox.modules.pessoa.model.PessoaFisica;
 import org.almox.modules.pessoa.service.IPessoaService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.context.WebApplicationContext;
 
 import javax.transaction.Transactional;
 import java.util.List;
@@ -31,6 +37,18 @@ public class OperadorServiceImpl implements OperadorService {
     private final IPessoaService pessoaService;
     private final ValidatorAutoThrow validator;
     private final BCryptPasswordEncoder passwordEncoder;
+
+    @Override
+    @Scope(value = WebApplicationContext.SCOPE_REQUEST, proxyMode = ScopedProxyMode.TARGET_CLASS)
+    @Bean("operadorLogado")
+    public Operador getOperadorLogado() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if (authentication == null || !authentication.isAuthenticated())
+            return null;
+        String login = authentication.getPrincipal().toString();
+        return repository.findByLoginEquals(login).orElse(null);
+    }
 
     @Override
     @Transactional

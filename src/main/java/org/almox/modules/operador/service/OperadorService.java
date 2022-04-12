@@ -11,6 +11,8 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface OperadorService {
+    Operador getOperadorLogado();
+
     Operador criar(Operador operador);
 
     Operador buscarPorId(UUID id);

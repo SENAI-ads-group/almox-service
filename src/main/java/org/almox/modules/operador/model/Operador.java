@@ -15,7 +15,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
@@ -36,7 +35,7 @@ import java.util.stream.Collectors;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Operador implements EntidadePadrao, UserDetails {
+public class Operador implements EntidadePadrao, UserDetails, Cloneable {
 
     @Id
     @GeneratedValue(generator = "UUID")
@@ -101,4 +100,14 @@ public class Operador implements EntidadePadrao, UserDetails {
         return true;
     }
 
+    @Override
+    public final Operador clone() {
+        return Operador.builder()
+                .id(id)
+                .pessoa(pessoa)
+                .funcoes(funcoes)
+                .login(login)
+                .senha(senha)
+                .build();
+    }
 }

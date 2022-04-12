@@ -23,6 +23,8 @@ public interface RequisicaoMapper {
     })
     Requisicao toRequisicao(CriarRequisicaoDTO dto);
 
+    RequisicaoDTO toDTO(Requisicao requisicao);
+
     default Set<ItemRequisicao> toItemRequisicao(Set<CriarRequisicaoDTO.Item> source) {
         return colecaoVaziaCasoSejaNula(source).stream()
                 .map(i -> ItemRequisicao.builder()
