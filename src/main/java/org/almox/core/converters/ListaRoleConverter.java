@@ -1,10 +1,8 @@
 package org.almox.core.converters;
 
-import com.google.common.collect.Lists;
-import com.google.common.collect.Sets;
-
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
+import java.util.HashSet;
 import java.util.List;
 
 @Converter(autoApply = true)
@@ -15,7 +13,7 @@ public class ListaRoleConverter implements AttributeConverter<List<String>, Stri
         if (input == null) {
             return null;
         }
-        return String.join(";", Sets.newHashSet(input));
+        return String.join(";", new HashSet(input));
     }
 
     @Override
@@ -23,6 +21,6 @@ public class ListaRoleConverter implements AttributeConverter<List<String>, Stri
         if (input == null) {
             return null;
         }
-        return Lists.newArrayList(input.split(";"));
+        return List.of(input.split(";"));
     }
 }

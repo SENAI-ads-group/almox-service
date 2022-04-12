@@ -1,8 +1,9 @@
 package org.almox.core.exceptions;
 
-import com.google.common.collect.Sets;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
+
+import java.util.Set;
 
 @Getter
 public class ApplicationRuntimeException extends RestException {
@@ -12,6 +13,6 @@ public class ApplicationRuntimeException extends RestException {
     }
 
     public ApplicationRuntimeException(HttpStatus httpStatus, String... mensagens) {
-        super(httpStatus, Sets.newHashSet(mensagens));
+        super(httpStatus, Set.of(mensagens));
     }
 }
