@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.almox.core.rest.RestCollection;
 import org.almox.core.rest.RestInterface;
 import org.almox.modules.operador.dto.OperadorDTO;
+import org.almox.modules.operador.dto.RecuperarEmailDTO;
 import org.springdoc.core.converters.models.PageableAsQueryParam;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -52,6 +53,9 @@ public interface OperadorRestFacade extends RestInterface {
 
     @GetMapping("/login/{login}")
     ResponseEntity<OperadorDTO> buscarPorLogin(@PathVariable("login") String login);
+
+    @PostMapping("/recuperar-email")
+    ResponseEntity<RecuperarEmailDTO.Resposta> recuperarEmail(@RequestBody RecuperarEmailDTO.Requisicao requisicaoRecuperarEmail);
 
     @PostMapping
     ResponseEntity<Void> criar(@RequestBody OperadorDTO dto);

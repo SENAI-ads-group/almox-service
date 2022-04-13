@@ -1,7 +1,7 @@
 package org.almox.modules.operador.service;
 
-import org.almox.modules.operador.model.Operador;
 import org.almox.modules.operador.dto.OperadorFiltroDTO;
+import org.almox.modules.operador.model.Operador;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -20,6 +20,8 @@ public interface OperadorService {
     Operador buscarPorLogin(String login);
 
     Optional<Operador> buscarPorLoginOptional(String login);
+
+    Optional<Operador> buscarPorCpfPessoaOptional(String cpf);
 
     List<Operador> buscar(OperadorFiltroDTO filtro, Sort sort);
 

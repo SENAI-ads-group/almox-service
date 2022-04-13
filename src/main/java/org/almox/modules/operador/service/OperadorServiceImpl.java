@@ -88,6 +88,11 @@ public class OperadorServiceImpl implements OperadorService {
     }
 
     @Override
+    public Optional<Operador> buscarPorCpfPessoaOptional(String cpf) {
+        return repository.buscarPorCpfPessoa(cpf);
+    }
+
+    @Override
     public List<Operador> buscar(OperadorFiltroDTO filtro, Sort sort) {
         return repository.findAll(sort);
     }
