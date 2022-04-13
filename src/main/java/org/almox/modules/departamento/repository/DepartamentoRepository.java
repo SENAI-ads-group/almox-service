@@ -10,6 +10,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 @Repository
@@ -40,4 +41,7 @@ public interface DepartamentoRepository extends JpaRepository<Departamento, UUID
 
     @Query("FROM Departamento as d WHERE LOWER(d.descricao) LIKE CONCAT(:nome, '%')")
     Page<Departamento> buscarPorDescricao(@Param("nome") String nome, Pageable pageable);
+
+    @Query(nativeQuery = true, value = "SELECT DISTINCT ope_id FROM dpto_departamento_operadores WHERE dpto_id = :idDepartamento")
+    Set<UUID> buscarIdOperadoresAssociadosAoDepartamento(UUID idDepartamento);
 }

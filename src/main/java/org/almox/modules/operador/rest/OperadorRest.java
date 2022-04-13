@@ -5,8 +5,10 @@ import org.almox.core.rest.RestCollection;
 import org.almox.modules.operador.dto.OperadorDTO;
 import org.almox.modules.operador.dto.OperadorFiltroDTO;
 import org.almox.modules.operador.dto.OperadorMapper;
+import org.almox.modules.operador.dto.RecuperarEmailDTO;
 import org.almox.modules.operador.model.Operador;
 import org.almox.modules.operador.service.OperadorService;
+import org.almox.modules.operador.service.RecuperacaoSenhaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -25,6 +27,7 @@ public class OperadorRest implements OperadorRestFacade {
 
     private final OperadorService operadorService;
     private final OperadorMapper operadorMapper;
+    private final RecuperacaoSenhaService recuperacaoSenhaService;
 
     @Override
     public ResponseEntity<RestCollection<OperadorDTO>> buscar(String nome, String email, Optional<Integer> page, Optional<Integer> size, String[] sort) {
@@ -52,6 +55,12 @@ public class OperadorRest implements OperadorRestFacade {
         Operador operador = operadorService.buscarPorLogin(login);
         OperadorDTO dto = operadorMapper.toDTO(operador);
         return ResponseEntity.ok(dto);
+    }
+
+    @Override
+    public ResponseEntity<RecuperarEmailDTO.Resposta> recuperarEmail(RecuperarEmailDTO.Requisicao requisicaoRecuperarEmail) {
+        RecuperarEmailDTO.Resposta respostaRecuperacaoEmail = recuperacaoSenhaService.recuperarEmail(requisicaoRecuperarEmail);
+        return ResponseEntity.ok(respostaRecuperacaoEmail);
     }
 
     @Override
