@@ -1,6 +1,6 @@
 package org.almox.modules.common;
 
-import org.almox.modules.auditoria.FiltroStatusAuditavel;
+import org.almox.modules.auditoria.FiltroStatusAuditoria;
 import org.almox.modules.auditoria.StatusAuditavel;
 import org.almox.modules.movimento.model.TipoDeMovimento;
 import org.almox.modules.movimento.model.TipoOrigemMovimento;
@@ -24,7 +24,7 @@ public class CommonRest {
     @GetMapping("/enumeradores")
     public Map<String, List<Enum<?>>> getEnumeradores() {
         Map<String, List<Enum<?>>> enums = new HashMap<>();
-        enums.put("filtroStatusAuditavel", List.of(FiltroStatusAuditavel.values()));
+        enums.put("filtroStatusAuditavel", List.of(FiltroStatusAuditoria.Tipo.values()));
         enums.put("statusAuditavel", List.of(StatusAuditavel.values()));
         enums.put("statusOrcamento", List.of(StatusOrcamento.values()));
         enums.put("statusRequisicao", List.of(StatusRequisicao.values()));

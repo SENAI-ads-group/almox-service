@@ -11,7 +11,6 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface OperadorService {
-    Operador getOperadorLogado();
 
     Operador criar(Operador operador);
 
@@ -30,4 +29,8 @@ public interface OperadorService {
     Operador atualizar(UUID id, Operador operador);
 
     void excluir(UUID id);
+
+    boolean isAdministrador(Operador operador);
+
+    boolean isAlmoxarife(Operador operador);
 }

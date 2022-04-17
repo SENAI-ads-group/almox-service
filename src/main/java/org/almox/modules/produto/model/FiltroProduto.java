@@ -1,9 +1,8 @@
 package org.almox.modules.produto.model;
 
-import org.almox.modules.auditoria.FiltroStatusAuditavel;
+import org.almox.modules.auditoria.FiltroStatusAuditoria;
 
 import java.io.Serializable;
-import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -14,5 +13,5 @@ public class FiltroProduto implements Serializable {
     public Set<UUID> idDepartamentos;
     public UUID idFornecedor;
     public UnidadeMedida unidadeMedida;
-    public FiltroStatusAuditavel status;
+    public FiltroStatusAuditoria status;
 }

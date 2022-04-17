@@ -1,10 +1,12 @@
 package org.almox.modules.produto.service;
 
 import lombok.RequiredArgsConstructor;
-import org.almox.core.exceptions.EntidadeNaoEncontradaException;
 import org.almox.core.config.validation.ValidatorAutoThrow;
+import org.almox.core.exceptions.EntidadeNaoEncontradaException;
 import org.almox.modules.produto.model.FiltroProduto;
+import org.almox.modules.produto.model.HistoricoEstoqueProduto;
 import org.almox.modules.produto.model.Produto;
+import org.almox.modules.produto.repository.HistoricoEstoqueProdutoRepository;
 import org.almox.modules.produto.repository.ProdutoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -21,6 +23,7 @@ public class ProdutoServiceImpl implements ProdutoService {
 
     private final ProdutoRepository repository;
     private final EstoqueService estoqueService;
+    private final HistoricoEstoqueProdutoRepository historicoEstoqueProdutoRepository;
     private final ValidatorAutoThrow validator;
 
     @Override
@@ -54,10 +57,17 @@ public class ProdutoServiceImpl implements ProdutoService {
     }
 
     @Override
+    public List<HistoricoEstoqueProduto> buscarHistoricoEstoque(UUID idProduto) {
+        buscarPorId(idProduto);
+        return historicoEstoqueProdutoRepository.buscarPorIdProduto(idProduto);
+    }
+
+    @Override
     public Produto atualizar(UUID id, Produto produto) {
         buscarPorId(id);
         validator.validate(produto);
         produto.setId(id);
+        produto.setEstoque(estoqueService.salvar(produto.getEstoque()));
         Produto produtoAtualizado = repository.save(produto);
         return produtoAtualizado;
     }

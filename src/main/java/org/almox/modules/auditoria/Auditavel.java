@@ -1,6 +1,5 @@
 package org.almox.modules.auditoria;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,13 +14,7 @@ import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import javax.persistence.Column;
-import javax.persistence.Convert;
-import javax.persistence.EntityListeners;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.MappedSuperclass;
-import javax.persistence.Transient;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Getter
@@ -34,46 +27,36 @@ public abstract class Auditavel implements EntidadePadrao {
 
     private static final long serialVersionUID = -6830898710248097431L;
 
-    @Column(name = "dt_criacao", nullable = false, updatable = false)
+    @Column(name = "AUD_DT_CRIACAO", nullable = false, updatable = false)
     @CreatedDate
     @Convert(converter = LocalDateTimeConverter.class)
     protected LocalDateTime dataCriacao;
 
-    @Column(name = "dt_atualizacao")
+    @Column(name = "AUD_DT_ATUALIZACAO")
     @Convert(converter = LocalDateTimeConverter.class)
     @LastModifiedDate
     protected LocalDateTime dataAlteracao;
 
-    @Column(name = "dt_exclusao")
+    @Column(name = "AUD_DT_EXCLUSAO")
     @Convert(converter = LocalDateTimeConverter.class)
     protected LocalDateTime dataExclusao;
 
     @ManyToOne
-    @JoinColumn(name = "ope_id_criacao", nullable = false)
-    @JsonBackReference("criadoPor")
+    @JoinColumn(name = "OPE_ID_CRIACAO", nullable = false)
     @CreatedBy
     private Operador criadoPor;
 
     @ManyToOne
-    @JoinColumn(name = "ope_id_alteracao")
-    @JsonBackReference("alteradoPor")
+    @JoinColumn(name = "OPE_ID_ALTERACAO")
     @LastModifiedBy
     private Operador alteradoPor;
 
     @ManyToOne
-    @JoinColumn(name = "ope_id_exclusao")
-    @JsonBackReference("excluidoPor")
+    @JoinColumn(name = "OPE_ID_EXCLUSAO")
     private Operador excluidoPor;
-
-    @Column(name = "status_auditoria")
-    private String statusAuditoria;
 
     public boolean isExcluido() {
         return excluidoPor != null;
-    }
-
-    public String getStatusAuditoria() {
-        return isExcluido() ? "EXCLUIDO" : "ATIVO";
     }
 
     @Transient

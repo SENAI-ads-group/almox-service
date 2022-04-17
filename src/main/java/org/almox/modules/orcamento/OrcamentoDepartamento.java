@@ -28,7 +28,7 @@ public class OrcamentoDepartamento extends Orcamento {
 
     @Id
     @GeneratedValue(generator = "UUID")
-    @Column(name = "orc_dpto_id")
+    @Column(name = "orc_DPTO_ID")
     private UUID id;
 
     @OneToMany(mappedBy = "orcamentoPertencente", fetch = FetchType.LAZY)

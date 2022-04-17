@@ -13,7 +13,7 @@ import org.almox.modules.pessoa.model.Pessoa;
 import org.almox.modules.pessoa.model.PessoaFisica;
 import org.almox.modules.pessoa.model.PessoaJuridica;
 import org.almox.modules.pessoa.model.TipoPessoa;
-import org.almox.modules.pessoa.service.PessoaService;
+import org.almox.modules.pessoa.service.PessoaServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -29,7 +29,7 @@ import java.util.UUID;
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class PessoaRest implements PessoaRestFacade {
 
-    private final PessoaService pessoaService;
+    private final PessoaServiceImpl pessoaService;
     private final PessoaFisicaMapper pessoaFisicaMapper;
     private final PessoaJuridicaMapper pessoaJuridicaMapper;
     private final PessoaMapper pessoaMapper;

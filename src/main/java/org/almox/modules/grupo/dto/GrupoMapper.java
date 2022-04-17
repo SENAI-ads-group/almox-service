@@ -1,5 +1,6 @@
 package org.almox.modules.grupo.dto;
 
+import org.almox.modules.auditoria.MappingAuditavel;
 import org.almox.modules.grupo.model.Grupo;
 import org.mapstruct.Mapper;
 
@@ -10,7 +11,8 @@ public interface GrupoMapper {
 
     Grupo fromDTO(GrupoDTO dto);
 
-    GrupoDTO toDTO(Grupo departamento);
+    @MappingAuditavel
+    GrupoDTO toDTO(Grupo source);
 
     List<Grupo> fromDTOList(List<GrupoDTO> dtos);
 

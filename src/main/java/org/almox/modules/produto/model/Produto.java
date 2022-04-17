@@ -1,10 +1,6 @@
 package org.almox.modules.produto.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.almox.core.converters.ListaPalavraChaveConverter;
 import org.almox.modules.auditoria.Auditavel;
 import org.almox.modules.departamento.model.Departamento;
@@ -12,20 +8,7 @@ import org.almox.modules.fornecedor.model.Fornecedor;
 import org.almox.modules.grupo.model.Grupo;
 import org.almox.modules.util.Constantes;
 
-import javax.persistence.Column;
-import javax.persistence.Convert;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -41,6 +24,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @Entity
 @Table(name = "prod_produto")
+@TableGenerator(name = "prod_codigo_sequence", initialValue = 10000)
 public class Produto extends Auditavel {
 
     @Id
@@ -52,6 +36,11 @@ public class Produto extends Auditavel {
     @Size(min = Constantes.MIN_SIZE_NOME, max = Constantes.MAX_SIZE_NOME, message = "{Produto.descricao.Size}")
     @Column(name = "prod_descricao", nullable = false, unique = true)
     private String descricao;
+
+    @NotBlank(message = "{Produto.codigo.NotNull}")
+    @Column(name = "prod_cod", nullable = false, unique = true)
+    @GeneratedValue(strategy = GenerationType.TABLE, generator = "prod_codigo_sequence")
+    private Long codigo;
 
     @NotBlank(message = "{Produto.codigoBarras.NotNull}")
     @Column(name = "prod_cod_barras", nullable = false, unique = true)
@@ -84,7 +73,7 @@ public class Produto extends Auditavel {
     @JoinTable(
             name = "produtos_departamentos",
             joinColumns = @JoinColumn(name = "prod_id"),
-            inverseJoinColumns = @JoinColumn(name = "dpto_id")
+            inverseJoinColumns = @JoinColumn(name = "DPTO_ID")
     )
     private Set<Departamento> departamentos;
 

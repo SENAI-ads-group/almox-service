@@ -2,7 +2,7 @@ package org.almox.modules.fornecedor.rest;
 
 import lombok.RequiredArgsConstructor;
 import org.almox.core.rest.RestCollection;
-import org.almox.modules.auditoria.FiltroStatusAuditavel;
+import org.almox.modules.auditoria.FiltroStatusAuditoria;
 import org.almox.modules.fornecedor.model.FiltroFornecedor;
 import org.almox.modules.fornecedor.model.Fornecedor;
 import org.almox.modules.fornecedor.model.FornecedorDTO;
@@ -27,7 +27,7 @@ public class FornecedorRest implements FornecedorRestFacade {
     private final FornecedorMapper fornecedorMapper;
 
     public ResponseEntity<RestCollection<FornecedorDTO>> buscar(
-            String cnpj, String nome, FiltroStatusAuditavel status,
+            String cnpj, String nome, FiltroStatusAuditoria.Tipo statusAuditoria,
             Optional<Integer> page, Optional<Integer> size, String[] sort
     ) {
         Sort ordenacao = Sort.by(sort);

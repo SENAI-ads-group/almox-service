@@ -7,18 +7,13 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.almox.core.rest.RestCollection;
 import org.almox.core.rest.RestInterface;
-import org.almox.modules.auditoria.FiltroStatusAuditavel;
-import org.almox.modules.departamento.model.DepartamentoDTO;
+import org.almox.modules.auditoria.FiltroStatusAuditoria;
+import org.almox.modules.departamento.dto.CriarDepartamentoDTO;
+import org.almox.modules.departamento.dto.DepartamentoDTO;
 import org.springdoc.core.converters.models.PageableAsQueryParam;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -28,33 +23,33 @@ import java.util.UUID;
 public interface DepartamentoRestFacade extends RestInterface {
     String PATH = "/departamentos";
 
-    @GetMapping
+    @GetMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @Parameters({
             @Parameter(
                     in = ParameterIn.QUERY,
-                    name = "nome",
-                    description = "Nome do departamento",
+                    name = "descricao",
+                    description = "Descrição do departamento",
                     schema = @Schema(type = "string")
             )
     })
     @PageableAsQueryParam
     ResponseEntity<RestCollection<DepartamentoDTO>> buscar(
-            @RequestParam(required = false, defaultValue = "") String nome,
-            @RequestParam(required = false, defaultValue = "CONSIDERAR_TODOS") FiltroStatusAuditavel status,
+            @RequestParam(required = false, defaultValue = "") String descricao,
+            @RequestParam(required = false, defaultValue = "APENAS_ATIVOS") FiltroStatusAuditoria.Tipo statusAuditoria,
             @RequestParam(required = false) Optional<Integer> page,
             @RequestParam(required = false) Optional<Integer> size,
             @RequestParam(required = false, defaultValue = "id") String[] sort
     );
 
-    @GetMapping("/{id}")
+    @GetMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     ResponseEntity<DepartamentoDTO> buscarPorId(@PathVariable("id") UUID id);
 
-    @PostMapping
-    ResponseEntity<Void> criar(@RequestBody DepartamentoDTO dto);
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    ResponseEntity<Void> criar(@RequestBody CriarDepartamentoDTO dto);
 
-    @PutMapping("/{id}")
+    @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     ResponseEntity<DepartamentoDTO> atualizar(@PathVariable("id") UUID id, @RequestBody DepartamentoDTO dto);
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     ResponseEntity<Void> excluir(@PathVariable("id") UUID id);
 }

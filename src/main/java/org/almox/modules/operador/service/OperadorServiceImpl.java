@@ -5,15 +5,14 @@ import org.almox.core.config.validation.ValidatorAutoThrow;
 import org.almox.core.exceptions.EntidadeNaoEncontradaException;
 import org.almox.core.exceptions.RegraNegocioException;
 import org.almox.modules.operador.dto.OperadorFiltroDTO;
+import org.almox.modules.operador.model.Funcao;
 import org.almox.modules.operador.model.Operador;
 import org.almox.modules.operador.repository.FuncaoRepository;
 import org.almox.modules.operador.repository.OperadorRepository;
 import org.almox.modules.pessoa.model.PessoaFisica;
-import org.almox.modules.pessoa.service.IPessoaService;
+import org.almox.modules.pessoa.service.PessoaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Scope;
-import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -21,34 +20,28 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.context.annotation.ApplicationScope;
+import org.springframework.web.context.annotation.RequestScope;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
+
+import static org.almox.modules.util.ColecaoUtil.colecaoVaziaCasoSejaNula;
 
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
+@ApplicationScope
 public class OperadorServiceImpl implements OperadorService {
 
     private final OperadorRepository repository;
     private final FuncaoRepository funcaoRepository;
-    private final IPessoaService pessoaService;
+    private final PessoaService pessoaService;
     private final ValidatorAutoThrow validator;
     private final BCryptPasswordEncoder passwordEncoder;
-
-    @Override
-    @Scope(value = WebApplicationContext.SCOPE_REQUEST, proxyMode = ScopedProxyMode.TARGET_CLASS)
-    @Bean("operadorLogado")
-    public Operador getOperadorLogado() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
-        if (authentication == null || !authentication.isAuthenticated())
-            return null;
-        String login = authentication.getPrincipal().toString();
-        return repository.findByLoginEquals(login).orElse(null);
-    }
 
     @Override
     @Transactional
@@ -63,7 +56,11 @@ public class OperadorServiceImpl implements OperadorService {
         } catch (EntidadeNaoEncontradaException e) {
             throw new EntidadeNaoEncontradaException("${operador_pessoa_nao_encontrada}");
         }
-        funcaoRepository.saveAll(operador.getFuncoes());
+        funcaoRepository.saveAll(operador.getFuncoes()
+                .stream()
+                .map(funcao -> funcaoRepository.buscarPorNome(funcao.getNome()).orElse(funcao))
+                .collect(Collectors.toSet())
+        );
         operador.setSenha(passwordEncoder.encode(operador.getPassword()));
         return repository.save(operador);
     }
@@ -71,14 +68,14 @@ public class OperadorServiceImpl implements OperadorService {
     @Override
     public Operador buscarPorId(UUID id) {
         Operador operadorEncontrado = repository.findById(id)
-                .orElseThrow(() -> new EntidadeNaoEncontradaException());
+                .orElseThrow(() -> new EntidadeNaoEncontradaException("${operador_nao_encontrado_por_id}"));
         return operadorEncontrado;
     }
 
     @Override
     public Operador buscarPorLogin(String login) {
         Operador operadorEncontrado = repository.findByLoginEquals(login)
-                .orElseThrow(() -> new EntidadeNaoEncontradaException());
+                .orElseThrow(() -> new EntidadeNaoEncontradaException("${operador_nao_encontrado_por_login}"));
         return operadorEncontrado;
     }
 
@@ -94,12 +91,14 @@ public class OperadorServiceImpl implements OperadorService {
 
     @Override
     public List<Operador> buscar(OperadorFiltroDTO filtro, Sort sort) {
-        return repository.findAll(sort);
+        validator.validate(filtro);
+        return repository.buscarPorNomeEmailPessoa(filtro.nome, filtro.email, sort);
     }
 
     @Override
     public Page<Operador> buscarPaginado(OperadorFiltroDTO filtro, Pageable pageable) {
-        return repository.findAll(pageable);
+        validator.validate(filtro);
+        return repository.buscarPorNomeEmailPessoa(filtro.nome, filtro.email, pageable);
     }
 
     @Override
@@ -117,6 +116,26 @@ public class OperadorServiceImpl implements OperadorService {
     public void excluir(UUID id) {
         buscarPorId(id);
         repository.deleteById(id);
+    }
+
+    @Override
+    public boolean isAdministrador(Operador operador) {
+        Objects.requireNonNull(operador);
+        Funcao funcaoAdministrador = funcaoRepository.buscarFuncaoAdministrador();
+        boolean contemFuncaoAdministrador = colecaoVaziaCasoSejaNula(operador.getFuncoes()).stream()
+                .map(Funcao::getId)
+                .anyMatch(funcId -> funcaoAdministrador.getId().equals(funcId));
+        return contemFuncaoAdministrador;
+    }
+
+    @Override
+    public boolean isAlmoxarife(Operador operador) {
+        Objects.requireNonNull(operador);
+        Funcao funcaoAlmoxarife = funcaoRepository.buscarFuncaoAlmoxarife();
+        boolean contemFuncaoAlmoxarife = colecaoVaziaCasoSejaNula(operador.getFuncoes()).stream()
+                .map(Funcao::getId)
+                .anyMatch(funcId -> funcaoAlmoxarife.getId().equals(funcId));
+        return contemFuncaoAlmoxarife;
     }
 
 }
