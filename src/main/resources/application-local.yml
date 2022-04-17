@@ -10,7 +10,7 @@ spring:
     hibernate:
       naming:
         implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyJpaCompliantImpl
-      ddl-auto: create-drop
+      ddl-auto: update
       format_sql: true
     properties:
       hibernate:

@@ -7,9 +7,10 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.almox.core.rest.RestCollection;
 import org.almox.core.rest.RestInterface;
-import org.almox.modules.auditoria.FiltroStatusAuditavel;
+import org.almox.modules.auditoria.FiltroStatusAuditoria;
 import org.almox.modules.grupo.dto.GrupoDTO;
 import org.springdoc.core.converters.models.PageableAsQueryParam;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -40,7 +41,7 @@ public interface GrupoRestFacade extends RestInterface {
     @PageableAsQueryParam
     ResponseEntity<RestCollection<GrupoDTO>> buscar(
             @RequestParam(required = false, defaultValue = "") String nome,
-            @RequestParam(required = false, defaultValue = "CONSIDERAR_TODOS") FiltroStatusAuditavel status,
+            @RequestParam(required = false, defaultValue = "APENAS_ATIVOS") FiltroStatusAuditoria.Tipo statusAuditoria,
             @RequestParam(required = false) Optional<Integer> page,
             @RequestParam(required = false) Optional<Integer> size,
             @RequestParam(required = false, defaultValue = "descricao") String[] sort
@@ -52,7 +53,7 @@ public interface GrupoRestFacade extends RestInterface {
     @PostMapping
     ResponseEntity<Void> criar(@RequestBody GrupoDTO dto);
 
-    @PutMapping("/{id}")
+    @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     ResponseEntity<GrupoDTO> atualizar(@PathVariable("id") UUID id, @RequestBody GrupoDTO dto);
 
     @DeleteMapping("/{id}")

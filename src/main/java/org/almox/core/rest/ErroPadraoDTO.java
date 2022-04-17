@@ -13,6 +13,7 @@ import java.time.Instant;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 @Getter
 @Setter
@@ -24,14 +25,16 @@ public class ErroPadraoDTO implements Serializable {
     private String error;
     private String date;
     private String[] messages;
+    private Map<String, Object> details;
 
     @Builder
-    public ErroPadraoDTO(String exception, int status, String error, Collection<String> messages, String date) {
+    public ErroPadraoDTO(String exception, int status, String error, Collection<String> messages, String date, Map<String, Object> details) {
         this.exception = exception;
         this.status = status;
         this.error = error;
         this.date = date;
         this.messages = messages.toArray(new String[0]);
+        this.details = details;
     }
 
     public String[] getMessages(){

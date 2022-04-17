@@ -33,7 +33,7 @@ public interface RequisicaoRestFacade {
     @Parameters({
             @Parameter(
                     in = ParameterIn.QUERY,
-                    name = "status",
+                    name = "statusAuditoria",
                     schema = @Schema(implementation = StatusRequisicao.class)
             )
     })

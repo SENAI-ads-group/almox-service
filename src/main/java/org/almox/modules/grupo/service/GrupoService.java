@@ -1,5 +1,6 @@
 package org.almox.modules.grupo.service;
 
+import org.almox.modules.auditoria.AuditoriaService;
 import org.almox.modules.grupo.dto.FiltroGrupo;
 import org.almox.modules.grupo.model.Grupo;
 import org.springframework.data.domain.Page;
@@ -9,7 +10,7 @@ import org.springframework.data.domain.Sort;
 import java.util.List;
 import java.util.UUID;
 
-public interface GrupoService {
+public interface GrupoService extends AuditoriaService {
     Grupo criar(Grupo grupo);
 
     Grupo buscarPorId(UUID id);

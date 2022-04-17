@@ -69,7 +69,7 @@ public class Movimento extends Auditavel {
 
     @Builder
     public Movimento(LocalDateTime dataCriacao, LocalDateTime dataAlteracao, LocalDateTime dataExclusao, Operador criadoPor, Operador alteradoPor, Operador excluidoPor, UUID id, LocalDate data, TipoDeMovimento tipoDeMovimento, BigDecimal custoLiquido, BigDecimal custoBruto, UUID idOrigem, TipoOrigemMovimento tipoOrigemMovimento, Set<ItemMovimento> itens) {
-        super(dataCriacao, dataAlteracao, dataExclusao, criadoPor, alteradoPor, excluidoPor, null);
+        super(dataCriacao, dataAlteracao, dataExclusao, criadoPor, alteradoPor, excluidoPor);
         this.id = id;
         this.data = data;
         this.tipoDeMovimento = tipoDeMovimento;

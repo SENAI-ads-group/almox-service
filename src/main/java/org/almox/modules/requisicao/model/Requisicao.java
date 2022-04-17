@@ -55,7 +55,7 @@ public class Requisicao implements EntidadePadrao {
 
     @NotNull(message = "{Requisicao.departamento.NotNull}")
     @ManyToOne
-    @JoinColumn(name = "dpto_id")
+    @JoinColumn(name = "DPTO_ID")
     private Departamento departamento;
 
     @Enumerated(EnumType.STRING)

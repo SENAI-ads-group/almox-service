@@ -38,6 +38,6 @@ public class ItemOrcamentoDepartamento implements EntidadePadrao {
     private BigDecimal valor;
 
     @ManyToOne
-    @JoinColumn(name = "orc_dpto_id", updatable = false, nullable = false)
+    @JoinColumn(name = "orc_DPTO_ID", updatable = false, nullable = false)
     private OrcamentoDepartamento orcamentoPertencente;
 }

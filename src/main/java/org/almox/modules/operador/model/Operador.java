@@ -1,26 +1,13 @@
 package org.almox.modules.operador.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.almox.modules.common.EntidadePadrao;
 import org.almox.modules.pessoa.model.PessoaFisica;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.Collection;
@@ -103,11 +90,11 @@ public class Operador implements EntidadePadrao, UserDetails, Cloneable {
     @Override
     public final Operador clone() {
         return Operador.builder()
-                .id(id)
-                .pessoa(pessoa)
-                .funcoes(funcoes)
-                .login(login)
-                .senha(senha)
+                .id(getId())
+                .pessoa(getPessoa())
+                .funcoes(getFuncoes())
+                .login(getLogin())
+                .senha(getSenha())
                 .build();
     }
 }

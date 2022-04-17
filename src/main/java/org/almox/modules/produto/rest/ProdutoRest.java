@@ -2,15 +2,15 @@ package org.almox.modules.produto.rest;
 
 import lombok.RequiredArgsConstructor;
 import org.almox.core.rest.RestCollection;
-import org.almox.modules.auditoria.FiltroStatusAuditavel;
-import org.almox.modules.produto.dto.AtualizarProdutoDTO;
-import org.almox.modules.produto.dto.CriarProdutoDTO;
-import org.almox.modules.produto.dto.ProdutoDTO;
-import org.almox.modules.produto.service.ProdutoServiceImpl;
+import org.almox.modules.auditoria.FiltroStatusAuditoria;
+import org.almox.modules.produto.dto.*;
+import org.almox.modules.produto.model.HistoricoEstoqueProduto;
+import org.almox.modules.produto.service.ProdutoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -18,11 +18,13 @@ import java.util.UUID;
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class ProdutoRest implements ProdutoRestFacade {
 
-    private final ProdutoServiceImpl fornecedorService;
+    private final ProdutoService produtoService;
+    private final ProdutoMapper produtoMapper;
+    private final HistoricoEstoqueMapper historicoEstoqueMapper;
 
     @Override
     public ResponseEntity<RestCollection<ProdutoDTO>> buscar(
-            String cnpj, String nome, FiltroStatusAuditavel status,
+            String cnpj, String nome, FiltroStatusAuditoria.Tipo statusAuditoria,
             Optional<Integer> page, Optional<Integer> size, String[] sort
     ) {
         return null;
@@ -31,6 +33,13 @@ public class ProdutoRest implements ProdutoRestFacade {
     @Override
     public ResponseEntity<ProdutoDTO> buscarPorId(UUID id) {
         return null;
+    }
+
+    @Override
+    public ResponseEntity<List<HistoricoEstoqueDTO>> buscarHistoricosEstoque(UUID id) {
+        List<HistoricoEstoqueProduto> historicoEstoqueProduto = produtoService.buscarHistoricoEstoque(id);
+        List<HistoricoEstoqueDTO> historicoEstoqueDTO = historicoEstoqueMapper.toDTOList(historicoEstoqueProduto);
+        return ResponseEntity.ok(historicoEstoqueDTO);
     }
 
     @Override

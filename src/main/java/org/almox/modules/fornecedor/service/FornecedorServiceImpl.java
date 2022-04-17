@@ -8,7 +8,7 @@ import org.almox.modules.fornecedor.model.FiltroFornecedor;
 import org.almox.modules.fornecedor.model.Fornecedor;
 import org.almox.modules.fornecedor.repository.FornecedorRepository;
 import org.almox.modules.pessoa.model.PessoaJuridica;
-import org.almox.modules.pessoa.service.PessoaService;
+import org.almox.modules.pessoa.service.PessoaServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -23,7 +23,7 @@ import java.util.UUID;
 public class FornecedorServiceImpl implements FornecedorService {
 
     private final FornecedorRepository repository;
-    private final PessoaService pessoaService;
+    private final PessoaServiceImpl pessoaService;
     private final ValidatorAutoThrow validator;
 
     @Override

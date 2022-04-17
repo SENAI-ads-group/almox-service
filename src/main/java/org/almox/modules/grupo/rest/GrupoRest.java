@@ -2,11 +2,11 @@ package org.almox.modules.grupo.rest;
 
 import lombok.RequiredArgsConstructor;
 import org.almox.core.rest.RestCollection;
-import org.almox.modules.auditoria.FiltroStatusAuditavel;
+import org.almox.modules.auditoria.FiltroStatusAuditoria;
 import org.almox.modules.grupo.dto.FiltroGrupo;
-import org.almox.modules.grupo.model.Grupo;
 import org.almox.modules.grupo.dto.GrupoDTO;
 import org.almox.modules.grupo.dto.GrupoMapper;
+import org.almox.modules.grupo.model.Grupo;
 import org.almox.modules.grupo.service.GrupoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -28,12 +28,15 @@ public class GrupoRest implements GrupoRestFacade {
 
     @Override
     public ResponseEntity<RestCollection<GrupoDTO>> buscar(
-            String descricao, FiltroStatusAuditavel status,
+            String descricao, FiltroStatusAuditoria.Tipo statusAuditoria,
             Optional<Integer> page, Optional<Integer> size, String[] sort
     ) {
         Sort ordenacao = Sort.by(sort);
         Pageable paginacao = criarPaginacao(page, size, ordenacao);
-        FiltroGrupo filtro = FiltroGrupo.builder().descricao(descricao).build();
+        FiltroGrupo filtro = FiltroGrupo.builder()
+                .descricao(descricao)
+                .statusAuditoria(statusAuditoria)
+                .build();
 
         List<Grupo> departamentoList = page.isEmpty()
                 ? grupoService.buscar(filtro, ordenacao)
