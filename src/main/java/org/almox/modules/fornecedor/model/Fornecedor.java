@@ -2,25 +2,12 @@ package org.almox.modules.fornecedor.model;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import org.almox.modules.common.EntidadePadrao;
+import lombok.*;
+import org.almox.modules.auditoria.Auditavel;
 import org.almox.modules.pessoa.model.PessoaJuridica;
 import org.almox.modules.produto.model.Produto;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Set;
 import java.util.UUID;
 
@@ -31,7 +18,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @Entity
 @Table(name = "forn_fornecedor")
-public class Fornecedor implements EntidadePadrao {
+public class Fornecedor extends Auditavel {
 
     @Id
     @GeneratedValue(generator = "UUID")

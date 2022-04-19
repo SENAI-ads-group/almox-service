@@ -1,4 +1,4 @@
-package org.almox.modules.fornecedor.model;
+package org.almox.modules.fornecedor.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

@@ -1,6 +1,5 @@
-package org.almox.modules.pessoa.dto.mapper;
+package org.almox.modules.pessoa.dto;
 
-import org.almox.modules.pessoa.dto.PessoaJuridicaDTO;
 import org.almox.modules.pessoa.model.PessoaJuridica;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;

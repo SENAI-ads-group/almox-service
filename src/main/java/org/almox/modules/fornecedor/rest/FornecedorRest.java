@@ -2,20 +2,18 @@ package org.almox.modules.fornecedor.rest;
 
 import lombok.RequiredArgsConstructor;
 import org.almox.core.rest.RestCollection;
-import org.almox.modules.auditoria.FiltroStatusAuditoria;
-import org.almox.modules.fornecedor.model.FiltroFornecedor;
+import org.almox.modules.fornecedor.dto.FiltroFornecedor;
 import org.almox.modules.fornecedor.model.Fornecedor;
-import org.almox.modules.fornecedor.model.FornecedorDTO;
-import org.almox.modules.fornecedor.model.mapper.FornecedorMapper;
+import org.almox.modules.fornecedor.dto.FornecedorDTO;
+import org.almox.modules.fornecedor.dto.FornecedorMapper;
 import org.almox.modules.fornecedor.service.FornecedorServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.net.URI;
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -26,20 +24,21 @@ public class FornecedorRest implements FornecedorRestFacade {
     private final FornecedorServiceImpl fornecedorService;
     private final FornecedorMapper fornecedorMapper;
 
-    public ResponseEntity<RestCollection<FornecedorDTO>> buscar(
-            String cnpj, String nome, FiltroStatusAuditoria.Tipo statusAuditoria,
-            Optional<Integer> page, Optional<Integer> size, String[] sort
-    ) {
-        Sort ordenacao = Sort.by(sort);
-        Pageable paginacao = criarPaginacao(page, size, ordenacao);
-        FiltroFornecedor filtro = FiltroFornecedor.builder().nome(nome).cnpj(cnpj).build();
+    public ResponseEntity<RestCollection<FornecedorDTO>> buscar(String cnpj, String nome, Optional<Integer> page, Optional<Integer> size, String[] sort) {
+        Pageable paginacao = criarPaginacao(page, size, sort);
+        FiltroFornecedor filtro = criarFiltro(nome, cnpj);
 
-        List<Fornecedor> fornecedoresList = page.isEmpty()
-                ? fornecedorService.buscar(filtro, ordenacao)
-                : fornecedorService.buscarPaginado(filtro, paginacao).getContent();
+        Page<FornecedorDTO> fornecedorPage = fornecedorService.buscar(filtro, paginacao).map(fornecedorMapper::toDTO);
+        return ResponseEntity.ok(RestCollection.fromPage(fornecedorPage));
+    }
 
-        RestCollection<FornecedorDTO> fornecedoresDTO = new RestCollection<>(fornecedoresList, paginacao).mapCollection(fornecedorMapper::toDTO);
-        return ResponseEntity.ok(fornecedoresDTO);
+    @Override
+    public ResponseEntity<RestCollection<FornecedorDTO>> buscarExcluidos(String cnpj, String nome, Optional<Integer> page, Optional<Integer> size, String[] sort) {
+        Pageable paginacao = criarPaginacao(page, size, sort);
+        FiltroFornecedor filtro = criarFiltro(nome, cnpj);
+
+        Page<FornecedorDTO> fornecedorPage = fornecedorService.buscarExcluidos(filtro, paginacao).map(fornecedorMapper::toDTO);
+        return ResponseEntity.ok(RestCollection.fromPage(fornecedorPage));
     }
 
     public ResponseEntity<FornecedorDTO> buscarPorId(UUID id) {
@@ -63,5 +62,12 @@ public class FornecedorRest implements FornecedorRestFacade {
     public ResponseEntity<Void> excluir(UUID id) {
         fornecedorService.excluir(id);
         return ResponseEntity.noContent().build();
+    }
+
+    private FiltroFornecedor criarFiltro(String nome, String cnpj) {
+        return FiltroFornecedor.builder()
+                .nome(nome)
+                .cnpj(cnpj)
+                .build();
     }
 }

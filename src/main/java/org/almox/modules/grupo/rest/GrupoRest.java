@@ -2,20 +2,19 @@ package org.almox.modules.grupo.rest;
 
 import lombok.RequiredArgsConstructor;
 import org.almox.core.rest.RestCollection;
-import org.almox.modules.auditoria.FiltroStatusAuditoria;
+import org.almox.modules.departamento.dto.DepartamentoDTO;
 import org.almox.modules.grupo.dto.FiltroGrupo;
 import org.almox.modules.grupo.dto.GrupoDTO;
 import org.almox.modules.grupo.dto.GrupoMapper;
 import org.almox.modules.grupo.model.Grupo;
 import org.almox.modules.grupo.service.GrupoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.net.URI;
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -27,23 +26,25 @@ public class GrupoRest implements GrupoRestFacade {
     private final GrupoMapper grupoMapper;
 
     @Override
-    public ResponseEntity<RestCollection<GrupoDTO>> buscar(
-            String descricao, FiltroStatusAuditoria.Tipo statusAuditoria,
-            Optional<Integer> page, Optional<Integer> size, String[] sort
-    ) {
-        Sort ordenacao = Sort.by(sort);
-        Pageable paginacao = criarPaginacao(page, size, ordenacao);
+    public ResponseEntity<RestCollection<GrupoDTO>> buscar(String descricao, Optional<Integer> page, Optional<Integer> size, String[] sort) {
+        Pageable paginacao = criarPaginacao(page, size, sort);
         FiltroGrupo filtro = FiltroGrupo.builder()
                 .descricao(descricao)
-                .statusAuditoria(statusAuditoria)
                 .build();
 
-        List<Grupo> departamentoList = page.isEmpty()
-                ? grupoService.buscar(filtro, ordenacao)
-                : grupoService.buscarPaginado(filtro, paginacao).getContent();
+        Page<GrupoDTO> grupoPage = grupoService.buscar(filtro, paginacao).map(grupoMapper::toDTO);
+        return ResponseEntity.ok(RestCollection.fromPage(grupoPage));
+    }
 
-        RestCollection<GrupoDTO> departamentosDTO = new RestCollection<>(departamentoList, paginacao).mapCollection(grupoMapper::toDTO);
-        return ResponseEntity.ok(departamentosDTO);
+    @Override
+    public ResponseEntity<RestCollection<GrupoDTO>> buscarExcluidos(String descricao, Optional<Integer> page, Optional<Integer> size, String[] sort) {
+        Pageable paginacao = criarPaginacao(page, size, sort);
+        FiltroGrupo filtro = FiltroGrupo.builder()
+                .descricao(descricao)
+                .build();
+
+        Page<GrupoDTO> grupoPage = grupoService.buscarExcluidos(filtro, paginacao).map(grupoMapper::toDTO);
+        return ResponseEntity.ok(RestCollection.fromPage(grupoPage));
     }
 
     @Override
