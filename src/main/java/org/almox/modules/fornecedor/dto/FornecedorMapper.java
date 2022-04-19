@@ -1,9 +1,8 @@
-package org.almox.modules.fornecedor.model.mapper;
+package org.almox.modules.fornecedor.dto;
 
 import org.almox.modules.fornecedor.model.Fornecedor;
-import org.almox.modules.fornecedor.model.FornecedorDTO;
 import org.almox.modules.pessoa.dto.PessoaJuridicaDTO;
-import org.almox.modules.pessoa.dto.mapper.PessoaJuridicaMapper;
+import org.almox.modules.pessoa.dto.PessoaJuridicaMapper;
 import org.almox.modules.pessoa.model.PessoaJuridica;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

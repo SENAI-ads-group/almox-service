@@ -39,6 +39,10 @@ public class RestCollection<T> implements List<T>, Page<T> {
         this.list = list;
     }
 
+    public static <T> RestCollection<T> fromPage(Page<T> page) {
+        return new RestCollection(page.getContent(), page.getPageable());
+    }
+
     public <R> RestCollection<R> mapCollection(Function<? super T, R> converter) {
         List<R> newList = list.stream().map(converter).collect(Collectors.toList());
         Page<R> newPage = page.map(converter);

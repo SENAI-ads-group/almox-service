@@ -1,4 +1,4 @@
-package org.almox.modules.pessoa.dto.mapper;
+package org.almox.modules.pessoa.dto;
 
 import org.almox.modules.pessoa.dto.PessoaFisicaDTO;
 import org.almox.modules.pessoa.model.PessoaFisica;

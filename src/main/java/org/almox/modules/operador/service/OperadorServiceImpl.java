@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.almox.core.config.validation.ValidatorAutoThrow;
 import org.almox.core.exceptions.EntidadeNaoEncontradaException;
 import org.almox.core.exceptions.RegraNegocioException;
+import org.almox.modules.operador.OperadorLogado;
 import org.almox.modules.operador.dto.OperadorFiltroDTO;
 import org.almox.modules.operador.model.Funcao;
 import org.almox.modules.operador.model.Operador;
@@ -12,6 +13,7 @@ import org.almox.modules.operador.repository.OperadorRepository;
 import org.almox.modules.pessoa.model.PessoaFisica;
 import org.almox.modules.pessoa.service.PessoaService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -21,7 +23,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.annotation.ApplicationScope;
-import org.springframework.web.context.annotation.RequestScope;
 
 import javax.transaction.Transactional;
 import java.util.List;
@@ -37,11 +38,23 @@ import static org.almox.modules.util.ColecaoUtil.colecaoVaziaCasoSejaNula;
 @ApplicationScope
 public class OperadorServiceImpl implements OperadorService {
 
-    private final OperadorRepository repository;
+    private final OperadorRepository operadorRepository;
     private final FuncaoRepository funcaoRepository;
     private final PessoaService pessoaService;
     private final ValidatorAutoThrow validator;
     private final BCryptPasswordEncoder passwordEncoder;
+
+    @ApplicationScope
+    @OperadorLogado
+    @Bean
+    public Operador getOperadorLogado() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if (authentication == null || !authentication.isAuthenticated())
+            return null;
+        String login = authentication.getPrincipal().toString();
+        return operadorRepository.findByLoginEquals(login).orElse(null);
+    }
 
     @Override
     @Transactional
@@ -62,43 +75,43 @@ public class OperadorServiceImpl implements OperadorService {
                 .collect(Collectors.toSet())
         );
         operador.setSenha(passwordEncoder.encode(operador.getPassword()));
-        return repository.save(operador);
+        return operadorRepository.save(operador);
     }
 
     @Override
     public Operador buscarPorId(UUID id) {
-        Operador operadorEncontrado = repository.findById(id)
+        Operador operadorEncontrado = operadorRepository.findById(id)
                 .orElseThrow(() -> new EntidadeNaoEncontradaException("${operador_nao_encontrado_por_id}"));
         return operadorEncontrado;
     }
 
     @Override
     public Operador buscarPorLogin(String login) {
-        Operador operadorEncontrado = repository.findByLoginEquals(login)
+        Operador operadorEncontrado = operadorRepository.findByLoginEquals(login)
                 .orElseThrow(() -> new EntidadeNaoEncontradaException("${operador_nao_encontrado_por_login}"));
         return operadorEncontrado;
     }
 
     @Override
     public Optional<Operador> buscarPorLoginOptional(String login) {
-        return repository.findByLoginEquals(login);
+        return operadorRepository.findByLoginEquals(login);
     }
 
     @Override
     public Optional<Operador> buscarPorCpfPessoaOptional(String cpf) {
-        return repository.buscarPorCpfPessoa(cpf);
+        return operadorRepository.buscarPorCpfPessoa(cpf);
     }
 
     @Override
     public List<Operador> buscar(OperadorFiltroDTO filtro, Sort sort) {
         validator.validate(filtro);
-        return repository.buscarPorNomeEmailPessoa(filtro.nome, filtro.email, sort);
+        return operadorRepository.buscarPorNomeEmailPessoa(filtro.nome, filtro.email, sort);
     }
 
     @Override
     public Page<Operador> buscarPaginado(OperadorFiltroDTO filtro, Pageable pageable) {
         validator.validate(filtro);
-        return repository.buscarPorNomeEmailPessoa(filtro.nome, filtro.email, pageable);
+        return operadorRepository.buscarPorNomeEmailPessoa(filtro.nome, filtro.email, pageable);
     }
 
     @Override
@@ -107,7 +120,7 @@ public class OperadorServiceImpl implements OperadorService {
         Operador operadorEncontrado = buscarPorId(id);
         validator.validate(operador);
         operador.setId(id);
-        Operador operadorAtualizado = repository.save(operador);
+        Operador operadorAtualizado = operadorRepository.save(operador);
         operadorAtualizado.setPessoa(operadorEncontrado.getPessoa());
         return operadorAtualizado;
     }
@@ -115,7 +128,7 @@ public class OperadorServiceImpl implements OperadorService {
     @Override
     public void excluir(UUID id) {
         buscarPorId(id);
-        repository.deleteById(id);
+        operadorRepository.deleteById(id);
     }
 
     @Override

@@ -7,25 +7,18 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.almox.core.rest.RestCollection;
 import org.almox.core.rest.RestInterface;
-import org.almox.modules.auditoria.FiltroStatusAuditoria;
 import org.almox.modules.grupo.dto.GrupoDTO;
+import org.almox.modules.operador.Funcoes;
 import org.springdoc.core.converters.models.PageableAsQueryParam;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 import java.util.UUID;
 
 @Tag(name = "Grupos", description = "Operações relacionadas aos recursos de grupos")
-@RequestMapping(GrupoRestFacade.PATH)
+@RequestMapping(value = GrupoRestFacade.PATH, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 public interface GrupoRestFacade extends RestInterface {
     String PATH = "/grupos";
 
@@ -41,21 +34,41 @@ public interface GrupoRestFacade extends RestInterface {
     @PageableAsQueryParam
     ResponseEntity<RestCollection<GrupoDTO>> buscar(
             @RequestParam(required = false, defaultValue = "") String nome,
-            @RequestParam(required = false, defaultValue = "APENAS_ATIVOS") FiltroStatusAuditoria.Tipo statusAuditoria,
             @RequestParam(required = false) Optional<Integer> page,
             @RequestParam(required = false) Optional<Integer> size,
             @RequestParam(required = false, defaultValue = "descricao") String[] sort
     );
 
+    @Funcoes.REQUISITANTE
+    @GetMapping("/excluidos")
+    @Parameters({
+            @Parameter(
+                    in = ParameterIn.QUERY,
+                    name = "descricao",
+                    description = "Descrição do grupo",
+                    schema = @Schema(type = "string")
+            )
+    })
+    @PageableAsQueryParam
+    ResponseEntity<RestCollection<GrupoDTO>> buscarExcluidos(
+            @RequestParam(required = false, defaultValue = "") String descricao,
+            @RequestParam(required = false) Optional<Integer> page,
+            @RequestParam(required = false) Optional<Integer> size,
+            @RequestParam(required = false, defaultValue = "id") String[] sort
+    );
+
     @GetMapping("/{id}")
     ResponseEntity<GrupoDTO> buscarPorId(@PathVariable("id") UUID id);
 
+    @Funcoes.ALMOXARIFE_ADMINISTRADOR
     @PostMapping
     ResponseEntity<Void> criar(@RequestBody GrupoDTO dto);
 
+    @Funcoes.ALMOXARIFE_ADMINISTRADOR
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     ResponseEntity<GrupoDTO> atualizar(@PathVariable("id") UUID id, @RequestBody GrupoDTO dto);
 
+    @Funcoes.ADMINISTRADOR
     @DeleteMapping("/{id}")
     ResponseEntity<Void> excluir(@PathVariable("id") UUID id);
 }

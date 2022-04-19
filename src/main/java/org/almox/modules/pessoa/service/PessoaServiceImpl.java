@@ -25,7 +25,7 @@ import java.util.UUID;
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class PessoaServiceImpl implements PessoaService {
 
-    private final PessoaRepository repository;
+    private final PessoaRepository pessoaRepository;
     private final ValidatorAutoThrow validator;
 
     @Override
@@ -36,16 +36,16 @@ public class PessoaServiceImpl implements PessoaService {
             throw new RegraNegocioException("${email_ja_cadastrado}");
         });
         if (pessoa instanceof PessoaJuridica) {
-            repository.buscarPorCnpj(((PessoaJuridica) pessoa).getCnpj()).ifPresent(pessoaComMesmoCnpj -> {
+            pessoaRepository.buscarPorCnpj(((PessoaJuridica) pessoa).getCnpj()).ifPresent(pessoaComMesmoCnpj -> {
                 throw new RegraNegocioException("${cnpj_ja_cadastrado}");
             });
         } else if (pessoa instanceof PessoaFisica) {
-            repository.buscarPorCpf(((PessoaFisica) pessoa).getCpf()).ifPresent(pessoaComMesmoCpf -> {
+            pessoaRepository.buscarPorCpf(((PessoaFisica) pessoa).getCpf()).ifPresent(pessoaComMesmoCpf -> {
                 throw new RegraNegocioException("${cpf_ja_cadastrado}");
             });
         }
 
-        return repository.save(pessoa);
+        return pessoaRepository.save(pessoa);
     }
 
     @Override
@@ -56,7 +56,7 @@ public class PessoaServiceImpl implements PessoaService {
 
     @Override
     public Optional<Pessoa> buscarPorIdOptional(UUID uuid) {
-        return repository.findById(uuid);
+        return pessoaRepository.findById(uuid);
     }
 
     @Override
@@ -66,21 +66,21 @@ public class PessoaServiceImpl implements PessoaService {
     }
 
     private Optional<Pessoa> buscarPorEmailOptional(String email) {
-        return repository.findByEmailEquals(email);
+        return pessoaRepository.findByEmailEquals(email);
     }
 
     @Override
     public List<Pessoa> buscar(PessoaFiltroDTO filtro, Sort sort) {
         return filtro.tipo == null
-                ? repository.findAll(filtro.nome, filtro.email, sort)
-                : repository.findAll(filtro.nome, filtro.email, filtro.tipo, sort);
+                ? pessoaRepository.findAll(filtro.nome, filtro.email, sort)
+                : pessoaRepository.findAll(filtro.nome, filtro.email, filtro.tipo, sort);
     }
 
     @Override
     public Page<Pessoa> buscarPaginado(PessoaFiltroDTO filtro, Pageable pageable) {
         return filtro.tipo == null
-                ? repository.findAll(filtro.nome, filtro.email, pageable)
-                : repository.findAll(filtro.nome, filtro.email, filtro.tipo.name(), pageable);
+                ? pessoaRepository.findAll(filtro.nome, filtro.email, pageable)
+                : pessoaRepository.findAll(filtro.nome, filtro.email, filtro.tipo.name(), pageable);
     }
 
     @Override
@@ -89,12 +89,12 @@ public class PessoaServiceImpl implements PessoaService {
         buscarPorId(id);
         validator.validate(pessoa);
         pessoa.setId(id);
-        return repository.save(pessoa);
+        return pessoaRepository.save(pessoa);
     }
 
     @Override
     public void excluir(UUID id) {
         buscarPorId(id);
-        repository.deleteById(id);
+        pessoaRepository.deleteById(id);
     }
 }

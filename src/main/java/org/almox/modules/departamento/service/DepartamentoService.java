@@ -1,13 +1,11 @@
 package org.almox.modules.departamento.service;
 
 import org.almox.modules.auditoria.AuditoriaService;
-import org.almox.modules.departamento.model.Departamento;
 import org.almox.modules.departamento.dto.FiltroDepartamento;
+import org.almox.modules.departamento.model.Departamento;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 
-import java.util.List;
 import java.util.UUID;
 
 public interface DepartamentoService extends AuditoriaService {
@@ -15,9 +13,9 @@ public interface DepartamentoService extends AuditoriaService {
 
     Departamento buscarPorId(UUID id);
 
-    List<Departamento> buscar(FiltroDepartamento filtro, Sort sort);
+    Page<Departamento> buscar(FiltroDepartamento filtro, Pageable paginacao);
 
-    Page<Departamento> buscarPaginado(FiltroDepartamento filtro, Pageable pageable);
+    Page<Departamento> buscarExcluidos(FiltroDepartamento filtro, Pageable paginacao);
 
     Departamento atualizar(UUID id, Departamento departamento);
 

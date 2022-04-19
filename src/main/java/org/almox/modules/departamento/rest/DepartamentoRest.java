@@ -2,21 +2,19 @@ package org.almox.modules.departamento.rest;
 
 import lombok.RequiredArgsConstructor;
 import org.almox.core.rest.RestCollection;
-import org.almox.modules.auditoria.FiltroStatusAuditoria;
 import org.almox.modules.departamento.dto.CriarDepartamentoDTO;
 import org.almox.modules.departamento.dto.DepartamentoDTO;
 import org.almox.modules.departamento.dto.DepartamentoMapper;
 import org.almox.modules.departamento.dto.FiltroDepartamento;
-import org.almox.modules.departamento.model.*;
+import org.almox.modules.departamento.model.Departamento;
 import org.almox.modules.departamento.service.DepartamentoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.net.URI;
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -28,22 +26,23 @@ public class DepartamentoRest implements DepartamentoRestFacade {
     private final DepartamentoMapper departamentoMapper;
 
     @Override
-    public ResponseEntity<RestCollection<DepartamentoDTO>> buscar(
-            String descricao, FiltroStatusAuditoria.Tipo statusAuditoria,
-            Optional<Integer> page, Optional<Integer> size, String[] sort
-    ) {
-        Sort ordenacao = Sort.by(sort);
-        Pageable paginacao = criarPaginacao(page, size, ordenacao);
-        FiltroDepartamento filtro = FiltroDepartamento.builder()
-                .descricao(descricao)
-                .statusAuditoria(statusAuditoria)
-                .build();
+    public ResponseEntity<RestCollection<DepartamentoDTO>> buscar(String descricao, Optional<Integer> page, Optional<Integer> size, String[] sort) {
+        Pageable paginacao = criarPaginacao(page, size, sort);
+        FiltroDepartamento filtro = FiltroDepartamento.builder().descricao(descricao).build();
 
-        List<Departamento> departamentoList = page.isEmpty()
-                ? departamentoService.buscar(filtro, ordenacao)
-                : departamentoService.buscarPaginado(filtro, paginacao).getContent();
+        Page<DepartamentoDTO> departamentoPage = departamentoService.buscar(filtro, paginacao)
+                .map(departamentoMapper::toDTO);
+        return ResponseEntity.ok(RestCollection.fromPage(departamentoPage));
+    }
 
-        RestCollection<DepartamentoDTO> departamentosDTO = new RestCollection<>(departamentoList, paginacao).mapCollection(departamentoMapper::toDTO);
+
+    @Override
+    public ResponseEntity<RestCollection<DepartamentoDTO>> buscarExcluidos(String descricao, Optional<Integer> page, Optional<Integer> size, String[] sort) {
+        Pageable paginacao = criarPaginacao(page, size, sort);
+        FiltroDepartamento filtro = FiltroDepartamento.builder().descricao(descricao).build();
+
+        RestCollection<DepartamentoDTO> departamentosDTO = RestCollection.fromPage(departamentoService.buscarExcluidos(filtro, paginacao))
+                .mapCollection(departamentoMapper::toDTO);
         return ResponseEntity.ok(departamentosDTO);
     }
 

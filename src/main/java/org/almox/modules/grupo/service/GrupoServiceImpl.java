@@ -3,29 +3,26 @@ package org.almox.modules.grupo.service;
 import lombok.RequiredArgsConstructor;
 import org.almox.core.config.validation.ValidatorAutoThrow;
 import org.almox.core.exceptions.EntidadeNaoEncontradaException;
-import org.almox.modules.departamento.model.Departamento;
 import org.almox.modules.grupo.dto.FiltroGrupo;
 import org.almox.modules.grupo.model.Grupo;
 import org.almox.modules.grupo.repository.GrupoRepository;
+import org.almox.modules.operador.OperadorLogado;
 import org.almox.modules.operador.model.Operador;
-import org.almox.modules.operador.service.OperadorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class GrupoServiceImpl implements GrupoService {
 
-    private final GrupoRepository repository;
-    private final OperadorService operadorService;
+    private final GrupoRepository grupoRepository;
+    @OperadorLogado
     private final Operador operadorLogado;
     private final ValidatorAutoThrow validator;
 
@@ -33,42 +30,26 @@ public class GrupoServiceImpl implements GrupoService {
     public Grupo criar(Grupo grupo) {
         validator.validate(grupo);
         grupo.setDataCriacao(LocalDateTime.now());
-        return repository.save(grupo);
+        return grupoRepository.save(grupo);
     }
 
     @Override
     public Grupo buscarPorId(UUID id) {
-        Grupo grupoEncontrado = repository.findById(id)
+        Grupo grupoEncontrado = grupoRepository.findById(id)
                 .orElseThrow(() -> new EntidadeNaoEncontradaException("${grupo_nao_encontrado}"));
         return grupoEncontrado;
     }
 
     @Override
-    public List<Grupo> buscar(FiltroGrupo filtro, Sort sort) {
+    public Page<Grupo> buscar(FiltroGrupo filtro, Pageable paginacao) {
         validator.validate(filtro);
-
-        boolean isAdministrador = operadorService.isAdministrador(operadorLogado);
-        if (isAdministrador) {
-            if (isConsiderarTodos(filtro))
-                return repository.buscarPorDescricao(filtro.descricao, sort);
-            else if (isConsiderarApenasExcluidos(filtro))
-                return repository.buscarExcluidosPorDescricao(filtro.descricao, sort);
-        }
-        return repository.buscarAtivosPorDescricao(filtro.descricao, sort);
+        return grupoRepository.buscarAtivosPorDescricao(filtro.descricao, paginacao);
     }
 
     @Override
-    public Page<Grupo> buscarPaginado(FiltroGrupo filtro, Pageable pageable) {
+    public Page<Grupo> buscarExcluidos(FiltroGrupo filtro, Pageable paginacao) {
         validator.validate(filtro);
-
-        boolean isAdministrador = operadorService.isAdministrador(operadorLogado);
-        if (isAdministrador) {
-            if (isConsiderarTodos(filtro))
-                return repository.buscarPorDescricao(filtro.descricao, pageable);
-            else if (isConsiderarApenasExcluidos(filtro))
-                return repository.buscarExcluidosPorDescricao(filtro.descricao, pageable);
-        }
-        return repository.buscarAtivosPorDescricao(filtro.descricao, pageable);
+        return grupoRepository.buscarExcluidosPorDescricao(filtro.descricao, paginacao);
     }
 
     @Transactional
@@ -80,7 +61,7 @@ public class GrupoServiceImpl implements GrupoService {
         grupo.setDataCriacao(grupoEncontrado.getDataCriacao());
 
         validator.validate(grupo);
-        Grupo grupoAtualizado = repository.save(grupo);
+        Grupo grupoAtualizado = grupoRepository.save(grupo);
         return grupoAtualizado;
     }
 
@@ -88,6 +69,6 @@ public class GrupoServiceImpl implements GrupoService {
     public void excluir(UUID id) {
         Grupo grupoASerExcluido = buscarPorId(id);
         setExclusaoAuditoria(grupoASerExcluido, operadorLogado);
-        repository.save(grupoASerExcluido);
+        grupoRepository.save(grupoASerExcluido);
     }
 }

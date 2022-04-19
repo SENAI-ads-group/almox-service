@@ -1,4 +1,4 @@
-package org.almox.modules.fornecedor.model;
+package org.almox.modules.fornecedor.dto;
 
 import org.almox.modules.pessoa.dto.PessoaJuridicaDTO;
 

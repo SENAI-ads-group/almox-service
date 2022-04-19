@@ -2,7 +2,6 @@ package org.almox.modules.departamento.dto;
 
 import org.almox.modules.auditoria.AuditavelDTO;
 import org.almox.modules.common.DTOSimples;
-import org.almox.modules.pessoa.dto.PessoaFisicaDTO;
 
 import java.util.Set;
 import java.util.UUID;
@@ -14,6 +13,12 @@ public class DepartamentoDTO {
     public Set<OperadorDepartamento> operadores;
 
     public static class OperadorDepartamento extends DTOSimples {
-        public PessoaFisicaDTO pessoa;
+        public PessoaOperadorDepartamento pessoa;
+    }
+
+    public static class PessoaOperadorDepartamento extends DTOSimples {
+        public String cpf;
+        public String nome;
+        public String email;
     }
 }

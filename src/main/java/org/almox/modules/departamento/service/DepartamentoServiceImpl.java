@@ -5,19 +5,18 @@ import org.almox.core.config.validation.ValidatorAutoThrow;
 import org.almox.core.exceptions.EntidadeNaoEncontradaException;
 import org.almox.core.exceptions.ForbiddenException;
 import org.almox.core.exceptions.RegraNegocioException;
-import org.almox.modules.departamento.model.Departamento;
 import org.almox.modules.departamento.dto.FiltroDepartamento;
+import org.almox.modules.departamento.model.Departamento;
 import org.almox.modules.departamento.repository.DepartamentoRepository;
+import org.almox.modules.operador.OperadorLogado;
 import org.almox.modules.operador.model.Operador;
 import org.almox.modules.operador.service.OperadorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -28,6 +27,7 @@ public class DepartamentoServiceImpl implements DepartamentoService {
 
     private final DepartamentoRepository repository;
     private final ValidatorAutoThrow validator;
+    @OperadorLogado
     private final Operador operadorLogado;
     private final OperadorService operadorService;
 
@@ -61,31 +61,15 @@ public class DepartamentoServiceImpl implements DepartamentoService {
     }
 
     @Override
-    public List<Departamento> buscar(FiltroDepartamento filtro, Sort sort) {
+    public Page<Departamento> buscar(FiltroDepartamento filtro, Pageable paginacao) {
         validator.validate(filtro);
-
-        boolean isAdministrador = operadorService.isAdministrador(operadorLogado);
-        if (isAdministrador) {
-            if (isConsiderarTodos(filtro))
-                return repository.buscarPorDescricao(filtro.descricao, sort);
-            else if (isConsiderarApenasExcluidos(filtro))
-                return repository.buscarExcluidosPorDescricao(filtro.descricao, sort);
-        }
-        return repository.buscarAtivosPorDescricao(filtro.descricao, sort);
+        return repository.buscarAtivosPorDescricao(filtro.descricao, paginacao);
     }
 
     @Override
-    public Page<Departamento> buscarPaginado(FiltroDepartamento filtro, Pageable pageable) {
+    public Page<Departamento> buscarExcluidos(FiltroDepartamento filtro, Pageable paginacao) {
         validator.validate(filtro);
-        boolean isAdministrador = operadorService.isAdministrador(operadorLogado);
-
-        if (isAdministrador) {
-            if (isConsiderarTodos(filtro))
-                return repository.buscarPorDescricao(filtro.descricao, pageable);
-            else if (isConsiderarApenasExcluidos(filtro))
-                return repository.buscarExcluidosPorDescricao(filtro.descricao, pageable);
-        }
-        return repository.buscarAtivosPorDescricao(filtro.descricao, pageable);
+        return repository.buscarExcluidosPorDescricao(filtro.descricao, paginacao);
     }
 
     @Transactional

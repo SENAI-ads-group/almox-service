@@ -1,11 +1,8 @@
-package org.almox.modules.pessoa.dto.mapper;
+package org.almox.modules.pessoa.dto;
 
-import org.almox.modules.pessoa.dto.PessoaDTO;
-import org.almox.modules.pessoa.dto.PessoaFisicaDTO;
 import org.almox.modules.pessoa.model.Pessoa;
 import org.almox.modules.pessoa.model.PessoaFisica;
 import org.almox.modules.pessoa.model.PessoaJuridica;
-import org.almox.modules.pessoa.dto.PessoaJuridicaDTO;
 import org.mapstruct.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 

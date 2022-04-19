@@ -3,14 +3,10 @@ package org.almox.modules.grupo.dto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
-import org.almox.modules.auditoria.FiltroStatusAuditoria;
 
-public class FiltroGrupo extends FiltroStatusAuditoria {
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+public class FiltroGrupo {
     public String descricao;
-
-    @Builder
-    public FiltroGrupo(String descricao, FiltroStatusAuditoria.Tipo statusAuditoria) {
-        super(statusAuditoria);
-        this.descricao = descricao;
-    }
 }

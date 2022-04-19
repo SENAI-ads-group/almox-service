@@ -5,9 +5,7 @@ import org.almox.modules.grupo.dto.FiltroGrupo;
 import org.almox.modules.grupo.model.Grupo;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 
-import java.util.List;
 import java.util.UUID;
 
 public interface GrupoService extends AuditoriaService {
@@ -15,9 +13,9 @@ public interface GrupoService extends AuditoriaService {
 
     Grupo buscarPorId(UUID id);
 
-    List<Grupo> buscar(FiltroGrupo filtro, Sort sort);
+    Page<Grupo> buscar(FiltroGrupo filtro, Pageable paginacao);
 
-    Page<Grupo> buscarPaginado(FiltroGrupo filtro, Pageable pageable);
+    Page<Grupo> buscarExcluidos(FiltroGrupo filtro, Pageable paginacao);
 
     Grupo atualizar(UUID id, Grupo grupo);
 
