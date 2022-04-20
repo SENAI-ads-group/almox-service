@@ -1,11 +1,7 @@
 package org.almox.modules.pessoa.model;
 
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.validator.constraints.br.CNPJ;
 
 import javax.persistence.Column;
@@ -23,16 +19,16 @@ import java.util.UUID;
 public class PessoaJuridica extends Pessoa {
 
     @NotBlank(message = "{pessoa.razaoSocial.notblank}")
-    @Column(name = "pess_pj_razaosocial")
+    @Column(name = "PESS_PJ_RAZAOSOCIAO")
     private String razaoSocial;
 
     @CNPJ
     @NotBlank(message = "{pessoa.cnpj.notblank}")
-    @Column(name = "pess_pj_cnpj")
+    @Column(name = "PESS_PJ_CNPJ")
     private String cnpj;
 
     @NotBlank
-    @Column(name = "pess_pj_nomefantasia")
+    @Column(name = "PESS_PJ_NOMEFANTASIA")
     private String nomeFantasia;
 
     @Builder

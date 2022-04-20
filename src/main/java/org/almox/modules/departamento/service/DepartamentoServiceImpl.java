@@ -25,10 +25,10 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class DepartamentoServiceImpl implements DepartamentoService {
 
-    private final DepartamentoRepository repository;
-    private final ValidatorAutoThrow validator;
     @OperadorLogado
     private final Operador operadorLogado;
+    private final DepartamentoRepository repository;
+    private final ValidatorAutoThrow validator;
     private final OperadorService operadorService;
 
     @Override
@@ -77,8 +77,7 @@ public class DepartamentoServiceImpl implements DepartamentoService {
     public Departamento atualizar(UUID id, Departamento departamento) {
         Departamento departamentoEncontrado = buscarPorId(id);
         departamento.setId(id);
-        departamento.setCriadoPor(departamentoEncontrado.getCriadoPor());
-        departamento.setDataCriacao(departamentoEncontrado.getDataCriacao());
+        atualizarEntidadeMantendoDatasAuditoria(departamento, departamentoEncontrado);
 
         validator.validate(departamento);
         Departamento departamentoAtualizado = repository.save(departamento);

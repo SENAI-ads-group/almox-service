@@ -12,10 +12,10 @@ import java.util.UUID;
 @Repository
 public interface FuncaoRepository extends JpaRepository<Funcao, UUID> {
 
-    @Query("FROM Funcao AS func WHERE func.nome = 'ROLE_ADMIN'")
+    @Query("FROM Funcao AS func WHERE func.nome = 'ADMINISTRADOR'")
     Funcao buscarFuncaoAdministrador();
 
-    @Query("FROM Funcao AS func WHERE func.nome = 'ROLE_ADMIN'")
+    @Query("FROM Funcao AS func WHERE func.nome = 'ALMOXARIFE'")
     Funcao buscarFuncaoAlmoxarife();
 
     @Query("FROM Funcao AS func WHERE func.nome = :nome")

@@ -17,16 +17,16 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "forn_fornecedor")
+@Table(name = "FORN_FORNECEDOR")
 public class Fornecedor extends Auditavel {
 
     @Id
     @GeneratedValue(generator = "UUID")
-    @Column(name = "forn_id")
+    @Column(name = "FORN_ID")
     private UUID id;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "pess_id")
+    @JoinColumn(name = "PESS_ID")
     private PessoaJuridica pessoa;
 
     @JsonIgnore

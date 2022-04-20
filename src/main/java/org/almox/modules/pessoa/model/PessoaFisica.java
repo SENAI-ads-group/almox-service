@@ -22,7 +22,7 @@ public class PessoaFisica extends Pessoa {
 
     @CPF(message = "{PessoaFisica}.cpf.CPF")
     @NotBlank(message = "{PessoaFisica.cpf.NotBlank}")
-    @Column(name = "pess_pf_cpf")
+    @Column(name = "PESS_PF_CPF")
     private String cpf;
 
     @Builder
