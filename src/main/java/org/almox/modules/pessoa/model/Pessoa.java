@@ -6,18 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.almox.modules.common.EntidadePadrao;
 
-import javax.persistence.Column;
-import javax.persistence.DiscriminatorColumn;
-import javax.persistence.DiscriminatorType;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -30,7 +19,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name = "pess_tipo", discriminatorType = DiscriminatorType.STRING)
+@DiscriminatorColumn(name = "PESS_TIPO", discriminatorType = DiscriminatorType.STRING)
 public abstract class Pessoa implements EntidadePadrao {
 
     public static final String PESSOA_FISICA = "PF";
@@ -38,57 +27,52 @@ public abstract class Pessoa implements EntidadePadrao {
 
     @Id
     @GeneratedValue(generator = "UUID")
-    @Column(name = "pess_id")
+    @Column(name = "PESS_ID")
     private UUID id;
 
     @NotBlank(message = "{Pessoa.nome.NotBlank}")
-    @Column(name = "pess_nome")
+    @Column(name = "PESS_NOME")
     private String nome;
 
     @NotBlank(message = "{Pessoa.email.NotBlank}")
     @Email(message = "{Pessoa.email.Email}")
-    @Column(name = "pess_email", unique = true)
+    @Column(name = "PESS_EMAIL", unique = true)
     private String email;
 
     @NotBlank(message = "{Pessoa.telefone.NotBlank}")
-    @Column(name = "pess_telefone")
+    @Column(name = "PESS_TELEFONE")
     private String telefone;
 
     @NotBlank(message = "{Pessoa.endereco.logradouro.NotBlank}")
-    @Column(name = "pess_end_logradouro")
+    @Column(name = "PESS_END_LOGRADOURO")
     private String logradouro;
 
-    @Column(name = "pess_end_complemento")
+    @Column(name = "PESS_END_COMPLEMENTO")
     private String complemento;
 
-    @Column(name = "pess_end_numero")
+    @Column(name = "PESS_END_NUMERO")
     private String numero;
 
     @NotBlank(message = "{Pessoa.endereco.cep.NotBlank}")
-    @Column(name = "pess_end_cep")
+    @Column(name = "PESS_END_CEP")
     private String cep;
 
     @NotBlank(message = "{Pessoa.endereco.cidade.NotBlank}")
-    @Column(name = "pess_end_cidade")
+    @Column(name = "PESS_END_CIDADE")
     private String cidade;
 
     @NotNull(message = "{Pessoa.endereco.uf.NotNull}")
-    @Column(name = "pess_end_uf")
+    @Column(name = "PESS_END_UF")
     @Enumerated(EnumType.STRING)
     private UF uf;
 
     @NotBlank(message = "{Pessoa.endereco.bairro.NotBlank}")
-    @Column(name = "pess_end_bairro")
+    @Column(name = "PESS_END_BAIRRO")
     private String bairro;
 
-    @Column(name = "pess_tipo", insertable = false, updatable = false)
+    @Column(name = "PESS_TIPO", insertable = false, updatable = false)
     @Enumerated(EnumType.STRING)
     private TipoPessoa tipo;
-
-    @Override
-    public boolean isNew() {
-        return id == null;
-    }
 
     public abstract TipoPessoa getTipo();
 }

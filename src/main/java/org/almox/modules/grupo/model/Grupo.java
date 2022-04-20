@@ -23,17 +23,17 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "grp_grupo")
+@Table(name = "GRP_GRUPO")
 public class Grupo extends Auditavel {
 
     @Id
     @GeneratedValue(generator = "UUID")
-    @Column(name = "grp_id")
+    @Column(name = "GRP_ID")
     private UUID id;
 
     @NotBlank(message = "{grupo.descricao.notblank}")
     @Size(message = "{grupo.descricao.size}", min = 4, max = 100)
-    @Column(name = "grp_descricao", nullable = false)
+    @Column(name = "GRP_DESCRICAO", nullable = false)
     private String descricao;
 
 }

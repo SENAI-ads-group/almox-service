@@ -23,68 +23,68 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "prod_produto")
-@TableGenerator(name = "prod_codigo_sequence", initialValue = 10000)
+@Table(name = "PROD_PRODUTO")
+@TableGenerator(name = "PROD_CODIGO_SEQUENCE", initialValue = 10000)
 public class Produto extends Auditavel {
 
     @Id
     @GeneratedValue(generator = "UUID")
-    @Column(name = "prod_id")
+    @Column(name = "PROD_ID")
     private UUID id;
 
     @NotBlank(message = "Produto.descricao.NotBlank")
     @Size(min = Constantes.MIN_SIZE_NOME, max = Constantes.MAX_SIZE_NOME, message = "{Produto.descricao.Size}")
-    @Column(name = "prod_descricao", nullable = false, unique = true)
+    @Column(name = "PROD_DESCRICAO", nullable = false, unique = true)
     private String descricao;
 
     @NotBlank(message = "{Produto.codigo.NotNull}")
-    @Column(name = "prod_cod", nullable = false, unique = true)
-    @GeneratedValue(strategy = GenerationType.TABLE, generator = "prod_codigo_sequence")
+    @Column(name = "PROD_COD", nullable = false, unique = true)
+    @GeneratedValue(strategy = GenerationType.TABLE, generator = "PROD_CODIGO_SEQUENCE")
     private Long codigo;
 
     @NotBlank(message = "{Produto.codigoBarras.NotNull}")
-    @Column(name = "prod_cod_barras", nullable = false, unique = true)
+    @Column(name = "PROD_COD_BARRAS", nullable = false, unique = true)
     private String codigoBarras;
 
-    @Column(name = "prod_custo_medio")
+    @Column(name = "PROD_CUSTO_MEDIO")
     private BigDecimal custoMedio;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
-            name = "prod_forn_fornecedores_produtos",
-            joinColumns = @JoinColumn(name = "prod_id"),
-            inverseJoinColumns = @JoinColumn(name = "forn_id")
+            name = "PROD_PRODUTO_FORNECEDORES",
+            joinColumns = @JoinColumn(name = "PROD_IDD"),
+            inverseJoinColumns = @JoinColumn(name = "FORN_ID")
     )
     private Set<Fornecedor> fornecedores;
 
     @NotNull(message = "{Produto.unidadeMedida.NotBlank}")
-    @Column(name = "prod_unidade_medida", nullable = false)
+    @Column(name = "PROD_UNIDADE_MEDIDA", nullable = false)
     @Enumerated(EnumType.STRING)
     private UnidadeMedida unidadeMedida;
 
-    @Column(name = "prod_detalhes")
+    @Column(name = "PROD_DETALHES")
     private String detalhes;
 
-    @Column(name = "prod_palavras_chaves")
+    @Column(name = "PROD_PALAVRAS_CHAVES")
     @Convert(converter = ListaPalavraChaveConverter.class)
     private List<String> palavrasChave;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
-            name = "produtos_departamentos",
+            name = "PROD_PRODUTO_DEPARTAMENTOS",
             joinColumns = @JoinColumn(name = "prod_id"),
             inverseJoinColumns = @JoinColumn(name = "DPTO_ID")
     )
     private Set<Departamento> departamentos;
 
     @ManyToOne
-    @JoinColumn(name = "grp_id")
+    @JoinColumn(name = "GRP_ID")
     @NotNull(message = "{Produto.grupo.NotNull}")
     private Grupo grupo;
 
     @OneToOne
     @NotNull(message = "{Produto.configuracaoEstoque.NotNull}")
-    @JoinColumn(name = "conf_estq_id")
+    @JoinColumn(name = "ESTQ_ID")
     private Estoque estoque;
 
 }

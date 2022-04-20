@@ -18,6 +18,11 @@ public interface AuditoriaService {
         return FiltroStatusAuditoria.Tipo.APENAS_EXCLUIDOS.equals(filtro.statusAuditoria);
     }
 
+    default void atualizarEntidadeMantendoDatasAuditoria(Auditavel entidadeAtualizada, Auditavel entidadeAnterior) {
+        entidadeAtualizada.setCriadoPor(entidadeAnterior.getCriadoPor());
+        entidadeAtualizada.setDataCriacao(entidadeAnterior.getDataCriacao());
+    }
+
     default void setExclusaoAuditoria(Auditavel auditavel, Operador operador) {
         auditavel.setDataExclusao(LocalDateTime.now());
         auditavel.setExcluidoPor(operador.clone());

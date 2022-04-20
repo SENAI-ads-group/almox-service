@@ -3,6 +3,8 @@ package org.almox.modules.produto.service;
 import lombok.RequiredArgsConstructor;
 import org.almox.core.config.validation.ValidatorAutoThrow;
 import org.almox.core.exceptions.EntidadeNaoEncontradaException;
+import org.almox.modules.operador.OperadorLogado;
+import org.almox.modules.operador.model.Operador;
 import org.almox.modules.produto.model.FiltroProduto;
 import org.almox.modules.produto.model.HistoricoEstoqueProduto;
 import org.almox.modules.produto.model.Produto;
@@ -11,7 +13,6 @@ import org.almox.modules.produto.repository.ProdutoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,7 +22,9 @@ import java.util.UUID;
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class ProdutoServiceImpl implements ProdutoService {
 
-    private final ProdutoRepository repository;
+    @OperadorLogado
+    private final Operador operadorLogado;
+    private final ProdutoRepository produtoRepository;
     private final EstoqueService estoqueService;
     private final HistoricoEstoqueProdutoRepository historicoEstoqueProdutoRepository;
     private final ValidatorAutoThrow validator;
@@ -30,29 +33,29 @@ public class ProdutoServiceImpl implements ProdutoService {
     public Produto criar(Produto produto) {
         validator.validate(produto);
         produto.setEstoque(estoqueService.salvar(produto.getEstoque()));
-        return repository.save(produto);
+        return produtoRepository.save(produto);
     }
 
     @Override
     public Produto buscarPorId(UUID id) {
-        Produto produtoEncontrado = repository.findById(id)
+        Produto produtoEncontrado = produtoRepository.findById(id)
                 .orElseThrow(() -> new EntidadeNaoEncontradaException("${produto_nao_encontrado}"));
         return produtoEncontrado;
     }
 
     @Override
-    public List<Produto> buscar(FiltroProduto filtro, Sort sort) {
-        return repository.buscar(
+    public Page<Produto> buscar(FiltroProduto filtro, Pageable paginacao) {
+        return produtoRepository.buscarAtivos(
                 filtro.descricao, filtro.codigoBarras, filtro.idGrupos, filtro.idDepartamentos,
-                filtro.idFornecedor, filtro.unidadeMedida, sort
+                filtro.idFornecedor, filtro.unidadeMedida, paginacao
         );
     }
 
     @Override
-    public Page<Produto> buscarPaginado(FiltroProduto filtro, Pageable pageable) {
-        return repository.buscar(
+    public Page<Produto> buscarExcluidos(FiltroProduto filtro, Pageable paginacao) {
+        return produtoRepository.buscarExcluidos(
                 filtro.descricao, filtro.codigoBarras, filtro.idGrupos, filtro.idDepartamentos,
-                filtro.idFornecedor, filtro.unidadeMedida, pageable
+                filtro.idFornecedor, filtro.unidadeMedida, paginacao
         );
     }
 
@@ -64,17 +67,21 @@ public class ProdutoServiceImpl implements ProdutoService {
 
     @Override
     public Produto atualizar(UUID id, Produto produto) {
-        buscarPorId(id);
+        Produto produtoEncontrado = buscarPorId(id);
         validator.validate(produto);
         produto.setId(id);
+        atualizarEntidadeMantendoDatasAuditoria(produto, produtoEncontrado);
+
+        validator.validate(produto);
         produto.setEstoque(estoqueService.salvar(produto.getEstoque()));
-        Produto produtoAtualizado = repository.save(produto);
+        Produto produtoAtualizado = produtoRepository.save(produto);
         return produtoAtualizado;
     }
 
     @Override
     public void excluir(UUID id) {
-        buscarPorId(id);
-        repository.deleteById(id);
+        Produto produtoASerExcluido = buscarPorId(id);
+        setExclusaoAuditoria(produtoASerExcluido, operadorLogado);
+        produtoRepository.save(produtoASerExcluido);
     }
 }

@@ -16,7 +16,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Entity
-@Table(name = "ope_operador")
+@Table(name = "OPE_OPERADOR")
 @Builder(toBuilder = true)
 @Getter
 @Setter
@@ -26,28 +26,28 @@ public class Operador implements EntidadePadrao, UserDetails, Cloneable {
 
     @Id
     @GeneratedValue(generator = "UUID")
-    @Column(name = "ope_id")
+    @Column(name = "OPE_ID")
     private UUID id;
 
     @NotNull(message = "{Operador.idPessoa.NotNull}")
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "pess_id")
+    @JoinColumn(name = "PESS_ID")
     private PessoaFisica pessoa;
 
     @NotBlank(message = "${Operador.login.NotBlank}")
-    @Column(name = "ope_login")
+    @Column(name = "OPE_LOGIN")
     private String login;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
-            name = "ope_operador_funcoes",
+            name = "OPE_OPERADOR_FUNCOES",
             joinColumns = @JoinColumn(name = "ope_id"),
             inverseJoinColumns = @JoinColumn(name = "func_id")
     )
     private Set<Funcao> funcoes;
 
     @NotBlank(message = "${Operador.senha.NotBlank}")
-    @Column(name = "ope_senha")
+    @Column(name = "OPE_SENHA")
     private String senha;
 
     @Override

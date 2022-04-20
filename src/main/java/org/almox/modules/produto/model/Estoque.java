@@ -22,31 +22,31 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "prod_estoque")
+@Table(name = "PROD_ESTOQUE")
 public class Estoque implements EntidadePadrao {
 
     @Id
     @GeneratedValue(generator = "UUID")
-    @Column(name = "conf_estq_id")
+    @Column(name = "ESTQ_ID")
     private UUID id;
 
     @DecimalMin(value = "0.0", inclusive = false, message = "{ConfiguracaoEstoqueProduto.estoqueMinimo.DecimalMin}")
     @NotNull(message = "{ConfiguracaoEstoqueProduto.estoqueMinimo.NotNull}")
-    @Column(name = "conf_estq_estoque_min", nullable = false)
+    @Column(name = "ESTQ_ESTOQUE_MIN", nullable = false)
     private BigDecimal estoqueMinimo;
 
-    @Column(name = "conf_estq_estoque_atual", nullable = false)
+    @Column(name = "EESTQ_ESTOQUE_ATUAL", nullable = false)
     private BigDecimal estoqueAtual;
 
     @DecimalMin(value = "0.0", inclusive = false, message = "{ConfiguracaoEstoqueProduto.estoqueMaximo.DecimalMin}")
     @NotNull(message = "{ConfiguracaoEstoqueProduto.estoqueMaximo.NotNull}")
-    @Column(name = "conf_estq_estoque_max", nullable = false)
+    @Column(name = "ESTQ_ESTOQUE_MAX", nullable = false)
     private BigDecimal estoqueMaximo;
 
-    @Column(name = "conf_estq_controla_estoque_min", nullable = false)
+    @Column(name = "ESTQ_CONTROLA_ESTOQUE_MIN", nullable = false)
     private Boolean controlaEstoqueMinimo = Boolean.FALSE;
 
-    @Column(name = "conf_estq_controla_estoque_max", nullable = false)
+    @Column(name = "ESTQ_CONTROLA_ESTOQUE_MAX", nullable = false)
     private Boolean controlaEstoqueMaximo = Boolean.FALSE;
 
 }
