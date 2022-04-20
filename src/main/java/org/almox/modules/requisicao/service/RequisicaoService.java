@@ -4,9 +4,7 @@ import org.almox.modules.requisicao.dto.FiltroRequisicao;
 import org.almox.modules.requisicao.model.Requisicao;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 
-import java.util.List;
 import java.util.UUID;
 
 public interface RequisicaoService {
@@ -14,11 +12,13 @@ public interface RequisicaoService {
 
     Requisicao buscarPorId(UUID id);
 
-    List<Requisicao> buscar(FiltroRequisicao filtro, Sort sort);
-
-    Page<Requisicao> buscarPaginado(FiltroRequisicao filtro, Pageable pageable);
-
-    Requisicao atualizar(UUID id, Requisicao requisicao);
+    Page<Requisicao> buscar(FiltroRequisicao filtro, Pageable paginacao);
 
     void excluir(UUID id);
+
+    void atenderRequisicao(UUID id);
+
+    void cancelarRequisicao(UUID id);
+
+    void entregarRequisicao(UUID id, Requisicao requisicaoEntregue);
 }

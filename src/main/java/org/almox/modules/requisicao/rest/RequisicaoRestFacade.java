@@ -8,8 +8,10 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.almox.core.rest.RestCollection;
+import org.almox.core.rest.RestInterface;
 import org.almox.modules.requisicao.dto.CriarRequisicaoDTO;
 import org.almox.modules.requisicao.dto.RequisicaoDTO;
+import org.almox.modules.requisicao.model.Requisicao;
 import org.almox.modules.requisicao.model.StatusRequisicao;
 import org.springdoc.core.converters.models.PageableAsQueryParam;
 import org.springframework.http.ResponseEntity;
@@ -26,14 +28,14 @@ import java.util.UUID;
 
 @Tag(name = "Requisições", description = "Operações relacionadas aos recursos de requisições")
 @RequestMapping(RequisicaoRestFacade.PATH)
-public interface RequisicaoRestFacade {
+public interface RequisicaoRestFacade extends RestInterface {
     String PATH = "/requisicoes";
 
     @GetMapping
     @Parameters({
             @Parameter(
                     in = ParameterIn.QUERY,
-                    name = "statusAuditoria",
+                    name = "status",
                     schema = @Schema(implementation = StatusRequisicao.class)
             )
     })
@@ -59,4 +61,13 @@ public interface RequisicaoRestFacade {
 
     @DeleteMapping("/{id}")
     ResponseEntity<Void> excluir(@PathVariable("id") UUID id);
+
+    @PostMapping(value = "/{id}/atender")
+    ResponseEntity<Void> atenderRequisicao(@PathVariable("id") UUID id);
+
+    @PostMapping(value = "/{id}/cancelar")
+    ResponseEntity<Void> cancelarRequisicao(@PathVariable("id") UUID id);
+
+    @PostMapping(value = "/{id}/entregar")
+    ResponseEntity<Void> entregarAtendimento(@PathVariable("id") UUID id, @RequestBody Requisicao requisicaoEntregue);
 }
