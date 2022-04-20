@@ -12,10 +12,10 @@ import java.math.BigDecimal;
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class EstoqueServiceImpl implements EstoqueService {
 
-    private final EstoqueRepository repository;
+    private final EstoqueRepository estoqueRepository;
 
     public Estoque salvar(Estoque estoque) {
         if (estoque.isNew()) estoque.setEstoqueAtual(BigDecimal.ZERO);
-        return repository.save(estoque);
+        return estoqueRepository.save(estoque);
     }
 }

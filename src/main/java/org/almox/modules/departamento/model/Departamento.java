@@ -1,13 +1,26 @@
 package org.almox.modules.departamento.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.almox.modules.auditoria.Auditavel;
 import org.almox.modules.operador.model.Operador;
 import org.almox.modules.orcamento.OrcamentoDepartamento;
 import org.almox.modules.produto.model.Produto;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import java.util.List;
 import java.util.Set;

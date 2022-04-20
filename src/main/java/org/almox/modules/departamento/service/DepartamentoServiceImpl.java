@@ -27,14 +27,14 @@ public class DepartamentoServiceImpl implements DepartamentoService {
 
     @OperadorLogado
     private final Operador operadorLogado;
-    private final DepartamentoRepository repository;
+    private final DepartamentoRepository departamentoRepository;
     private final ValidatorAutoThrow validator;
     private final OperadorService operadorService;
 
     @Override
     public Departamento criar(Departamento departamento) {
         validator.validate(departamento);
-        repository.findFirstByDescricaoEquals(departamento.getDescricao()).ifPresent(departamentoComMesmaDescricao -> {
+        departamentoRepository.findFirstByDescricaoEquals(departamento.getDescricao()).ifPresent(departamentoComMesmaDescricao -> {
             throw new RegraNegocioException("${descricao_ja_cadastrada}");
         });
         Set<Operador> operadoresValidados = departamento.getOperadores().stream()
@@ -43,16 +43,16 @@ public class DepartamentoServiceImpl implements DepartamentoService {
                 .collect(Collectors.toSet());
 
         departamento.setOperadores(operadoresValidados);
-        return repository.save(departamento);
+        return departamentoRepository.save(departamento);
     }
 
     @Override
     public Departamento buscarPorId(UUID id) {
-        Departamento departamentoEncontrado = repository.findById(id)
+        Departamento departamentoEncontrado = departamentoRepository.findById(id)
                 .orElseThrow(() -> new EntidadeNaoEncontradaException("${departamento_nao_encontrado}"));
 
         if (!operadorService.isAdministrador(operadorLogado)) {
-            Set<String> idOperadoresAssociadoAoDepartamentoEncontrado = repository.buscarIdOperadoresAssociadosAoDepartamento(departamentoEncontrado.getId().toString());
+            Set<String> idOperadoresAssociadoAoDepartamentoEncontrado = departamentoRepository.buscarIdOperadoresAssociadosAoDepartamento(departamentoEncontrado.getId().toString());
             if (!idOperadoresAssociadoAoDepartamentoEncontrado.contains(operadorLogado.getId().toString())) {
                 throw new ForbiddenException("${operador_logado_nao_pertence_departamento}");
             }
@@ -63,13 +63,13 @@ public class DepartamentoServiceImpl implements DepartamentoService {
     @Override
     public Page<Departamento> buscar(FiltroDepartamento filtro, Pageable paginacao) {
         validator.validate(filtro);
-        return repository.buscarAtivosPorDescricao(filtro.descricao, paginacao);
+        return departamentoRepository.buscarAtivosPorDescricao(filtro.descricao, paginacao);
     }
 
     @Override
     public Page<Departamento> buscarExcluidos(FiltroDepartamento filtro, Pageable paginacao) {
         validator.validate(filtro);
-        return repository.buscarExcluidosPorDescricao(filtro.descricao, paginacao);
+        return departamentoRepository.buscarExcluidosPorDescricao(filtro.descricao, paginacao);
     }
 
     @Transactional
@@ -80,7 +80,7 @@ public class DepartamentoServiceImpl implements DepartamentoService {
         atualizarEntidadeMantendoDatasAuditoria(departamento, departamentoEncontrado);
 
         validator.validate(departamento);
-        Departamento departamentoAtualizado = repository.save(departamento);
+        Departamento departamentoAtualizado = departamentoRepository.save(departamento);
         return departamentoAtualizado;
     }
 
@@ -88,6 +88,6 @@ public class DepartamentoServiceImpl implements DepartamentoService {
     public void excluir(UUID id) {
         Departamento departamentoASerExcluido = buscarPorId(id);
         setExclusaoAuditoria(departamentoASerExcluido, operadorLogado);
-        repository.save(departamentoASerExcluido);
+        departamentoRepository.save(departamentoASerExcluido);
     }
 }

@@ -6,14 +6,24 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.almox.modules.common.EntidadePadrao;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.DiscriminatorColumn;
+import javax.persistence.DiscriminatorType;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
+import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.UUID;
 
 @Entity
-@Table(name = "pess_pessoa")
+@Table(name = "PESS_PESSOA")
 @Getter
 @Setter
 @NoArgsConstructor

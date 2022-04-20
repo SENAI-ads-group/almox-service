@@ -2,7 +2,12 @@ package org.almox.modules.produto.rest;
 
 import lombok.RequiredArgsConstructor;
 import org.almox.core.rest.RestCollection;
-import org.almox.modules.produto.dto.*;
+import org.almox.modules.produto.dto.AtualizarProdutoDTO;
+import org.almox.modules.produto.dto.CriarProdutoDTO;
+import org.almox.modules.produto.dto.HistoricoEstoqueDTO;
+import org.almox.modules.produto.dto.HistoricoEstoqueMapper;
+import org.almox.modules.produto.dto.ProdutoDTO;
+import org.almox.modules.produto.dto.ProdutoMapper;
 import org.almox.modules.produto.model.FiltroProduto;
 import org.almox.modules.produto.model.HistoricoEstoqueProduto;
 import org.almox.modules.produto.model.Produto;
