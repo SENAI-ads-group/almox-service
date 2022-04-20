@@ -2,17 +2,16 @@ package org.almox.modules.operador.rest;
 
 import lombok.RequiredArgsConstructor;
 import org.almox.core.rest.RestCollection;
+import org.almox.modules.operador.dto.FiltroOperador;
 import org.almox.modules.operador.dto.OperadorDTO;
-import org.almox.modules.operador.dto.OperadorFiltroDTO;
 import org.almox.modules.operador.dto.OperadorMapper;
 import org.almox.modules.operador.dto.RecuperarEmailDTO;
 import org.almox.modules.operador.model.Operador;
 import org.almox.modules.operador.service.OperadorService;
 import org.almox.modules.operador.service.RecuperacaoSenhaService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -31,16 +30,11 @@ public class OperadorRest implements OperadorRestFacade {
 
     @Override
     public ResponseEntity<RestCollection<OperadorDTO>> buscar(String nome, String email, Optional<Integer> page, Optional<Integer> size, String[] sort) {
-        Sort ordenacao = Sort.by(sort);
-        Pageable paginacao = PageRequest.of(page.orElse(0), size.orElse(15), ordenacao);
-        OperadorFiltroDTO filtro = OperadorFiltroDTO.builder().nome(nome).email(email).build();
+        Pageable paginacao = criarPaginacao(page, size, sort);
+        FiltroOperador filtro = FiltroOperador.builder().nome(nome).email(email).build();
 
-        List<Operador> operadoresList = page.isEmpty()
-                ? operadorService.buscarPaginado(filtro, paginacao).getContent()
-                : operadorService.buscar(filtro, ordenacao);
-
-        RestCollection<OperadorDTO> operadoresDTO = new RestCollection<>(operadoresList, paginacao).mapCollection(operadorMapper::toDTO);
-        return ResponseEntity.ok(operadoresDTO);
+        Page<OperadorDTO> operadoresPage = operadorService.buscar(filtro, paginacao).map(operadorMapper::toDTO);
+        return ResponseEntity.ok(RestCollection.fromPage(operadoresPage));
     }
 
     @Override

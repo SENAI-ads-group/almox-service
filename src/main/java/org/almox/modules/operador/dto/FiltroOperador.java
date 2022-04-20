@@ -5,7 +5,7 @@ import lombok.Builder;
 
 @Builder
 @AllArgsConstructor
-public class OperadorFiltroDTO {
+public class FiltroOperador {
     public String nome;
     public String email;
 }

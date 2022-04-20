@@ -2,11 +2,11 @@ package org.almox.modules.pessoa.rest;
 
 import lombok.RequiredArgsConstructor;
 import org.almox.core.rest.RestCollection;
+import org.almox.modules.pessoa.dto.FiltroPessoa;
 import org.almox.modules.pessoa.dto.PessoaDTO;
-import org.almox.modules.pessoa.dto.PessoaFiltroDTO;
 import org.almox.modules.pessoa.dto.PessoaFisicaDTO;
-import org.almox.modules.pessoa.dto.PessoaJuridicaDTO;
 import org.almox.modules.pessoa.dto.PessoaFisicaMapper;
+import org.almox.modules.pessoa.dto.PessoaJuridicaDTO;
 import org.almox.modules.pessoa.dto.PessoaJuridicaMapper;
 import org.almox.modules.pessoa.dto.PessoaMapper;
 import org.almox.modules.pessoa.model.Pessoa;
@@ -15,13 +15,13 @@ import org.almox.modules.pessoa.model.PessoaJuridica;
 import org.almox.modules.pessoa.model.TipoPessoa;
 import org.almox.modules.pessoa.service.PessoaServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.net.URI;
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -40,14 +40,10 @@ public class PessoaRest implements PessoaRestFacade {
     ) {
         Sort ordenacao = Sort.by(sort);
         Pageable paginacao = criarPaginacao(page, size, ordenacao);
-        PessoaFiltroDTO filtro = PessoaFiltroDTO.builder().tipo(tipo).nome(nome).email(email).build();
+        FiltroPessoa filtro = FiltroPessoa.builder().tipo(tipo).nome(nome).email(email).build();
 
-        List<Pessoa> pessoasList = page.isEmpty()
-                ? pessoaService.buscar(filtro, ordenacao)
-                : pessoaService.buscarPaginado(filtro, paginacao).getContent();
-
-        RestCollection<PessoaDTO> pessoasDTO = new RestCollection<>(pessoasList, paginacao).mapCollection(pessoaMapper::toDTO);
-        return ResponseEntity.ok(pessoasDTO);
+        Page<PessoaDTO> pessoasPage = pessoaService.buscar(filtro, paginacao).map(pessoaMapper::toDTO);
+        return ResponseEntity.ok(RestCollection.fromPage(pessoasPage));
     }
 
     public ResponseEntity<PessoaDTO> buscarPorId(UUID id) {

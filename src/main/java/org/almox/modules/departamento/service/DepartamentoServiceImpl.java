@@ -1,7 +1,6 @@
 package org.almox.modules.departamento.service;
 
 import lombok.RequiredArgsConstructor;
-import org.almox.core.config.validation.ValidatorAutoThrow;
 import org.almox.core.exceptions.EntidadeNaoEncontradaException;
 import org.almox.core.exceptions.ForbiddenException;
 import org.almox.core.exceptions.RegraNegocioException;
@@ -17,6 +16,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import javax.validation.Validator;
 import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -27,8 +27,8 @@ public class DepartamentoServiceImpl implements DepartamentoService {
 
     @OperadorLogado
     private final Operador operadorLogado;
+    private final Validator validator;
     private final DepartamentoRepository departamentoRepository;
-    private final ValidatorAutoThrow validator;
     private final OperadorService operadorService;
 
     @Override

@@ -1,19 +1,20 @@
 package org.almox.modules.operador.service;
 
 import lombok.RequiredArgsConstructor;
-import org.almox.core.config.validation.ValidatorAutoThrow;
 import org.almox.core.exceptions.EntidadeNaoEncontradaException;
 import org.almox.modules.operador.dto.RecuperarEmailDTO;
 import org.almox.modules.operador.model.Operador;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.validation.Validator;
+
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class RecuperacaoSenhaServiceImpl implements RecuperacaoSenhaService {
 
+    private final Validator validator;
     private final OperadorService operadorService;
-    private final ValidatorAutoThrow validator;
 
     @Override
     public RecuperarEmailDTO.Resposta recuperarEmail(RecuperarEmailDTO.Requisicao requisicaoRecuperarEmail) {

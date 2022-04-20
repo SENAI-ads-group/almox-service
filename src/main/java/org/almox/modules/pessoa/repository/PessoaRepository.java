@@ -6,7 +6,6 @@ import org.almox.modules.pessoa.model.PessoaJuridica;
 import org.almox.modules.pessoa.model.TipoPessoa;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -25,16 +24,10 @@ public interface PessoaRepository extends JpaRepository<Pessoa, UUID> {
     Optional<Pessoa> findByEmailEquals(String email);
 
     @Query("FROM Pessoa as p WHERE LOWER(p.nome) LIKE LOWER(CONCAT('%',:nome,'%')) OR p.email = :email")
-    List<Pessoa> findAll(@Param("nome") String nome, @Param("email") String email, Sort sort);
+    Page<Pessoa> buscar(@Param("nome") String nome, @Param("email") String email, Pageable pageable);
 
     @Query("FROM Pessoa as p WHERE p.tipo = :tipo AND (LOWER(p.nome) LIKE LOWER(CONCAT('%',:nome,'%')) OR p.email = :email)")
-    List<Pessoa> findAll(@Param("nome") String nome, @Param("email") String email, @Param("tipo") TipoPessoa tipo, Sort sort);
-
-    @Query("FROM Pessoa as p WHERE LOWER(p.nome) LIKE LOWER(CONCAT('%',:nome,'%')) OR p.email = :email")
-    Page<Pessoa> findAll(@Param("nome") String nome, @Param("email") String email, Pageable pageable);
-
-    @Query("FROM Pessoa as p WHERE p.tipo = :tipo AND (LOWER(p.nome) LIKE LOWER(CONCAT('%',:nome,'%')) OR p.email = :email)")
-    Page<Pessoa> findAll(@Param("nome") String nome, @Param("email") String email, @Param("tipo") String tipo, Pageable pageable);
+    Page<Pessoa> buscar(@Param("nome") String nome, @Param("email") String email, @Param("tipo") TipoPessoa tipo, Pageable pageable);
 
     @Query("FROM PessoaFisica as pf WHERE pf.cpf = :cpf")
     Optional<PessoaFisica> buscarPorCpf(@Param("cpf") String cpf);

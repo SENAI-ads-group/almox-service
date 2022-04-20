@@ -1,12 +1,10 @@
 package org.almox.modules.pessoa.service;
 
-import org.almox.modules.pessoa.dto.PessoaFiltroDTO;
+import org.almox.modules.pessoa.dto.FiltroPessoa;
 import org.almox.modules.pessoa.model.Pessoa;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -19,9 +17,7 @@ public interface PessoaService {
 
     Pessoa buscarPorEmail(String email);
 
-    List<Pessoa> buscar(PessoaFiltroDTO filtro, Sort sort);
-
-    Page<Pessoa> buscarPaginado(PessoaFiltroDTO filtro, Pageable pageable);
+    Page<Pessoa> buscar(FiltroPessoa filtro, Pageable paginacao);
 
     <P extends Pessoa> P atualizar(UUID id, P pessoa);
 

@@ -1,10 +1,9 @@
 package org.almox.modules.operador.service;
 
-import org.almox.modules.operador.dto.OperadorFiltroDTO;
+import org.almox.modules.operador.dto.FiltroOperador;
 import org.almox.modules.operador.model.Operador;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 
 import java.util.List;
 import java.util.Optional;
@@ -22,9 +21,7 @@ public interface OperadorService {
 
     Optional<Operador> buscarPorCpfPessoaOptional(String cpf);
 
-    List<Operador> buscar(OperadorFiltroDTO filtro, Sort sort);
-
-    Page<Operador> buscarPaginado(OperadorFiltroDTO filtro, Pageable pageable);
+    Page<Operador> buscar(FiltroOperador filtro, Pageable paginacao);
 
     Operador atualizar(UUID id, Operador operador);
 

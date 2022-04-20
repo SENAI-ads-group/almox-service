@@ -1,7 +1,6 @@
 package org.almox.modules.requisicao.service;
 
 import lombok.RequiredArgsConstructor;
-import org.almox.core.config.validation.ValidatorAutoThrow;
 import org.almox.core.exceptions.ApplicationRuntimeException;
 import org.almox.core.exceptions.EntidadeNaoEncontradaException;
 import org.almox.core.exceptions.RegraNegocioException;
@@ -21,6 +20,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import javax.validation.Validator;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -37,11 +37,11 @@ public class RequisicaoServiceImpl implements RequisicaoService {
 
     @OperadorLogado
     private final Operador operadorLogado;
+    private final Validator validator;
     private final RequisicaoRepository requisicaoRepository;
     private final ItemRequisicaoRepository itemRequisicaoRepository;
     private final ProdutoService produtoService;
     private final MovimentoService movimentoService;
-    private final ValidatorAutoThrow validator;
 
     @Override
     public Requisicao criar(Requisicao requisicao) {

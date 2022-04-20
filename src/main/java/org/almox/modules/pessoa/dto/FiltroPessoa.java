@@ -8,7 +8,7 @@ import org.almox.modules.pessoa.model.TipoPessoa;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class PessoaFiltroDTO {
+public class FiltroPessoa {
     public TipoPessoa tipo;
     public String nome;
     public String email;
