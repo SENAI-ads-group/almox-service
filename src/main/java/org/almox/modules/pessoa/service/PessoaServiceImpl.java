@@ -1,10 +1,9 @@
 package org.almox.modules.pessoa.service;
 
 import lombok.RequiredArgsConstructor;
-import org.almox.core.config.validation.ValidatorAutoThrow;
 import org.almox.core.exceptions.EntidadeNaoEncontradaException;
 import org.almox.core.exceptions.RegraNegocioException;
-import org.almox.modules.pessoa.dto.PessoaFiltroDTO;
+import org.almox.modules.pessoa.dto.FiltroPessoa;
 import org.almox.modules.pessoa.model.Pessoa;
 import org.almox.modules.pessoa.model.PessoaFisica;
 import org.almox.modules.pessoa.model.PessoaJuridica;
@@ -12,12 +11,11 @@ import org.almox.modules.pessoa.repository.PessoaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import javax.validation.Valid;
-import java.util.List;
+import javax.validation.Validator;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -25,8 +23,8 @@ import java.util.UUID;
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class PessoaServiceImpl implements PessoaService {
 
+    private final Validator validator;
     private final PessoaRepository pessoaRepository;
-    private final ValidatorAutoThrow validator;
 
     @Override
     @Transactional
@@ -70,17 +68,10 @@ public class PessoaServiceImpl implements PessoaService {
     }
 
     @Override
-    public List<Pessoa> buscar(PessoaFiltroDTO filtro, Sort sort) {
+    public Page<Pessoa> buscar(FiltroPessoa filtro, Pageable paginacao) {
         return filtro.tipo == null
-                ? pessoaRepository.findAll(filtro.nome, filtro.email, sort)
-                : pessoaRepository.findAll(filtro.nome, filtro.email, filtro.tipo, sort);
-    }
-
-    @Override
-    public Page<Pessoa> buscarPaginado(PessoaFiltroDTO filtro, Pageable pageable) {
-        return filtro.tipo == null
-                ? pessoaRepository.findAll(filtro.nome, filtro.email, pageable)
-                : pessoaRepository.findAll(filtro.nome, filtro.email, filtro.tipo.name(), pageable);
+                ? pessoaRepository.buscar(filtro.nome, filtro.email, paginacao)
+                : pessoaRepository.buscar(filtro.nome, filtro.email, filtro.tipo, paginacao);
     }
 
     @Override

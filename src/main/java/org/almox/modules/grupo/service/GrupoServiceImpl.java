@@ -1,7 +1,6 @@
 package org.almox.modules.grupo.service;
 
 import lombok.RequiredArgsConstructor;
-import org.almox.core.config.validation.ValidatorAutoThrow;
 import org.almox.core.exceptions.EntidadeNaoEncontradaException;
 import org.almox.modules.grupo.dto.FiltroGrupo;
 import org.almox.modules.grupo.model.Grupo;
@@ -14,6 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import javax.validation.Validator;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -21,10 +21,10 @@ import java.util.UUID;
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class GrupoServiceImpl implements GrupoService {
 
-    private final GrupoRepository grupoRepository;
     @OperadorLogado
     private final Operador operadorLogado;
-    private final ValidatorAutoThrow validator;
+    private final Validator validator;
+    private final GrupoRepository grupoRepository;
 
     @Override
     public Grupo criar(Grupo grupo) {

@@ -1,7 +1,6 @@
 package org.almox.modules.produto.service;
 
 import lombok.RequiredArgsConstructor;
-import org.almox.core.config.validation.ValidatorAutoThrow;
 import org.almox.core.exceptions.EntidadeNaoEncontradaException;
 import org.almox.modules.operador.OperadorLogado;
 import org.almox.modules.operador.model.Operador;
@@ -15,6 +14,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import javax.validation.Validator;
 import java.util.List;
 import java.util.UUID;
 
@@ -24,10 +24,10 @@ public class ProdutoServiceImpl implements ProdutoService {
 
     @OperadorLogado
     private final Operador operadorLogado;
+    private final Validator validator;
     private final ProdutoRepository produtoRepository;
     private final EstoqueService estoqueService;
     private final HistoricoEstoqueProdutoRepository historicoEstoqueProdutoRepository;
-    private final ValidatorAutoThrow validator;
 
     @Override
     public Produto criar(Produto produto) {

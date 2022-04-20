@@ -32,12 +32,15 @@ public interface OperadorRestFacade extends RestInterface {
     @Parameters({
             @Parameter(
                     in = ParameterIn.QUERY,
-                    name = "paginado",
-                    description = "Ativa a paginação",
-                    schema = @Schema(
-                            type = "boolean",
-                            defaultValue = "true"
-                    )
+                    name = "nome",
+                    description = "Nome da pessoa associadda",
+                    schema = @Schema(type = "string")
+            ),
+            @Parameter(
+                    in = ParameterIn.QUERY,
+                    name = "email",
+                    description = "Email da pessoa associada",
+                    schema = @Schema(type = "string")
             )
     })
     @PageableAsQueryParam

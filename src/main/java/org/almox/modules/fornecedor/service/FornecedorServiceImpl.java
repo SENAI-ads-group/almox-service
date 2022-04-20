@@ -3,7 +3,6 @@ package org.almox.modules.fornecedor.service;
 import lombok.RequiredArgsConstructor;
 import org.almox.core.exceptions.EntidadeNaoEncontradaException;
 import org.almox.core.exceptions.RegraNegocioException;
-import org.almox.core.config.validation.ValidatorAutoThrow;
 import org.almox.modules.fornecedor.dto.FiltroFornecedor;
 import org.almox.modules.fornecedor.model.Fornecedor;
 import org.almox.modules.fornecedor.repository.FornecedorRepository;
@@ -14,15 +13,16 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import javax.validation.Validator;
 import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class FornecedorServiceImpl implements FornecedorService {
 
+    private final Validator validator;
     private final FornecedorRepository fornecedorRepository;
     private final PessoaServiceImpl pessoaService;
-    private final ValidatorAutoThrow validator;
 
     @Override
     public Fornecedor criar(Fornecedor fornecedor) {

@@ -1,11 +1,10 @@
 package org.almox.modules.operador.service;
 
 import lombok.RequiredArgsConstructor;
-import org.almox.core.config.validation.ValidatorAutoThrow;
 import org.almox.core.exceptions.EntidadeNaoEncontradaException;
 import org.almox.core.exceptions.RegraNegocioException;
 import org.almox.modules.operador.OperadorLogado;
-import org.almox.modules.operador.dto.OperadorFiltroDTO;
+import org.almox.modules.operador.dto.FiltroOperador;
 import org.almox.modules.operador.model.Funcao;
 import org.almox.modules.operador.model.Operador;
 import org.almox.modules.operador.repository.FuncaoRepository;
@@ -13,11 +12,9 @@ import org.almox.modules.operador.repository.OperadorRepository;
 import org.almox.modules.pessoa.model.PessoaFisica;
 import org.almox.modules.pessoa.service.PessoaService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -25,7 +22,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.context.annotation.ApplicationScope;
 
 import javax.transaction.Transactional;
-import java.util.List;
+import javax.validation.Validator;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
@@ -38,10 +35,10 @@ import static org.almox.modules.util.ColecaoUtil.colecaoVaziaCasoSejaNula;
 @ApplicationScope
 public class OperadorServiceImpl implements OperadorService {
 
+    private final Validator validator;
     private final OperadorRepository operadorRepository;
     private final FuncaoRepository funcaoRepository;
     private final PessoaService pessoaService;
-    private final ValidatorAutoThrow validator;
     private final BCryptPasswordEncoder passwordEncoder;
 
     @ApplicationScope
@@ -103,15 +100,9 @@ public class OperadorServiceImpl implements OperadorService {
     }
 
     @Override
-    public List<Operador> buscar(OperadorFiltroDTO filtro, Sort sort) {
+    public Page<Operador> buscar(FiltroOperador filtro, Pageable paginacao) {
         validator.validate(filtro);
-        return operadorRepository.buscarPorNomeEmailPessoa(filtro.nome, filtro.email, sort);
-    }
-
-    @Override
-    public Page<Operador> buscarPaginado(OperadorFiltroDTO filtro, Pageable pageable) {
-        validator.validate(filtro);
-        return operadorRepository.buscarPorNomeEmailPessoa(filtro.nome, filtro.email, pageable);
+        return operadorRepository.buscarPorNomeEmailPessoa(filtro.nome, filtro.email, paginacao);
     }
 
     @Override
