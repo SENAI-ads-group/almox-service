@@ -16,10 +16,10 @@ public interface FornecedorRepository extends JpaRepository<Fornecedor, UUID> {
     @Query("FROM Fornecedor as f WHERE f.pessoa.cnpj = :cnpj OR LOWER(f.pessoa.nome) LIKE LOWER(CONCAT('%',:nome,'%'))")
     Page<Fornecedor> buscarPorCpjOuNome(@Param("cnpj") String cnpj, @Param("nome") String nome, Pageable pageable);
 
-    @Query("FROM Fornecedor as f WHERE f.dataExclusao IS NOT NULL AND ( f.pessoa.cnpj = :cnpj OR LOWER(f.pessoa.nome) LIKE LOWER(CONCAT('%',:nome,'%')) )")
+    @Query("FROM Fornecedor as f WHERE f.dataExclusao IS NULL AND ( f.pessoa.cnpj = :cnpj OR LOWER(f.pessoa.nome) LIKE LOWER(CONCAT('%',:nome,'%')) )")
     Page<Fornecedor> buscarAtivosPorCpjOuNome(@Param("cnpj") String cnpj, @Param("nome") String nome, Pageable pageable);
 
-    @Query("FROM Fornecedor as f WHERE f.dataExclusao IS NULL AND ( f.pessoa.cnpj = :cnpj OR LOWER(f.pessoa.nome) LIKE LOWER(CONCAT('%',:nome,'%')) )")
+    @Query("FROM Fornecedor as f WHERE f.dataExclusao IS NOT NULL AND ( f.pessoa.cnpj = :cnpj OR LOWER(f.pessoa.nome) LIKE LOWER(CONCAT('%',:nome,'%')) )")
     Page<Fornecedor> buscarExcluidosPorCpjOuNome(@Param("cnpj") String cnpj, @Param("nome") String nome, Pageable pageable);
 
 }

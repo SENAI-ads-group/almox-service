@@ -2,6 +2,7 @@ package org.almox.modules.operador.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -30,6 +31,7 @@ import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "OPE_OPERADOR")
+@EqualsAndHashCode(of = {"id", "login"})
 @Builder(toBuilder = true)
 @Getter
 @Setter

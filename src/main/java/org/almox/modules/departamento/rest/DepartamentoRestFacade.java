@@ -9,7 +9,6 @@ import org.almox.core.rest.RestCollection;
 import org.almox.core.rest.RestInterface;
 import org.almox.modules.departamento.dto.CriarDepartamentoDTO;
 import org.almox.modules.departamento.dto.DepartamentoDTO;
-import org.almox.modules.operador.Funcoes;
 import org.springdoc.core.converters.models.PageableAsQueryParam;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -47,7 +46,6 @@ public interface DepartamentoRestFacade extends RestInterface {
             @RequestParam(required = false, defaultValue = "id") String[] sort
     );
 
-    @Funcoes.REQUISITANTE
     @GetMapping(value = "/excluidos", produces = MediaType.APPLICATION_JSON_VALUE)
     @Parameters({
             @Parameter(
@@ -68,15 +66,12 @@ public interface DepartamentoRestFacade extends RestInterface {
     @GetMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     ResponseEntity<DepartamentoDTO> buscarPorId(@PathVariable("id") UUID id);
 
-    @Funcoes.ALMOXARIFE_ADMINISTRADOR
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     ResponseEntity<Void> criar(@RequestBody CriarDepartamentoDTO dto);
 
-    @Funcoes.ALMOXARIFE_ADMINISTRADOR
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     ResponseEntity<DepartamentoDTO> atualizar(@PathVariable("id") UUID id, @RequestBody DepartamentoDTO dto);
 
-    @Funcoes.ADMINISTRADOR
     @DeleteMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     ResponseEntity<Void> excluir(@PathVariable("id") UUID id);
 }

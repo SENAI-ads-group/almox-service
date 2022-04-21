@@ -15,6 +15,8 @@ public interface PessoaJuridicaMapper {
 
     PessoaJuridica fromDTO(PessoaJuridicaDTO dto);
 
+    PessoaJuridica toPessoaJuridica(CriarPessoaJuridicaDTO dto);
+
     List<PessoaJuridica> fromDTOList(List<PessoaJuridicaDTO> dtoList);
 
     List<PessoaJuridicaDTO> toDTOList(List<PessoaJuridica> dtoList);

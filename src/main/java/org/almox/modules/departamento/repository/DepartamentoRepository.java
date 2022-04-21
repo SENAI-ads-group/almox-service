@@ -3,11 +3,8 @@ package org.almox.modules.departamento.repository;
 import org.almox.modules.departamento.model.Departamento;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Slice;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
@@ -50,6 +47,6 @@ public interface DepartamentoRepository extends JpaRepository<Departamento, UUID
     @Query("FROM Departamento as d WHERE d.dataExclusao IS NOT NULL AND LOWER(d.descricao) LIKE CONCAT('%', TRIM(LOWER(:descricao)), '%')")
     Page<Departamento> buscarExcluidosPorDescricao(@Param("descricao") String descricao, Pageable pageable);
 
-    @Query(nativeQuery = true, value = "SELECT DISTINCT CAST(DPTO_ID AS VARCHAR) FROM DPTO_DEPARTAMENTO_OPERADORES WHERE CAST(DPTO_ID AS VARCHAR) = :idDepartamento")
-    Set<String> buscarIdOperadoresAssociadosAoDepartamento(String idDepartamento);
+    @Query(nativeQuery = true, value = "SELECT DISTINCT CAST(OPE_ID AS VARCHAR) FROM DPTO_DEPARTAMENTO_OPERADORES WHERE CAST(DPTO_ID AS VARCHAR) = :idDepartamento")
+    Set<String> buscarIdOperadoresAssociadosAoDepartamento(@Param("idDepartamento") String idDepartamento);
 }

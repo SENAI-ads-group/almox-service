@@ -2,7 +2,9 @@ package org.almox.modules.produto.service;
 
 import lombok.RequiredArgsConstructor;
 import org.almox.core.exceptions.EntidadeNaoEncontradaException;
-import org.almox.modules.operador.OperadorLogado;
+import org.almox.core.exceptions.RegraNegocioException;
+import org.almox.core.exceptions.UnauthorizedException;
+import org.almox.modules.operador.dto.ContextoOperador;
 import org.almox.modules.operador.model.Operador;
 import org.almox.modules.produto.model.FiltroProduto;
 import org.almox.modules.produto.model.HistoricoEstoqueProduto;
@@ -22,8 +24,7 @@ import java.util.UUID;
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class ProdutoServiceImpl implements ProdutoService {
 
-    @OperadorLogado
-    private final Operador operadorLogado;
+    private final ContextoOperador contextoOperador;
     private final Validator validator;
     private final ProdutoRepository produtoRepository;
     private final EstoqueService estoqueService;
@@ -32,6 +33,9 @@ public class ProdutoServiceImpl implements ProdutoService {
     @Override
     public Produto criar(Produto produto) {
         validator.validate(produto);
+        produtoRepository.buscarCodigoBarras(produto.getCodigoBarras()).ifPresent(codigoBarrasExistente -> {
+            throw new RegraNegocioException("${codigo_barras_ja_cadastrado}");
+        });
         produto.setEstoque(estoqueService.salvar(produto.getEstoque()));
         return produtoRepository.save(produto);
     }
@@ -46,8 +50,7 @@ public class ProdutoServiceImpl implements ProdutoService {
     @Override
     public Page<Produto> buscar(FiltroProduto filtro, Pageable paginacao) {
         return produtoRepository.buscarAtivos(
-                filtro.descricao, filtro.codigoBarras, filtro.idGrupos, filtro.idDepartamentos,
-                filtro.idFornecedor, filtro.unidadeMedida, paginacao
+                filtro.descricao, filtro.codigoBarras, filtro.unidadeMedida, paginacao
         );
     }
 
@@ -81,6 +84,8 @@ public class ProdutoServiceImpl implements ProdutoService {
     @Override
     public void excluir(UUID id) {
         Produto produtoASerExcluido = buscarPorId(id);
+        Operador operadorLogado = contextoOperador.getOperadorLogado().orElseThrow(UnauthorizedException::new);
+
         setExclusaoAuditoria(produtoASerExcluido, operadorLogado);
         produtoRepository.save(produtoASerExcluido);
     }

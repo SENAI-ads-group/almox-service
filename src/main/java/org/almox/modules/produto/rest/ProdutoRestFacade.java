@@ -90,7 +90,6 @@ public interface ProdutoRestFacade extends RestInterface {
             @RequestParam(required = false, defaultValue = "id") String[] sort
     );
 
-    @Funcoes.ADMINISTRADOR
     @GetMapping("/excluidos")
     @Parameters({
             @Parameter(
@@ -147,11 +146,9 @@ public interface ProdutoRestFacade extends RestInterface {
     @GetMapping("/{id}")
     ResponseEntity<ProdutoDTO> buscarPorId(@PathVariable("id") UUID id);
 
-    @Funcoes.ALMOXARIFE_ADMINISTRADOR
     @GetMapping("/{id}/historico-estoque")
     ResponseEntity<List<HistoricoEstoqueDTO>> buscarHistoricosEstoque(@PathVariable("id") UUID id);
 
-    @Funcoes.ALMOXARIFE_ADMINISTRADOR
     @PostMapping
     @Operation(
             requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
@@ -161,11 +158,9 @@ public interface ProdutoRestFacade extends RestInterface {
     )
     ResponseEntity<Void> criar(@RequestBody CriarProdutoDTO dto);
 
-    @Funcoes.ALMOXARIFE_ADMINISTRADOR
     @PutMapping("/{id}")
     ResponseEntity<ProdutoDTO> atualizar(@PathVariable("id") UUID id, @RequestBody AtualizarProdutoDTO dto);
 
-    @Funcoes.ADMINISTRADOR
     @DeleteMapping("/{id}")
     ResponseEntity<Void> excluir(@PathVariable("id") UUID id);
 }

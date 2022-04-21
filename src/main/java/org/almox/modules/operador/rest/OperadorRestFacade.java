@@ -61,15 +61,12 @@ public interface OperadorRestFacade extends RestInterface {
     @PostMapping("/recuperar-email")
     ResponseEntity<RecuperarEmailDTO.Resposta> recuperarEmail(@RequestBody RecuperarEmailDTO.Requisicao requisicaoRecuperarEmail);
 
-    @Funcoes.ADMINISTRADOR
     @PostMapping
     ResponseEntity<Void> criar(@RequestBody OperadorDTO dto);
 
-    @Funcoes.ADMINISTRADOR
     @PutMapping("/{id}")
     ResponseEntity<OperadorDTO> atualizar(@PathVariable("id") UUID id, @RequestBody OperadorDTO dto);
 
-    @Funcoes.ADMINISTRADOR
     @DeleteMapping("/{id}")
     ResponseEntity<Void> excluir(@PathVariable("id") UUID id);
 }

@@ -1,13 +1,8 @@
 package org.almox.modules.produto.model;
 
-import org.almox.modules.common.IEnum;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonFormat;
-
 import lombok.Getter;
-@JsonFormat(shape = JsonFormat.Shape.OBJECT)
-public enum UnidadeMedida implements IEnum {
+
+public enum UnidadeMedida {
     KG("Quilograma(s)"),
     LT("Litro(s)"),
     UN("Unidade(s)"),
@@ -17,13 +12,8 @@ public enum UnidadeMedida implements IEnum {
     @Getter
     private String descricao;
 
-    UnidadeMedida(String descricao) {this.descricao = descricao;}
-
-    @JsonCreator
-    public static UnidadeMedida deserialize(@JsonProperty("type")String type){
-        return IEnum.fromType(values(),type);
+    UnidadeMedida(String descricao) {
+        this.descricao = descricao;
     }
 
-    @Override
-    public String getType(){return name();}
 }

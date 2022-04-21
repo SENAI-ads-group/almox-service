@@ -12,7 +12,6 @@ public class CriarProdutoDTO {
     @Schema(required = true)
     public String descricao;
     public String codigoBarras;
-    public BigDecimal custoMedio;
     public Set<UUID> idFornecedores;
     @Schema(required = true)
     public UnidadeMedida unidadeMedida;

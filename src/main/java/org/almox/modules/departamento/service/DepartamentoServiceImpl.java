@@ -7,7 +7,7 @@ import org.almox.core.exceptions.RegraNegocioException;
 import org.almox.modules.departamento.dto.FiltroDepartamento;
 import org.almox.modules.departamento.model.Departamento;
 import org.almox.modules.departamento.repository.DepartamentoRepository;
-import org.almox.modules.operador.OperadorLogado;
+import org.almox.modules.operador.dto.ContextoOperador;
 import org.almox.modules.operador.model.Operador;
 import org.almox.modules.operador.service.OperadorService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,11 +25,10 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class DepartamentoServiceImpl implements DepartamentoService {
 
-    @OperadorLogado
-    private final Operador operadorLogado;
     private final Validator validator;
     private final DepartamentoRepository departamentoRepository;
     private final OperadorService operadorService;
+    private final ContextoOperador contextoOperador;
 
     @Override
     public Departamento criar(Departamento departamento) {
@@ -50,10 +49,11 @@ public class DepartamentoServiceImpl implements DepartamentoService {
     public Departamento buscarPorId(UUID id) {
         Departamento departamentoEncontrado = departamentoRepository.findById(id)
                 .orElseThrow(() -> new EntidadeNaoEncontradaException("${departamento_nao_encontrado}"));
+        Operador opeLogado = contextoOperador.getOperadorLogado().get();
 
-        if (!operadorService.isAdministrador(operadorLogado)) {
+        if (!operadorService.isAdministrador(opeLogado)) {
             Set<String> idOperadoresAssociadoAoDepartamentoEncontrado = departamentoRepository.buscarIdOperadoresAssociadosAoDepartamento(departamentoEncontrado.getId().toString());
-            if (!idOperadoresAssociadoAoDepartamentoEncontrado.contains(operadorLogado.getId().toString())) {
+            if (!idOperadoresAssociadoAoDepartamentoEncontrado.contains(opeLogado.getId().toString())) {
                 throw new ForbiddenException("${operador_logado_nao_pertence_departamento}");
             }
         }
@@ -87,7 +87,9 @@ public class DepartamentoServiceImpl implements DepartamentoService {
     @Override
     public void excluir(UUID id) {
         Departamento departamentoASerExcluido = buscarPorId(id);
-        setExclusaoAuditoria(departamentoASerExcluido, operadorLogado);
+
+        Operador opeLogado = contextoOperador.getOperadorLogado().get();
+        setExclusaoAuditoria(departamentoASerExcluido, opeLogado);
         departamentoRepository.save(departamentoASerExcluido);
     }
 }

@@ -1,27 +1,20 @@
-package org.almox.core.config.persistence;
+package org.almox.core.config.operador;
 
-import org.almox.modules.operador.model.Operador;
+import org.almox.modules.operador.dto.ContextoOperador;
 import org.almox.modules.operador.repository.OperadorRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.domain.AuditorAware;
-import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.transaction.annotation.EnableTransactionManagement;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
 @Configuration
-@EnableTransactionManagement
-@EnableJpaAuditing
-public class PersistenceConfig {
+public class OperadorLogadoConfig {
 
     @Bean
-    public AuditorAware<Operador> auditorAware(OperadorRepository operadorRepository) {
+    public ContextoOperador operadorLogado(OperadorRepository operadorRepository) {
         return () -> Optional.ofNullable(SecurityContextHolder.getContext())
                 .map(SecurityContext::getAuthentication)
                 .filter(Authentication::isAuthenticated)
