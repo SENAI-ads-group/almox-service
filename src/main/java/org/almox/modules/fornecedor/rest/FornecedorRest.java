@@ -2,6 +2,7 @@ package org.almox.modules.fornecedor.rest;
 
 import lombok.RequiredArgsConstructor;
 import org.almox.core.rest.RestCollection;
+import org.almox.modules.fornecedor.dto.CriarFornecedorDTO;
 import org.almox.modules.fornecedor.dto.FiltroFornecedor;
 import org.almox.modules.fornecedor.model.Fornecedor;
 import org.almox.modules.fornecedor.dto.FornecedorDTO;
@@ -47,8 +48,8 @@ public class FornecedorRest implements FornecedorRestFacade {
         return ResponseEntity.ok(dto);
     }
 
-    public ResponseEntity<Void> criar(FornecedorDTO dto) {
-        Fornecedor fornecedorCriado = fornecedorService.criar(fornecedorMapper.fromDTO(dto));
+    public ResponseEntity<Void> criar(CriarFornecedorDTO dto) {
+        Fornecedor fornecedorCriado = fornecedorService.criar(fornecedorMapper.toFornecedor(dto));
         URI uriCriado = getUriCriado(fornecedorCriado.getId());
         return ResponseEntity.created(uriCriado).build();
     }

@@ -19,12 +19,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return Operador.builder()
-                .funcoes(Set.of(Funcao.builder().nome("ROLE_ADMIN").build()))
-                .login("70338127100")
-                .senha("$2a$10$nkZJoWly3ntYU9fbh4bdz.xkRrK4lz5kpATu5edXFscsKl9GATYOO")
-                .build();
-//        return operadorService.buscarPorLoginOptional(username)
-//                .orElseThrow(() -> new UsernameNotFoundException(username));
+        return operadorService.buscarPorLoginOptional(username)
+                .orElseThrow(() -> new UsernameNotFoundException(username));
     }
 }

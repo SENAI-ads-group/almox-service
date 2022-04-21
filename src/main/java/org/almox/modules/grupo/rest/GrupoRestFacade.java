@@ -8,7 +8,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.almox.core.rest.RestCollection;
 import org.almox.core.rest.RestInterface;
 import org.almox.modules.grupo.dto.GrupoDTO;
-import org.almox.modules.operador.Funcoes;
 import org.springdoc.core.converters.models.PageableAsQueryParam;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -46,7 +45,6 @@ public interface GrupoRestFacade extends RestInterface {
             @RequestParam(required = false, defaultValue = "descricao") String[] sort
     );
 
-    @Funcoes.ADMINISTRADOR
     @GetMapping("/excluidos")
     @Parameters({
             @Parameter(
@@ -70,11 +68,9 @@ public interface GrupoRestFacade extends RestInterface {
     @PostMapping
     ResponseEntity<Void> criar(@RequestBody GrupoDTO dto);
 
-    @Funcoes.ALMOXARIFE_ADMINISTRADOR
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     ResponseEntity<GrupoDTO> atualizar(@PathVariable("id") UUID id, @RequestBody GrupoDTO dto);
 
-    @Funcoes.ADMINISTRADOR
     @DeleteMapping("/{id}")
     ResponseEntity<Void> excluir(@PathVariable("id") UUID id);
 }

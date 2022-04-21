@@ -7,8 +7,8 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.almox.core.rest.RestCollection;
 import org.almox.core.rest.RestInterface;
+import org.almox.modules.fornecedor.dto.CriarFornecedorDTO;
 import org.almox.modules.fornecedor.dto.FornecedorDTO;
-import org.almox.modules.operador.Funcoes;
 import org.springdoc.core.converters.models.PageableAsQueryParam;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -51,7 +51,6 @@ public interface FornecedorRestFacade extends RestInterface {
             @RequestParam(required = false, defaultValue = "id") String[] sort
     );
 
-    @Funcoes.ADMINISTRADOR
     @GetMapping("/excluidos")
     @Parameters({
             @Parameter(
@@ -79,15 +78,12 @@ public interface FornecedorRestFacade extends RestInterface {
     @GetMapping("/{id}")
     ResponseEntity<FornecedorDTO> buscarPorId(@PathVariable("id") UUID id);
 
-    @Funcoes.ALMOXARIFE_ADMINISTRADOR
     @PostMapping
-    ResponseEntity<Void> criar(@RequestBody FornecedorDTO dto);
+    ResponseEntity<Void> criar(@RequestBody CriarFornecedorDTO dto);
 
-    @Funcoes.ALMOXARIFE_ADMINISTRADOR
     @PutMapping("/{id}")
     ResponseEntity<FornecedorDTO> atualizar(@PathVariable("id") UUID id, @RequestBody FornecedorDTO dto);
 
-    @Funcoes.ALMOXARIFE_ADMINISTRADOR
     @DeleteMapping("/{id}")
     ResponseEntity<Void> excluir(@PathVariable("id") UUID id);
 }

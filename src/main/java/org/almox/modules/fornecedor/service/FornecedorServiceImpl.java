@@ -61,6 +61,7 @@ public class FornecedorServiceImpl implements FornecedorService {
         Fornecedor fornecedorEncontrado = buscarPorId(id);
         validator.validate(fornecedor);
         fornecedor.setId(id);
+        atualizarEntidadeMantendoDatasAuditoria(fornecedor, fornecedorEncontrado);
         Fornecedor fornecedorAtualizado = fornecedorRepository.save(fornecedor);
         fornecedorAtualizado.setPessoa(fornecedorEncontrado.getPessoa());
         return fornecedorAtualizado;

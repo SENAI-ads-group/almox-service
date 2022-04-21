@@ -2,10 +2,11 @@ package org.almox.modules.grupo.service;
 
 import lombok.RequiredArgsConstructor;
 import org.almox.core.exceptions.EntidadeNaoEncontradaException;
+import org.almox.core.exceptions.UnauthorizedException;
 import org.almox.modules.grupo.dto.FiltroGrupo;
 import org.almox.modules.grupo.model.Grupo;
 import org.almox.modules.grupo.repository.GrupoRepository;
-import org.almox.modules.operador.OperadorLogado;
+import org.almox.modules.operador.dto.ContextoOperador;
 import org.almox.modules.operador.model.Operador;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -21,8 +22,7 @@ import java.util.UUID;
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class GrupoServiceImpl implements GrupoService {
 
-    @OperadorLogado
-    private final Operador operadorLogado;
+    private final ContextoOperador contextoOperador;
     private final Validator validator;
     private final GrupoRepository grupoRepository;
 
@@ -68,6 +68,8 @@ public class GrupoServiceImpl implements GrupoService {
     @Override
     public void excluir(UUID id) {
         Grupo grupoASerExcluido = buscarPorId(id);
+        Operador operadorLogado = contextoOperador.getOperadorLogado().orElseThrow(UnauthorizedException::new);
+
         setExclusaoAuditoria(grupoASerExcluido, operadorLogado);
         grupoRepository.save(grupoASerExcluido);
     }

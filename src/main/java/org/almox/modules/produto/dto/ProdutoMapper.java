@@ -1,5 +1,6 @@
 package org.almox.modules.produto.dto;
 
+import org.almox.modules.auditoria.MappingAuditavel;
 import org.almox.modules.departamento.model.Departamento;
 import org.almox.modules.fornecedor.model.Fornecedor;
 import org.almox.modules.grupo.model.Grupo;
@@ -36,7 +37,14 @@ public interface ProdutoMapper {
     })
     Produto toProduto(AtualizarProdutoDTO source);
 
-    ProdutoDTO toDTO(Produto produto);
+    @Mappings({
+            @Mapping(source = "source.estoque.estoqueMinimo", target = "estoqueMinimo"),
+            @Mapping(source = "source.estoque.estoqueMaximo", target = "estoqueMaximo"),
+            @Mapping(source = "source.estoque.controlaEstoqueMinimo", target = "controlaEstoqueMinimo"),
+            @Mapping(source = "source.estoque.controlaEstoqueMaximo", target = "controlaEstoqueMaximo"),
+    })
+    @MappingAuditavel
+    ProdutoDTO toDTO(Produto source);
 
     default Set<Fornecedor> toFornecedores(Set<UUID> uuidSet) {
         return colecaoVaziaCasoSejaNula(uuidSet)

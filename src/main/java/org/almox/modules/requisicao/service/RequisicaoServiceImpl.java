@@ -4,8 +4,9 @@ import lombok.RequiredArgsConstructor;
 import org.almox.core.exceptions.ApplicationRuntimeException;
 import org.almox.core.exceptions.EntidadeNaoEncontradaException;
 import org.almox.core.exceptions.RegraNegocioException;
+import org.almox.core.exceptions.UnauthorizedException;
 import org.almox.modules.movimento.MovimentoService;
-import org.almox.modules.operador.OperadorLogado;
+import org.almox.modules.operador.dto.ContextoOperador;
 import org.almox.modules.operador.model.Operador;
 import org.almox.modules.produto.service.ProdutoService;
 import org.almox.modules.requisicao.dto.FiltroRequisicao;
@@ -35,8 +36,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class RequisicaoServiceImpl implements RequisicaoService {
 
-    @OperadorLogado
-    private final Operador operadorLogado;
+    private final ContextoOperador contextoOperador;
     private final Validator validator;
     private final RequisicaoRepository requisicaoRepository;
     private final ItemRequisicaoRepository itemRequisicaoRepository;
@@ -46,6 +46,8 @@ public class RequisicaoServiceImpl implements RequisicaoService {
     @Override
     public Requisicao criar(Requisicao requisicao) {
         validator.validate(requisicao);
+        Operador operadorLogado = contextoOperador.getOperadorLogado().orElseThrow(UnauthorizedException::new);
+
         // Inserir valores padrões da Requisição
         requisicao.setRequisitante(operadorLogado);
         requisicao.setStatus(StatusRequisicao.AGUARDANDO_ATENDIMENTO);
@@ -101,6 +103,8 @@ public class RequisicaoServiceImpl implements RequisicaoService {
     @Override
     public void atenderRequisicao(UUID id) {
         Requisicao requisicaoParaIniciarAtendimento = buscarPorId(id);
+        Operador operadorLogado = contextoOperador.getOperadorLogado().orElseThrow(UnauthorizedException::new);
+
         if (StatusRequisicao.CANCELADA.equals(requisicaoParaIniciarAtendimento.getStatus()))
             throw new RegraNegocioException("Não é possível iniciar o atendimento em uma requisição que já foi cancelada");
         if (!operadorLogado.equals(requisicaoParaIniciarAtendimento.getAlmoxarife()))
@@ -123,9 +127,11 @@ public class RequisicaoServiceImpl implements RequisicaoService {
     @Override
     public void entregarRequisicao(UUID id, Requisicao requisicaoEntregue) {
         Requisicao requisicaoEncontrada = buscarPorId(id);
+        Operador operadorLogado = contextoOperador.getOperadorLogado().orElseThrow(UnauthorizedException::new);
+
         if (StatusRequisicao.CANCELADA.equals(requisicaoEncontrada.getStatus()))
             throw new RegraNegocioException("Não é possível entregar uma requisição que já foi cancelada");
-        if (!operadorLogado.equals(requisicaoEncontrada.getAlmoxarife()))
+        if (!contextoOperador.equals(requisicaoEncontrada.getAlmoxarife()))
             throw new RegraNegocioException("Apenas o Almoxarife responsável pode entregar os produtos de uma requisição");
 
         requisicaoEncontrada.setStatus(StatusRequisicao.ENTREGUE);

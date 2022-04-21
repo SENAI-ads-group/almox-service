@@ -3,7 +3,6 @@ package org.almox.modules.operador.service;
 import lombok.RequiredArgsConstructor;
 import org.almox.core.exceptions.EntidadeNaoEncontradaException;
 import org.almox.core.exceptions.RegraNegocioException;
-import org.almox.modules.operador.OperadorLogado;
 import org.almox.modules.operador.dto.FiltroOperador;
 import org.almox.modules.operador.model.Funcao;
 import org.almox.modules.operador.model.Operador;
@@ -12,14 +11,10 @@ import org.almox.modules.operador.repository.OperadorRepository;
 import org.almox.modules.pessoa.model.PessoaFisica;
 import org.almox.modules.pessoa.service.PessoaService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.context.annotation.ApplicationScope;
 
 import javax.transaction.Transactional;
 import javax.validation.Validator;
@@ -32,7 +27,6 @@ import static org.almox.modules.util.ColecaoUtil.colecaoVaziaCasoSejaNula;
 
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
-@ApplicationScope
 public class OperadorServiceImpl implements OperadorService {
 
     private final Validator validator;
@@ -40,18 +34,6 @@ public class OperadorServiceImpl implements OperadorService {
     private final FuncaoRepository funcaoRepository;
     private final PessoaService pessoaService;
     private final BCryptPasswordEncoder passwordEncoder;
-
-    @ApplicationScope
-    @OperadorLogado
-    @Bean
-    public Operador getOperadorLogado() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
-        if (authentication == null || !authentication.isAuthenticated())
-            return null;
-        String login = authentication.getPrincipal().toString();
-        return operadorRepository.findByLoginEquals(login).orElse(null);
-    }
 
     @Override
     @Transactional
@@ -84,14 +66,14 @@ public class OperadorServiceImpl implements OperadorService {
 
     @Override
     public Operador buscarPorLogin(String login) {
-        Operador operadorEncontrado = operadorRepository.findByLoginEquals(login)
+        Operador operadorEncontrado = operadorRepository.buscarPorLogin(login)
                 .orElseThrow(() -> new EntidadeNaoEncontradaException("${operador_nao_encontrado_por_login}"));
         return operadorEncontrado;
     }
 
     @Override
     public Optional<Operador> buscarPorLoginOptional(String login) {
-        return operadorRepository.findByLoginEquals(login);
+        return operadorRepository.buscarPorLogin(login);
     }
 
     @Override

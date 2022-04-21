@@ -23,6 +23,11 @@ public interface FornecedorMapper {
     })
     Fornecedor fromDTO(FornecedorDTO dto);
 
+    @Mappings({
+            @Mapping(target = "pessoa", expression = "java(toPessoaJuridica(dto))")
+    })
+    Fornecedor toFornecedor(CriarFornecedorDTO dto);
+
     List<Fornecedor> fromDTOList(List<FornecedorDTO> dtoList);
 
     List<FornecedorDTO> toDTOList(List<Fornecedor> dtoList);
@@ -33,5 +38,9 @@ public interface FornecedorMapper {
 
     default PessoaJuridica pessoaFromDTO(FornecedorDTO dto) {
         return PessoaJuridicaMapper.INSTANCE.fromDTO(dto.pessoa);
+    }
+
+    default PessoaJuridica toPessoaJuridica(CriarFornecedorDTO dto) {
+        return PessoaJuridicaMapper.INSTANCE.toPessoaJuridica(dto.pessoa);
     }
 }

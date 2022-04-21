@@ -26,8 +26,8 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import javax.persistence.TableGenerator;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -43,7 +43,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @Entity
 @Table(name = "PROD_PRODUTO")
-@TableGenerator(name = "PROD_CODIGO_SEQUENCE", initialValue = 10000)
+@SequenceGenerator(name = "PROD_CODIGO_SEQUENCE", sequenceName = "PROD_CODIGO_SEQUENCE")
 public class Produto extends Auditavel {
 
     @Id
@@ -56,9 +56,8 @@ public class Produto extends Auditavel {
     @Column(name = "PROD_DESCRICAO", nullable = false, unique = true)
     private String descricao;
 
-    @NotBlank(message = "{Produto.codigo.NotNull}")
-    @Column(name = "PROD_COD", nullable = false, unique = true)
-    @GeneratedValue(strategy = GenerationType.TABLE, generator = "PROD_CODIGO_SEQUENCE")
+    @Column(name = "PROD_COD", unique = true)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "PROD_CODIGO_SEQUENCE")
     private Long codigo;
 
     @NotBlank(message = "{Produto.codigoBarras.NotNull}")
@@ -101,7 +100,7 @@ public class Produto extends Auditavel {
     @NotNull(message = "{Produto.grupo.NotNull}")
     private Grupo grupo;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.EAGER)
     @NotNull(message = "{Produto.configuracaoEstoque.NotNull}")
     @JoinColumn(name = "ESTQ_ID")
     private Estoque estoque;

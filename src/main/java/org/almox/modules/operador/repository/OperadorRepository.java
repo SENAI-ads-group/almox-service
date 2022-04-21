@@ -7,6 +7,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.annotation.ApplicationScope;
 
 import java.util.Optional;
@@ -16,7 +18,9 @@ import java.util.UUID;
 @Repository
 public interface OperadorRepository extends JpaRepository<Operador, UUID> {
 
-    Optional<Operador> findByLoginEquals(String login);
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    @Query("FROM Operador as ope WHERE ope.login = :login")
+    Optional<Operador> buscarPorLogin(@Param("login") String login);
 
     @Query("FROM Operador as ope JOIN PessoaFisica as pf ON pf.id = ope.pessoa.id AND pf.cpf = :cpf")
     Optional<Operador> buscarPorCpfPessoa(@Param("cpf") String cpf);
