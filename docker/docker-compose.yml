@@ -9,4 +9,4 @@ services:
     environment:
       POSTGRES_PASSWORD: almox@123
     ports:
-      - "5432:5432"
+      - "5420:5432"
