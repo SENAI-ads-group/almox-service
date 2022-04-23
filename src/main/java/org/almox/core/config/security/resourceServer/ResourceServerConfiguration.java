@@ -36,6 +36,7 @@ public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter
                         "/favicon.ico",
                         "/login",
                         "/webjars/**").permitAll()
+                .antMatchers(HttpMethod.POST, "/operadores/solicitacoes-cadastro").permitAll()
                 .antMatchers(HttpMethod.POST, "/auth**").permitAll()
                 .antMatchers(HttpMethod.GET, "/**").access("#oauth2.hasScope('read')")
                 .antMatchers(HttpMethod.GET, "/**").access("#oauth2.hasScope('write')")
