@@ -19,6 +19,8 @@ import javax.validation.Validator;
 import java.util.Optional;
 import java.util.UUID;
 
+import static org.almox.modules.util.StringUtil.apenasNumeros;
+
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class PessoaServiceImpl implements PessoaService {
@@ -34,11 +36,15 @@ public class PessoaServiceImpl implements PessoaService {
             throw new RegraNegocioException("${email_ja_cadastrado}");
         });
         if (pessoa instanceof PessoaJuridica) {
-            pessoaRepository.buscarPorCnpj(((PessoaJuridica) pessoa).getCnpj()).ifPresent(pessoaComMesmoCnpj -> {
+            PessoaJuridica pessoaJuridica = (PessoaJuridica) pessoa;
+            pessoaJuridica.setCnpj(apenasNumeros(pessoaJuridica.getCnpj()));
+            pessoaRepository.buscarPorCnpj(pessoaJuridica.getCnpj()).ifPresent(pessoaComMesmoCnpj -> {
                 throw new RegraNegocioException("${cnpj_ja_cadastrado}");
             });
         } else if (pessoa instanceof PessoaFisica) {
-            pessoaRepository.buscarPorCpf(((PessoaFisica) pessoa).getCpf()).ifPresent(pessoaComMesmoCpf -> {
+            PessoaFisica pessoaFisica = (PessoaFisica) pessoa;
+            pessoaFisica.setCpf(apenasNumeros(pessoaFisica.getCpf()));
+            pessoaRepository.buscarPorCpf(pessoaFisica.getCpf()).ifPresent(pessoaComMesmoCpf -> {
                 throw new RegraNegocioException("${cpf_ja_cadastrado}");
             });
         }

@@ -25,6 +25,14 @@ public interface OperadorRepository extends JpaRepository<Operador, UUID> {
     @Query("FROM Operador as ope JOIN PessoaFisica as pf ON pf.id = ope.pessoa.id AND pf.cpf = :cpf")
     Optional<Operador> buscarPorCpfPessoa(@Param("cpf") String cpf);
 
-    @Query("FROM Operador AS ope WHERE ope.pessoa.nome LIKE CONCAT('%', TRIM(LOWER(:nome)) ,'%') OR ope.pessoa.email = :email")
-    Page<Operador> buscarPorNomeEmailPessoa(@Param("nome") String nome, @Param("email") String email, Pageable sort);
+    @Query("FROM Operador as ope JOIN PessoaFisica as pf ON pf.id = ope.pessoa.id AND ( pf.cpf = :cpf OR pf.email = :email )")
+    Optional<Operador> buscarPorCpfOuEmailPessoa(@Param("cpf") String cpf, @Param("email") String email);
+
+    @Query("FROM Operador AS ope                                                                          \n " +
+            "WHERE                                                                                        \n " +
+            "   LOWER(ope.pessoa.nome) LIKE CONCAT('%', TRIM(LOWER(:nome)), '%')                          \n " +
+            "   AND LOWER(ope.pessoa.email) = LOWER(COALESCE(CAST( :email AS string) , ope.pessoa.email)) \n " +
+            "   AND ope.pessoa.cpf = COALESCE(CAST( :cpf AS string) , ope.pessoa.cpf)                     \n "
+    )
+    Page<Operador> buscarPorNomeEmailPessoa(@Param("nome") String nome, @Param("email") String email, @Param("cpf") String cpf, Pageable sort);
 }

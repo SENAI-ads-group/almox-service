@@ -8,4 +8,5 @@ import lombok.Builder;
 public class FiltroOperador {
     public String nome;
     public String email;
+    public String cpf;
 }

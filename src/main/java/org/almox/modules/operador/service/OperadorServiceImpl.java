@@ -24,6 +24,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 import static org.almox.modules.util.ColecaoUtil.colecaoVaziaCasoSejaNula;
+import static org.almox.modules.util.StringUtil.apenasNumeros;
 
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
@@ -48,9 +49,11 @@ public class OperadorServiceImpl implements OperadorService {
         } catch (EntidadeNaoEncontradaException e) {
             throw new EntidadeNaoEncontradaException("${operador_pessoa_nao_encontrada}");
         }
-        funcaoRepository.saveAll(operador.getFuncoes()
+        operador.setFuncoes(operador.getFuncoes()
                 .stream()
-                .map(funcao -> funcaoRepository.buscarPorNome(funcao.getNome()).orElse(funcao))
+                .map(funcao -> funcaoRepository.buscarPorNome(funcao.getNome())
+                        .orElseThrow(() -> new EntidadeNaoEncontradaException("${funcao_nao_encontrada}"))
+                )
                 .collect(Collectors.toSet())
         );
         operador.setSenha(passwordEncoder.encode(operador.getPassword()));
@@ -83,8 +86,9 @@ public class OperadorServiceImpl implements OperadorService {
 
     @Override
     public Page<Operador> buscar(FiltroOperador filtro, Pageable paginacao) {
+        filtro.cpf = apenasNumeros(filtro.cpf);
         validator.validate(filtro);
-        return operadorRepository.buscarPorNomeEmailPessoa(filtro.nome, filtro.email, paginacao);
+        return operadorRepository.buscarPorNomeEmailPessoa(filtro.nome, filtro.email, filtro.cpf, paginacao);
     }
 
     @Override

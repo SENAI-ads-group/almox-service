@@ -17,3 +17,7 @@ spring:
         jdbc:
           lob:
             non_contextual_creation: true
+
+redis-almox:
+  url: redis://127.0.0.1:6379
+  password: almox@123
