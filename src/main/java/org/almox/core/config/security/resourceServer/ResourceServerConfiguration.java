@@ -35,6 +35,8 @@ public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter
                         "/h2-console/**",
                         "/favicon.ico",
                         "/login",
+                        "/produtos", //TEMP
+                        "/grupos", //TEMP
                         "/webjars/**").permitAll()
                 .antMatchers(HttpMethod.POST, "/operadores/solicitacoes-cadastro").permitAll()
                 .antMatchers(HttpMethod.POST, "/auth**").permitAll()
