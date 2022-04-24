@@ -8,13 +8,13 @@ import org.almox.modules.common.EntidadePadrao;
 import org.almox.modules.departamento.model.Departamento;
 import org.almox.modules.operador.model.Operador;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -63,7 +63,7 @@ public class Requisicao implements EntidadePadrao {
     private StatusRequisicao status;
 
     @NotEmpty(message = "{Requisicao.itens.NotEmpty}")
-    @OneToMany(mappedBy = "requisicao", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "requisicao", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<ItemRequisicao> itens;
 
 }

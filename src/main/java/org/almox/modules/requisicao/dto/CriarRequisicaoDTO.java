@@ -5,7 +5,6 @@ import java.util.Set;
 import java.util.UUID;
 
 public class CriarRequisicaoDTO {
-    public UUID idOperadorRequisitante;
     public UUID idOperadorAlmoxarife;
     public UUID idDepartamento;
     public Set<Item> itens;

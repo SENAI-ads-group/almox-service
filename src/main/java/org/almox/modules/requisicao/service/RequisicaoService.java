@@ -1,10 +1,12 @@
 package org.almox.modules.requisicao.service;
 
 import org.almox.modules.requisicao.dto.FiltroRequisicao;
+import org.almox.modules.requisicao.model.ItemRequisicao;
 import org.almox.modules.requisicao.model.Requisicao;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.util.Set;
 import java.util.UUID;
 
 public interface RequisicaoService {
@@ -20,5 +22,7 @@ public interface RequisicaoService {
 
     void cancelarRequisicao(UUID id);
 
-    void entregarRequisicao(UUID id, Requisicao requisicaoEntregue);
+    void entregarRequisicao(UUID id);
+
+    Requisicao alterarItens(UUID id, Set<ItemRequisicao> toItemRequisiao);
 }

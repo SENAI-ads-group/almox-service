@@ -17,7 +17,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.net.URI;
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 
 @RestController
@@ -46,29 +48,38 @@ public class RequisicaoRest implements RequisicaoRestFacade {
 
     @Override
     public ResponseEntity<Void> criar(CriarRequisicaoDTO dto) {
-        return null;
+        Requisicao requisicaoCriada = requisicaoService.criar(requisicaoMapper.toRequisicao(dto));
+        URI uriRequisicaoCriada = getUriCriado(requisicaoCriada.getId());
+        return ResponseEntity.created(uriRequisicaoCriada).build();
+    }
+
+    @Override
+    public ResponseEntity<RequisicaoDTO> alterarItensRequisicao(UUID id, Set<CriarRequisicaoDTO.Item> dto) {
+        Requisicao requisicaoComItensAlterados = requisicaoService.alterarItens(id, requisicaoMapper.toItemRequisicao(dto));
+        return ResponseEntity.ok(requisicaoMapper.toDTO(requisicaoComItensAlterados));
     }
 
     @Override
     public ResponseEntity<Void> excluir(UUID id) {
-        return null;
+        requisicaoService.excluir(id);
+        return ResponseEntity.noContent().build();
     }
 
     @Override
-    public ResponseEntity<Void> atenderRequisicao(@PathVariable("id") UUID id) {
+    public ResponseEntity<Void> atenderRequisicao(UUID id) {
         requisicaoService.atenderRequisicao(id);
         return ResponseEntity.accepted().build();
     }
 
     @Override
-    public ResponseEntity<Void> cancelarRequisicao(@PathVariable("id") UUID id) {
+    public ResponseEntity<Void> cancelarRequisicao(UUID id) {
         requisicaoService.cancelarRequisicao(id);
         return ResponseEntity.accepted().build();
     }
 
     @Override
-    public ResponseEntity<Void> entregarAtendimento(@PathVariable("id") UUID id, @RequestBody Requisicao requisicaoEntregue) {
-        requisicaoService.entregarRequisicao(id, requisicaoEntregue);
+    public ResponseEntity<Void> entregarAtendimento(UUID id) {
+        requisicaoService.entregarRequisicao(id);
         return ResponseEntity.accepted().build();
     }
 }

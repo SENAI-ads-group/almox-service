@@ -19,6 +19,6 @@ public interface RequisicaoRepository extends JpaRepository<Requisicao, UUID> {
     @Query("FROM Requisicao as req WHERE req.status = :status")
     List<Requisicao> buscar(@Param("status") StatusRequisicao status, Sort sort);
 
-    @Query("FROM Requisicao as req WHERE req.status = :status")
-    Page<Requisicao> buscar(@Param("status") StatusRequisicao status, Pageable pageable);
+    @Query("FROM Requisicao as req WHERE req.status = COALESCE(CAST( :status AS string) , req.status) ")
+    Page<Requisicao> buscar(@Param("status") String status, Pageable pageable);
 }

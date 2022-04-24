@@ -7,8 +7,10 @@ import org.almox.modules.requisicao.model.StatusRequisicao;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 public class RequisicaoDTO {
+    public UUID id;
     public StatusRequisicao status;
     public DepartamentoRequisicao departamento;
     public LocalDateTime dataRequisicao;

@@ -16,7 +16,6 @@ import static org.almox.modules.util.ColecaoUtil.colecaoVaziaCasoSejaNula;
 public interface RequisicaoMapper {
 
     @Mappings({
-            @Mapping(target = "requisitante.id", source = "dto.idOperadorRequisitante"),
             @Mapping(target = "almoxarife.id", source = "dto.idOperadorAlmoxarife"),
             @Mapping(target = "departamento.id", source = "dto.idDepartamento"),
             @Mapping(target = "itens", expression = "java( toItemRequisicao(dto.itens) )")

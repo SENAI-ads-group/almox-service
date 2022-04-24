@@ -1,10 +1,12 @@
 package org.almox.modules.requisicao.model;
 
-import org.almox.modules.common.IEnum;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
+import org.almox.modules.common.IEnum;
+
+import java.util.Set;
 
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum StatusRequisicao implements IEnum {
@@ -16,13 +18,21 @@ public enum StatusRequisicao implements IEnum {
     @Getter
     private String descricao;
 
-    StatusRequisicao(String descricao){ this.descricao=descricao; }
+    StatusRequisicao(String descricao) {
+        this.descricao = descricao;
+    }
 
     @JsonCreator
-    public static StatusRequisicao deserialize(@JsonProperty("type") String type){
+    public static StatusRequisicao deserialize(@JsonProperty("type") String type) {
         return IEnum.fromType(values(), type);
     }
 
+    public static Set<StatusRequisicao> statusPermissivosAlteracao() {
+        return Set.of(AGUARDANDO_ATENDIMENTO, EM_ATENDIMENTO);
+    }
+
     @Override
-    public String getType() { return name(); }
+    public String getType() {
+        return name();
+    }
 }
