@@ -24,7 +24,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Tag(name = "Grupos", description = "Operações relacionadas aos recursos de grupos")
-@RequestMapping(value = GrupoRestFacade.PATH, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(GrupoRestFacade.PATH)
 public interface GrupoRestFacade extends RestInterface {
     String PATH = "/grupos";
 
