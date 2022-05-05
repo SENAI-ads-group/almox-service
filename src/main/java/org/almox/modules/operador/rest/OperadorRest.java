@@ -46,6 +46,19 @@ public class OperadorRest implements OperadorRestFacade {
     }
 
     @Override
+    public ResponseEntity<RestCollection<OperadorDTO>> buscarAlmoxarifes(String nome, String email, String cpf, Optional<Integer> page, Optional<Integer> size, String[] sort) {
+        Pageable paginacao = criarPaginacao(page, size, sort);
+        FiltroOperador filtro = FiltroOperador.builder()
+                .nome(nome)
+                .email(email)
+                .cpf(cpf)
+                .build();
+
+        Page<OperadorDTO> operadoresPage = operadorService.buscarAlmoxarifes(filtro, paginacao).map(operadorMapper::toDTO);
+        return ResponseEntity.ok(RestCollection.fromPage(operadoresPage));
+    }
+
+    @Override
     public ResponseEntity<OperadorDTO> buscarPorId(UUID id) {
         Operador operador = operadorService.buscarPorId(id);
         OperadorDTO dto = operadorMapper.toDTO(operador);

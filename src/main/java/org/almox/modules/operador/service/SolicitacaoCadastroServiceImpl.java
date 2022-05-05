@@ -7,7 +7,6 @@ import org.almox.modules.operador.dto.AprovarSolicitacaoCadastroDTO;
 import org.almox.modules.operador.model.Funcao;
 import org.almox.modules.operador.model.Operador;
 import org.almox.modules.operador.model.SolicitacaoCadastro;
-import org.almox.modules.operador.repository.FuncaoRepository;
 import org.almox.modules.operador.repository.OperadorRepository;
 import org.almox.modules.pessoa.model.PessoaFisica;
 import org.redisson.api.RMapCache;

@@ -22,6 +22,8 @@ public interface OperadorService {
 
     Page<Operador> buscar(FiltroOperador filtro, Pageable paginacao);
 
+    Page<Operador> buscarAlmoxarifes(FiltroOperador filtro, Pageable paginacao);
+
     Operador atualizar(UUID id, Operador operador);
 
     void excluir(UUID id);

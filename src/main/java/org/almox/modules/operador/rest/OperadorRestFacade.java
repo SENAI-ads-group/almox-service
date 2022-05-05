@@ -49,10 +49,41 @@ public interface OperadorRestFacade extends RestInterface {
                     name = "cpf",
                     description = "CPF da pessoa associada",
                     schema = @Schema(type = "string")
-            )
+            ),
     })
     @PageableAsQueryParam
     ResponseEntity<RestCollection<OperadorDTO>> buscar(
+            @RequestParam(required = false, defaultValue = "") String nome,
+            @RequestParam(required = false) String email,
+            @RequestParam(required = false) String cpf,
+            @RequestParam(required = false) Optional<Integer> page,
+            @RequestParam(required = false) Optional<Integer> size,
+            @RequestParam(required = false, defaultValue = "id") String[] sort
+    );
+
+    @GetMapping("/almoxarifes")
+    @Parameters({
+            @Parameter(
+                    in = ParameterIn.QUERY,
+                    name = "nome",
+                    description = "Nome da pessoa associadda",
+                    schema = @Schema(type = "string")
+            ),
+            @Parameter(
+                    in = ParameterIn.QUERY,
+                    name = "email",
+                    description = "Email da pessoa associada",
+                    schema = @Schema(type = "string")
+            ),
+            @Parameter(
+                    in = ParameterIn.QUERY,
+                    name = "cpf",
+                    description = "CPF da pessoa associada",
+                    schema = @Schema(type = "string")
+            ),
+    })
+    @PageableAsQueryParam
+    ResponseEntity<RestCollection<OperadorDTO>> buscarAlmoxarifes(
             @RequestParam(required = false, defaultValue = "") String nome,
             @RequestParam(required = false) String email,
             @RequestParam(required = false) String cpf,

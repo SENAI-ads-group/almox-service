@@ -52,10 +52,8 @@ public class OperadorServiceImpl implements OperadorService {
         operador.setFuncoes(operador.getFuncoes()
                 .stream()
                 .map(funcao -> funcaoRepository.buscarPorNome(funcao.getNome())
-                        .orElseThrow(() -> new EntidadeNaoEncontradaException("${funcao_nao_encontrada}"))
-                )
-                .collect(Collectors.toSet())
-        );
+                        .orElseThrow(() -> new EntidadeNaoEncontradaException("${funcao_nao_encontrada}")))
+                .collect(Collectors.toSet()));
         operador.setSenha(passwordEncoder.encode(operador.getPassword()));
         return operadorRepository.save(operador);
     }
@@ -89,6 +87,11 @@ public class OperadorServiceImpl implements OperadorService {
         filtro.cpf = apenasNumeros(filtro.cpf);
         validator.validate(filtro);
         return operadorRepository.buscarPorNomeEmailPessoa(filtro.nome, filtro.email, filtro.cpf, paginacao);
+    }
+
+    @Override
+    public Page<Operador> buscarAlmoxarifes(FiltroOperador filtro, Pageable paginacao) {
+        return buscar(filtro, paginacao);
     }
 
     @Override
