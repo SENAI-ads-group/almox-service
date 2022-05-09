@@ -22,8 +22,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
 import javax.validation.Validator;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -49,6 +49,7 @@ public class RequisicaoServiceImpl implements RequisicaoService {
     private final MovimentoService movimentoService;
 
     @Override
+    @Transactional
     public Requisicao criar(Requisicao requisicao) {
         Operador operadorLogado = contextoOperador.getOperadorLogado().orElseThrow(UnauthorizedException::new);
 

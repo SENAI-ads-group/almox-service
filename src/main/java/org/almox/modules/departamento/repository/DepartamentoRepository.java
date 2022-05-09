@@ -47,6 +47,18 @@ public interface DepartamentoRepository extends JpaRepository<Departamento, UUID
     @Query("FROM Departamento as d WHERE d.dataExclusao IS NOT NULL AND LOWER(d.descricao) LIKE CONCAT('%', TRIM(LOWER(:descricao)), '%')")
     Page<Departamento> buscarExcluidosPorDescricao(@Param("descricao") String descricao, Pageable pageable);
 
+    @Query("SELECT d FROM Departamento as d INNER JOIN d.operadores ope ON ope.id = :idOperador WHERE d.dataExclusao IS NULL AND LOWER(d.descricao) LIKE CONCAT('%', TRIM(LOWER(:descricao)), '%')")
+    Page<Departamento> buscarAtivosPorDescricaoEAssociadoUsuario(@Param("descricao") String descricao,
+                                                                 @Param("idOperador") UUID idOperador,
+                                                                 Pageable pageable
+    );
+
+    @Query("SELECT d FROM Departamento as d INNER JOIN d.operadores ope ON ope.id = :idOperador WHERE d.dataExclusao IS NOT NULL AND LOWER(d.descricao) LIKE CONCAT('%', TRIM(LOWER(:descricao)), '%')")
+    Page<Departamento> buscarExcluidosPorDescricaoEAssociadoUsuario(@Param("descricao") String descricao,
+                                                                    @Param("idOperador") UUID idOperador,
+                                                                    Pageable pageable
+    );
+
     @Query(nativeQuery = true, value = "SELECT DISTINCT CAST(OPE_ID AS VARCHAR) FROM DPTO_DEPARTAMENTO_OPERADORES WHERE CAST(DPTO_ID AS VARCHAR) = :idDepartamento")
     Set<String> buscarIdOperadoresAssociadosAoDepartamento(@Param("idDepartamento") String idDepartamento);
 }

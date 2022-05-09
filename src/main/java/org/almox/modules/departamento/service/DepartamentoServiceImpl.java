@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.almox.core.exceptions.EntidadeNaoEncontradaException;
 import org.almox.core.exceptions.ForbiddenException;
 import org.almox.core.exceptions.RegraNegocioException;
+import org.almox.core.exceptions.UnauthorizedException;
 import org.almox.modules.departamento.dto.FiltroDepartamento;
 import org.almox.modules.departamento.model.Departamento;
 import org.almox.modules.departamento.repository.DepartamentoRepository;
@@ -62,8 +63,13 @@ public class DepartamentoServiceImpl implements DepartamentoService {
 
     @Override
     public Page<Departamento> buscar(FiltroDepartamento filtro, Pageable paginacao) {
+        Operador operadorLogado = contextoOperador.getOperadorLogado().orElseThrow(UnauthorizedException::new);
         validator.validate(filtro);
-        return departamentoRepository.buscarAtivosPorDescricao(filtro.descricao, paginacao);
+        if (!operadorService.isAdministrador(operadorLogado)) {
+            return departamentoRepository.buscarAtivosPorDescricaoEAssociadoUsuario(filtro.descricao, operadorLogado.getId(), paginacao);
+        } else {
+            return departamentoRepository.buscarAtivosPorDescricao(filtro.descricao, paginacao);
+        }
     }
 
     @Override
