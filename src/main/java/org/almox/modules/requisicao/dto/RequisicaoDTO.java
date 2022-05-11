@@ -29,6 +29,8 @@ public class RequisicaoDTO {
 
     public static class PessoaRequisicao extends DTOSimples {
         public String nome;
+        public String cpf;
+        public String email;
     }
 
     public static class ItemRequisicaoDTO extends DTOSimples {
@@ -40,6 +42,10 @@ public class RequisicaoDTO {
         public String descricao;
         public String codigoBarras;
         public UnidadeMedida unidadeMedida;
-        public DTOSimples grupo;
+        public ItemProdutoGrupo grupo;
+    }
+
+    public static class  ItemProdutoGrupo extends DTOSimples{
+        public String descricao;
     }
 }
