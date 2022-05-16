@@ -8,8 +8,7 @@ import org.almox.modules.common.IEnum;
 
 import java.util.Set;
 
-@JsonFormat(shape = JsonFormat.Shape.OBJECT)
-public enum StatusRequisicao implements IEnum {
+public enum StatusRequisicao {
     AGUARDANDO_ATENDIMENTO("Aguardando Atendimento"),
     EM_ATENDIMENTO("Em Atendimento"),
     ENTREGUE("Entregue"),
@@ -22,17 +21,8 @@ public enum StatusRequisicao implements IEnum {
         this.descricao = descricao;
     }
 
-    @JsonCreator
-    public static StatusRequisicao deserialize(@JsonProperty("type") String type) {
-        return IEnum.fromType(values(), type);
-    }
 
     public static Set<StatusRequisicao> statusPermissivosAlteracao() {
         return Set.of(AGUARDANDO_ATENDIMENTO, EM_ATENDIMENTO);
-    }
-
-    @Override
-    public String getType() {
-        return name();
     }
 }

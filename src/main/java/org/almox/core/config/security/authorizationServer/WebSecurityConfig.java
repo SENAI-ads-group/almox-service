@@ -2,6 +2,8 @@ package org.almox.core.config.security.authorizationServer;
 
 
 import lombok.RequiredArgsConstructor;
+import org.almox.modules.operador.dto.OperadorMapper;
+import org.almox.modules.operador.repository.OperadorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,6 +13,12 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.oauth2.common.OAuth2AccessToken;
+import org.springframework.security.oauth2.provider.OAuth2Authentication;
+import org.springframework.security.oauth2.provider.endpoint.CheckTokenEndpoint;
+import org.springframework.security.oauth2.provider.token.AccessTokenConverter;
+
+import java.util.Map;
 
 @Configuration
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
