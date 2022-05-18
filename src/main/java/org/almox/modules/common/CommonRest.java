@@ -8,6 +8,7 @@ import org.almox.modules.pedido.model.StatusPedido;
 import org.almox.modules.produto.model.UnidadeMedida;
 import org.almox.modules.requisicao.model.StatusRequisicao;
 import org.springframework.http.MediaType;
+import org.springframework.security.oauth2.provider.endpoint.CheckTokenEndpoint;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -31,7 +32,6 @@ public class CommonRest {
         enums.put("tiposOrigemMovimento", List.of(TipoOrigemMovimento.values()));
         enums.put("unidadesMedida", List.of(UnidadeMedida.values()));
         enums.put("statusRequisicoes", List.of(StatusRequisicao.values()));
-
         return enums;
     }
 }
