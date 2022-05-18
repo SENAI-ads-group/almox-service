@@ -122,8 +122,8 @@ public class RequisicaoServiceImpl implements RequisicaoService {
 
         if (StatusRequisicao.CANCELADA.equals(requisicaoEncontrada.getStatus()))
             throw new RegraNegocioException("Não é possível entregar uma requisição que já foi cancelada");
-        if (!contextoOperador.equals(requisicaoEncontrada.getAlmoxarife()))
-            throw new RegraNegocioException("Apenas o Almoxarife responsável pode entregar os produtos de uma requisição");
+        if (!operadorLogado.equals(requisicaoEncontrada.getAlmoxarife()))
+        throw new RegraNegocioException("Apenas o Almoxarife responsável pode entregar os produtos de uma requisição");
 
         requisicaoEncontrada.setStatus(StatusRequisicao.ENTREGUE);
         requisicaoEncontrada = requisicaoRepository.save(requisicaoEncontrada);
