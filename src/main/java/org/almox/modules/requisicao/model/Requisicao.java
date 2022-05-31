@@ -45,6 +45,9 @@ public class Requisicao implements EntidadePadrao {
     @Column(name = "req_dt_entrega")
     private LocalDateTime dataEntrega;
 
+    @Column(name = "req_cod_confirmacao")
+    private String codigoConfirmacao;
+
     @ManyToOne
     @JoinColumn(name = "ope_id_requisitante")
     private Operador requisitante;

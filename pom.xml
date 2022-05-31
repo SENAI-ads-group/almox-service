@@ -18,6 +18,7 @@
         <springdoc-openapi.version>1.6.4</springdoc-openapi.version>
         <mapstruct.version>1.4.2.Final</mapstruct.version>
         <lombok.version>1.18.22</lombok.version>
+        <app-profiles>local</app-profiles>
     </properties>
     <dependencies>
         <!-- <SRTART> SECURITY -->
@@ -140,6 +141,7 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
+                    <profiles>${app-profiles}</profiles>
                     <excludes>
                         <exclude>
                             <groupId>org.projectlombok</groupId>
