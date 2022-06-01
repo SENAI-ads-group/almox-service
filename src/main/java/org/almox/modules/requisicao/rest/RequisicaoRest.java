@@ -5,6 +5,7 @@ import org.almox.core.rest.RestCollection;
 import org.almox.modules.requisicao.dto.CriarRequisicaoDTO;
 import org.almox.modules.requisicao.dto.FiltroRequisicao;
 import org.almox.modules.requisicao.dto.RequisicaoDTO;
+import org.almox.modules.requisicao.dto.RequisicaoEntregueDTO;
 import org.almox.modules.requisicao.dto.RequisicaoMapper;
 import org.almox.modules.requisicao.model.Requisicao;
 import org.almox.modules.requisicao.model.StatusRequisicao;
@@ -78,8 +79,14 @@ public class RequisicaoRest implements RequisicaoRestFacade {
     }
 
     @Override
-    public ResponseEntity<Void> entregarAtendimento(UUID id) {
-        requisicaoService.entregarRequisicao(id);
+    public ResponseEntity<RequisicaoEntregueDTO> entregarAtendimento(UUID id) {
+        String codigoConfirmacao = requisicaoService.entregarRequisicao(id);
+        return ResponseEntity.accepted().body(new RequisicaoEntregueDTO(codigoConfirmacao));
+    }
+
+    @Override
+    public ResponseEntity<Void> confirmarRecebimentoRequisicao(String codigoConfirmacao) {
+        requisicaoService.confirmarRecebimento(codigoConfirmacao);
         return ResponseEntity.accepted().build();
     }
 }

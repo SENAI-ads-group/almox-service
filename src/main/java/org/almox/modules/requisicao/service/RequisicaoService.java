@@ -22,7 +22,9 @@ public interface RequisicaoService {
 
     void cancelarRequisicao(UUID id);
 
-    void entregarRequisicao(UUID id);
+    String entregarRequisicao(UUID id);
+
+    void confirmarRecebimento(String codigoConfirmacao);
 
     Requisicao alterarItens(UUID id, Set<ItemRequisicao> toItemRequisiao);
 }

@@ -17,6 +17,7 @@ import org.almox.modules.requisicao.model.Requisicao;
 import org.almox.modules.requisicao.model.StatusRequisicao;
 import org.almox.modules.requisicao.repository.ItemRequisicaoRepository;
 import org.almox.modules.requisicao.repository.RequisicaoRepository;
+import org.almox.modules.util.GeradorCodigoUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -81,8 +82,9 @@ public class RequisicaoServiceImpl implements RequisicaoService {
 
     @Override
     public Page<Requisicao> buscar(FiltroRequisicao filtro, Pageable paginacao) {
+        Operador operadorLogado = contextoOperador.getOperadorLogado().orElseThrow(UnauthorizedException::new);
         String status = filtro.status == null ? null : filtro.status.name();
-        return requisicaoRepository.buscar(status, paginacao);
+        return requisicaoRepository.buscar(status, operadorLogado.getId(), paginacao);
     }
 
     @Override
@@ -96,8 +98,8 @@ public class RequisicaoServiceImpl implements RequisicaoService {
         Requisicao requisicaoParaIniciarAtendimento = buscarPorId(id);
         Operador operadorLogado = contextoOperador.getOperadorLogado().orElseThrow(UnauthorizedException::new);
 
-        if (StatusRequisicao.CANCELADA.equals(requisicaoParaIniciarAtendimento.getStatus()))
-            throw new RegraNegocioException("Não é possível iniciar o atendimento em uma requisição que já foi cancelada");
+        if (!StatusRequisicao.AGUARDANDO_ATENDIMENTO.equals(requisicaoParaIniciarAtendimento.getStatus()))
+            throw new RegraNegocioException("Não é possível iniciar o atendimento em uma requisição que não esteja aguardando atendimento");
         if (!operadorLogado.equals(requisicaoParaIniciarAtendimento.getAlmoxarife()))
             throw new RegraNegocioException("Apenas o Almoxarife responsável pode atender uma requisição");
 
@@ -115,18 +117,37 @@ public class RequisicaoServiceImpl implements RequisicaoService {
         requisicaoRepository.save(requisicaoParaCancelar);
     }
 
+    @Transactional
     @Override
-    public void entregarRequisicao(UUID id) {
+    public String entregarRequisicao(UUID id) {
         Requisicao requisicaoEncontrada = buscarPorId(id);
         Operador operadorLogado = contextoOperador.getOperadorLogado().orElseThrow(UnauthorizedException::new);
 
         if (StatusRequisicao.CANCELADA.equals(requisicaoEncontrada.getStatus()))
             throw new RegraNegocioException("Não é possível entregar uma requisição que já foi cancelada");
         if (!operadorLogado.equals(requisicaoEncontrada.getAlmoxarife()))
-        throw new RegraNegocioException("Apenas o Almoxarife responsável pode entregar os produtos de uma requisição");
+            throw new RegraNegocioException("Apenas o Almoxarife responsável pode entregar os produtos de uma requisição");
+
+        requisicaoEncontrada.setStatus(StatusRequisicao.AGUARDANDO_RECEBIMENTO);
+        requisicaoEncontrada.setCodigoConfirmacao(GeradorCodigoUtil.gerarCodigoAleatorio());
+        requisicaoEncontrada = requisicaoRepository.save(requisicaoEncontrada);
+        return requisicaoEncontrada.getCodigoConfirmacao();
+    }
+
+    @Transactional
+    @Override
+    public void confirmarRecebimento(String codigoConfirmacao) {
+        Requisicao requisicaoEncontrada = requisicaoRepository.buscarPorCodigoConfirmacao(codigoConfirmacao)
+                .orElseThrow(() -> new EntidadeNaoEncontradaException("${requisicao_nao_encontrada}"));
+        Operador operadorLogado = contextoOperador.getOperadorLogado().orElseThrow(UnauthorizedException::new);
+
+        if (!StatusRequisicao.AGUARDANDO_RECEBIMENTO.equals(requisicaoEncontrada.getStatus()))
+            throw new RegraNegocioException("Não é possível confirmar uma requisição que não esteja aguardando recebimento");
+        if (!operadorLogado.equals(requisicaoEncontrada.getRequisitante()))
+            throw new RegraNegocioException("Apenas o Requisitante pode confirmar o recebimento de uma requisição");
 
         requisicaoEncontrada.setStatus(StatusRequisicao.ENTREGUE);
-        requisicaoEncontrada = requisicaoRepository.save(requisicaoEncontrada);
+        requisicaoRepository.save(requisicaoEncontrada);
         movimentoService.movimentarProdutosRequisicao(requisicaoEncontrada);
     }
 

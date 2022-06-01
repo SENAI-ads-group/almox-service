@@ -12,6 +12,7 @@ import java.util.UUID;
 public class RequisicaoDTO {
     public UUID id;
     public StatusRequisicao status;
+    public String codigoConfirmacao;
     public DepartamentoRequisicao departamento;
     public LocalDateTime dataRequisicao;
     public LocalDateTime dataEntrega;

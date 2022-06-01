@@ -11,7 +11,7 @@ import org.almox.core.rest.RestCollection;
 import org.almox.core.rest.RestInterface;
 import org.almox.modules.requisicao.dto.CriarRequisicaoDTO;
 import org.almox.modules.requisicao.dto.RequisicaoDTO;
-import org.almox.modules.requisicao.model.Requisicao;
+import org.almox.modules.requisicao.dto.RequisicaoEntregueDTO;
 import org.almox.modules.requisicao.model.StatusRequisicao;
 import org.springdoc.core.converters.models.PageableAsQueryParam;
 import org.springframework.http.ResponseEntity;
@@ -74,5 +74,8 @@ public interface RequisicaoRestFacade extends RestInterface {
     ResponseEntity<Void> cancelarRequisicao(@PathVariable("id") UUID id);
 
     @PostMapping(value = "/{id}/entregar")
-    ResponseEntity<Void> entregarAtendimento(@PathVariable("id") UUID id);
+    ResponseEntity<RequisicaoEntregueDTO> entregarAtendimento(@PathVariable("id") UUID id);
+
+    @PostMapping(value = "/{codigoConfirmacao}/confirmar-recebimento")
+    ResponseEntity<Void> confirmarRecebimentoRequisicao(@PathVariable("codigoConfirmacao") String codigoConfirmacao);
 }
