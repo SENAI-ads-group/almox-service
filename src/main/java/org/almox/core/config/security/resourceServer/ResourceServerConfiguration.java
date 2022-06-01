@@ -30,6 +30,7 @@ public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter
                         "/swagger-resources/**",
                         "/configuration/security",
                         "/operadores/recuperar-email",
+                        "/oauth/**",
                         "/api-docs/**",
                         "/swagger-ui/**",
                         "/h2-console/**",
