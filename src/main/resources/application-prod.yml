@@ -1,3 +1,7 @@
+server:
+  servlet:
+    context-path: /api
+
 spring:
   datasource:
     url: jdbc:postgresql://38.242.215.156:5432/almox
