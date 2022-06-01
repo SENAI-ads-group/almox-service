@@ -18,11 +18,7 @@ jobs:
         uses: actions/setup-java@v3
         with:
           java-version: '11'
-<<<<<<< HEAD
           distribution: 'zulu'
-=======
-          distribution: 'openjdk'
->>>>>>> f659c83 (adicionado pipeline de deploy)
       -
         name: Build with Maven
         run: mvn -B package --file pom.xml
@@ -33,7 +29,6 @@ jobs:
           path: target/
   release:
     needs: build
-<<<<<<< HEAD
     runs-on: ubuntu-latest
     steps:
       -
@@ -64,35 +59,3 @@ jobs:
           context: .
           push: true
           tags: registry.patrick.dev.br/almox-service:latest
-=======
-      runs-on: ubuntu-latest
-      steps:
-        -
-          uses: actions/checkout@v3
-        -
-          uses: actions/download-artifact@v3
-          with:
-            name: maven-build-artifact
-            path: build/
-        -
-          name: Set up QEMU
-          uses: docker/setup-qemu-action@v2
-        -
-          name: Set up Docker Buildx
-          uses: docker/setup-buildx-action@v2
-        -
-          name: Login to registry.patrick.dev.br
-          uses: docker/login-action@v2
-          with:
-            registry: registry.patrick.dev.br
-            username: ${{ secrets.DOCKERHUB_USERNAME }}
-            password: ${{ secrets.DOCKERHUB_PASSWORD }}
-        -
-          name: Build and push
-          uses: docker/build-push-action@v3
-          with:
-            file: .devops/Dockerfile
-            context: .
-            push: true
-            tags: registry.patrick.dev.br/almox-service:latest
->>>>>>> f659c83 (adicionado pipeline de deploy)
