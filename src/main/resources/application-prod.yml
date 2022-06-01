@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:postgresql://192.168.32.2:5432/almox
+    url: jdbc:postgresql://38.242.215.156:5432/almox
     username: postgres
     password: almox@123
   jpa:
@@ -19,5 +19,5 @@ spring:
             non_contextual_creation: true
 
 redis-almox:
-  url: redis://192.168.32.3:6379
+  url: redis://38.242.215.156:6379
   password: almox@123
