@@ -2,7 +2,10 @@ name: Maven Package
 
 on:
   push:
-    branches: [ desenvolvimento ]
+    branches: [ desenvolvimento, master ]
+  create:
+    tags:
+      - "v*"
 
 jobs:
   build:
@@ -52,8 +55,17 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
       -
-        name: Build and push
+        name: Build and push to test
         uses: docker/build-push-action@v3
+        with:
+          file: .devops/Dockerfile.staging
+          context: .
+          push: true
+          tags: registry.patrick.dev.br/almox-service:staging
+      -
+        name: Build and push to prod
+        uses: docker/build-push-action@v3
+        if: startsWith(github.event.ref, 'refs/tags/v')
         with:
           file: .devops/Dockerfile
           context: .

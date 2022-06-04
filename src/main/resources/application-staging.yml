@@ -1,0 +1,27 @@
+server:
+  servlet:
+    context-path: /api
+
+spring:
+  datasource:
+    url: jdbc:postgresql://38.242.215.156:5432/almox-staging
+    username: postgres
+    password: almox@123
+  jpa:
+    generate-ddl: true
+    database-platform: org.hibernate.dialect.PostgreSQL94Dialect
+    show-sql: true
+    hibernate:
+      naming:
+        implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyJpaCompliantImpl
+      ddl-auto: update
+      format_sql: true
+    properties:
+      hibernate:
+        jdbc:
+          lob:
+            non_contextual_creation: true
+
+redis-almox:
+  url: redis://38.242.215.156:6378
+  password: almox@123
