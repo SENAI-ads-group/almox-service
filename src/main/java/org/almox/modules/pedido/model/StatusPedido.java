@@ -1,13 +1,18 @@
 package org.almox.modules.pedido.model;
 
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import org.almox.modules.common.IEnum;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
+import org.almox.modules.requisicao.model.StatusRequisicao;
 
-@JsonFormat(shape = JsonFormat.Shape.OBJECT)
-public enum StatusPedido implements IEnum {
+import java.util.Set;
+
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
+public enum StatusPedido {
     PENDENTE_ENTREGA("Pendente de Entrega"),
     RECEBIDO("Recebido"),
     CANCELADO("Cancelado");
@@ -15,13 +20,11 @@ public enum StatusPedido implements IEnum {
     @Getter
     private final String descricao;
 
-    StatusPedido(String descricao){ this.descricao=descricao; }
-
-    @JsonCreator
-    public static StatusPedido deserialize(@JsonProperty("type") String type){
-        return IEnum.fromType(values(), type);
+    public static Set<StatusPedido> statusPermissivosCancelamento() {
+        return Set.of(PENDENTE_ENTREGA);
     }
 
-    @Override
-    public String getType() { return name(); }
+    public static Set<StatusPedido> statusPermissivosAlteracao() {
+        return Set.of(PENDENTE_ENTREGA);
+    }
 }

@@ -3,6 +3,7 @@ package org.almox.modules.produto.dto;
 import org.almox.modules.common.DTOSimples;
 import org.almox.modules.movimento.model.TipoDeMovimento;
 import org.almox.modules.movimento.model.TipoOrigemMovimento;
+import org.almox.modules.operador.dto.OperadorDTO;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -16,6 +17,8 @@ public class HistoricoEstoqueDTO {
     public BigDecimal estoqueFinal;
     public ItemMovimentoHistorico itemMovimento;
     public MovimentoHistorico movimento;
+    public ProdutoDTO produto;
+    public OperadorDTO operador;
 
     public static class ItemMovimentoHistorico extends DTOSimples {
         public BigDecimal quantidade;

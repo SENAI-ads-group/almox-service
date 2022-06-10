@@ -1,6 +1,6 @@
 package org.almox.core.config.operador;
 
-import org.almox.modules.operador.dto.ContextoOperador;
+import org.almox.modules.operador.ContextoOperador;
 import org.almox.modules.operador.repository.OperadorRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

@@ -28,6 +28,11 @@ public interface OperadorMapper {
     })
     Operador fromDTO(OperadorDTO dto);
 
+    @Mappings({
+            @Mapping(target = "funcoes", expression = "java(stringsToFuncao(dto.funcoes))")
+    })
+    Operador fromDTO(CriarOperadorDTO dto);
+
     List<Operador> fromDTOList(List<OperadorDTO> dtoList);
 
     List<OperadorDTO> toDTOList(List<Operador> dtoList);

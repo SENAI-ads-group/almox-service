@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/almox
+    url: jdbc:postgresql://38.242.215.156:5432/almox
     username: postgres
     password: almox@123
   jpa:

@@ -1,5 +1,6 @@
 package org.almox.modules.pedido.model;
 
+import lombok.Builder;
 import org.almox.modules.common.EntidadePadrao;
 import org.almox.modules.produto.model.Produto;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -26,6 +27,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@Builder
 @Table(name = "itp_item_pedido")
 public class ItemPedido implements EntidadePadrao {
 
