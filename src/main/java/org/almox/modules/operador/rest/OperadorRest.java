@@ -3,6 +3,7 @@ package org.almox.modules.operador.rest;
 import lombok.RequiredArgsConstructor;
 import org.almox.core.rest.RestCollection;
 import org.almox.modules.operador.dto.AprovarSolicitacaoCadastroDTO;
+import org.almox.modules.operador.dto.CriarOperadorDTO;
 import org.almox.modules.operador.dto.FiltroOperador;
 import org.almox.modules.operador.dto.OperadorDTO;
 import org.almox.modules.operador.dto.OperadorMapper;
@@ -103,7 +104,7 @@ public class OperadorRest implements OperadorRestFacade {
     }
 
     @Override
-    public ResponseEntity<Void> criar(OperadorDTO dto) {
+    public ResponseEntity<Void> criar(CriarOperadorDTO dto) {
         Operador operadorCriado = operadorService.criar(operadorMapper.fromDTO(dto));
         URI uriCriado = getUriCriado(operadorCriado.getId());
         return ResponseEntity.created(uriCriado).build();

@@ -7,7 +7,7 @@ import org.almox.core.exceptions.RegraNegocioException;
 import org.almox.core.exceptions.UnauthorizedException;
 import org.almox.modules.departamento.service.DepartamentoService;
 import org.almox.modules.movimento.MovimentoService;
-import org.almox.modules.operador.dto.ContextoOperador;
+import org.almox.modules.operador.ContextoOperador;
 import org.almox.modules.operador.model.Operador;
 import org.almox.modules.operador.service.OperadorService;
 import org.almox.modules.produto.service.ProdutoService;

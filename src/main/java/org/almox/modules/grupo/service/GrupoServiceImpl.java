@@ -6,7 +6,7 @@ import org.almox.core.exceptions.UnauthorizedException;
 import org.almox.modules.grupo.dto.FiltroGrupo;
 import org.almox.modules.grupo.model.Grupo;
 import org.almox.modules.grupo.repository.GrupoRepository;
-import org.almox.modules.operador.dto.ContextoOperador;
+import org.almox.modules.operador.ContextoOperador;
 import org.almox.modules.operador.model.Operador;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;

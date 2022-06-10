@@ -8,7 +8,7 @@ import org.almox.core.exceptions.UnauthorizedException;
 import org.almox.modules.departamento.dto.FiltroDepartamento;
 import org.almox.modules.departamento.model.Departamento;
 import org.almox.modules.departamento.repository.DepartamentoRepository;
-import org.almox.modules.operador.dto.ContextoOperador;
+import org.almox.modules.operador.ContextoOperador;
 import org.almox.modules.operador.model.Operador;
 import org.almox.modules.operador.service.OperadorService;
 import org.springframework.beans.factory.annotation.Autowired;

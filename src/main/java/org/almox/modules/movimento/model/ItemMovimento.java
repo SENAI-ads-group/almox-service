@@ -59,11 +59,4 @@ public class ItemMovimento implements EntidadePadrao {
     @JoinColumn(name = "mov_id", nullable = false)
     private Movimento movimento;
 
-    @Transient
-    private TipoDeMovimento tipoDeMovimento;
-    @Transient
-    private TipoOrigemMovimento tipoOrigemMovimento;
-    @Transient
-    private Long idOrigem;
-
 }

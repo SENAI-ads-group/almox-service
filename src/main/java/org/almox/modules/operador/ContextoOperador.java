@@ -1,4 +1,4 @@
-package org.almox.modules.operador.dto;
+package org.almox.modules.operador;
 
 import org.almox.modules.operador.model.Operador;
 

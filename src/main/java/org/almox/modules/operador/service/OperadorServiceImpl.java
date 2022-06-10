@@ -91,7 +91,9 @@ public class OperadorServiceImpl implements OperadorService {
 
     @Override
     public Page<Operador> buscarAlmoxarifes(FiltroOperador filtro, Pageable paginacao) {
-        return buscar(filtro, paginacao);
+        filtro.cpf = apenasNumeros(filtro.cpf);
+        validator.validate(filtro);
+        return operadorRepository.buscarAlmoxarifesPorNomeEmailPessoa(filtro.nome, filtro.email, filtro.cpf, paginacao);
     }
 
     @Override

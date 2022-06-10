@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.almox.core.rest.RestCollection;
 import org.almox.core.rest.RestInterface;
 import org.almox.modules.operador.dto.AprovarSolicitacaoCadastroDTO;
+import org.almox.modules.operador.dto.CriarOperadorDTO;
 import org.almox.modules.operador.dto.OperadorDTO;
 import org.almox.modules.operador.dto.RecuperarEmailDTO;
 import org.almox.modules.operador.model.SolicitacaoCadastro;
@@ -114,7 +115,7 @@ public interface OperadorRestFacade extends RestInterface {
     ResponseEntity<Void> excluirSolicitacaoCadastro(@PathVariable("cpfSolicitacao") String cpfSolicitacao);
 
     @PostMapping
-    ResponseEntity<Void> criar(@RequestBody OperadorDTO dto);
+    ResponseEntity<Void> criar(@RequestBody CriarOperadorDTO dto);
 
     @PutMapping("/{id}")
     ResponseEntity<OperadorDTO> atualizar(@PathVariable("id") UUID id, @RequestBody OperadorDTO dto);

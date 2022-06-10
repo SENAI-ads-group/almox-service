@@ -35,4 +35,13 @@ public interface OperadorRepository extends JpaRepository<Operador, UUID> {
             "   AND ope.pessoa.cpf = COALESCE(CAST( :cpf AS string) , ope.pessoa.cpf)                     \n "
     )
     Page<Operador> buscarPorNomeEmailPessoa(@Param("nome") String nome, @Param("email") String email, @Param("cpf") String cpf, Pageable sort);
+
+    @Query("FROM Operador AS ope                                                                          \n " +
+            "JOIN ope.funcoes f ON f.nome = 'ALMOXARIFE'                                                  \n "+
+            "WHERE                                                                                        \n " +
+            "   LOWER(ope.pessoa.nome) LIKE CONCAT('%', TRIM(LOWER(:nome)), '%')                          \n " +
+            "   AND LOWER(ope.pessoa.email) = LOWER(COALESCE(CAST( :email AS string) , ope.pessoa.email)) \n " +
+            "   AND ope.pessoa.cpf = COALESCE(CAST( :cpf AS string) , ope.pessoa.cpf)                     \n "
+    )
+    Page<Operador> buscarAlmoxarifesPorNomeEmailPessoa(@Param("nome") String nome, @Param("email") String email, @Param("cpf") String cpf, Pageable sort);
 }
