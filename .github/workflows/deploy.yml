@@ -1,0 +1,73 @@
+name: Maven Package
+
+on:
+  push:
+    branches: [ desenvolvimento, master ]
+  create:
+    tags:
+      - "v*"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      -
+        uses: actions/checkout@v3
+      -
+        name: Set up JDK 11
+        uses: actions/setup-java@v3
+        with:
+          java-version: '11'
+          distribution: 'zulu'
+      -
+        name: Build with Maven
+        run: mvn -B package --file pom.xml
+      -
+        uses: actions/upload-artifact@v3
+        with:
+          name: maven-build-artifact
+          path: target/
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      -
+        uses: actions/checkout@v3
+      -
+        uses: actions/download-artifact@v3
+        with:
+          name: maven-build-artifact
+          path: target/
+      -
+        name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+      -
+        name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+      -
+        name: Login to registry.patrick.dev.br
+        uses: docker/login-action@v2
+        with:
+          registry: registry.patrick.dev.br
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
+      -
+        name: Build and push to test
+        uses: docker/build-push-action@v3
+        with:
+          file: .devops/Dockerfile.staging
+          context: .
+          push: true
+          tags: registry.patrick.dev.br/almox-service:staging
+      -
+        name: Build and push to prod
+        uses: docker/build-push-action@v3
+        if: startsWith(github.event.ref, 'refs/tags/v')
+        with:
+          file: .devops/Dockerfile
+          context: .
+          push: true
+          tags: registry.patrick.dev.br/almox-service:latest

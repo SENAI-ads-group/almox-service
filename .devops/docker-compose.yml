@@ -1,0 +1,19 @@
+version: '3.1'
+
+services:
+  api:
+    container_name: almox-service
+    image: registry.patrick.dev.br/almox-service:latest
+    restart: always
+  db:
+    container_name: almox-postgresql
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: almox@123
+  redis:
+    container_name: almox-redis
+    image: redis
+    restart: always
+    command: redis-server --appendonly yes
+    hostname: redis
